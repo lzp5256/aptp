@@ -22,9 +22,10 @@ class Token
     {
         // echo 'hello wechat';
         $param = request()->param();
-        $result = sendCurlPostRequest(
-            'https://api.weixin.qq.com/sns/jscode2session?',
-            'appid='.config('wechat')['appid'].'&secret='.config('wechat')['secret'].'&js_code='.(string)$param['code'].'&grant_type='.config('wechat')['grant_type']
+        $result = sendCurlRequest(
+            "https://api.weixin.qq.com/sns/jscode2session?appid=".
+            config('wechat')['appid']."&secret=".config('wechat')['secret']."&js_code=".(string)$param['code'].
+            "&grant_type=".config('wechat')['grant_type']
         );
         return json($result);
     }
