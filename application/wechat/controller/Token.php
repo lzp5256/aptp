@@ -29,7 +29,7 @@ class Token
     public function getWechatToken()
     {
         // echo 'hello wechat';
-        $param = request()->post('post.');
+        $param = request()->param();
         vp($param);die;
     }
 }
