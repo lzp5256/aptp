@@ -11,14 +11,6 @@ namespace app\wechat\controller;
 class Token
 {
 
-    public function __construct()
-    {
-        // 判断是否是post请求
-        if(request()->isPost() != true){
-            return 'request is not post';
-        }
-    }
-
     /**
      * 登录凭证校验。
      * 通过 wx.login() 接口获得临时登录凭证 code 后传到开发者服务器调用此接口完成登录。
@@ -30,6 +22,18 @@ class Token
     {
         // echo 'hello wechat';
         $param = request()->param();
-        vp($param);die;
+        $result = sendCurlPostRequest(
+            'https://api.weixin.qq.com/sns/jscode2session?',
+            'appid='.config('wechat')['appid'].'&secret='.config('wechat')['secret'].'&js_code='.(string)$param['code'].'&grant_type='.config('wechat')['grant_type']
+        );
+        return json($result);
+    }
+
+    public function __construct()
+    {
+        // 判断是否是post请求
+        if(request()->isPost() != true){
+            return 'request is not post';
+        }
     }
 }
