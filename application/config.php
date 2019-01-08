@@ -243,8 +243,8 @@ return [
     // | WeChat相关配置参数
     // +----------------------------------------------------------------------
     'wechat' => [
-        'appid'      => 'wx49e34a040bc2cdb8',
-        'secret'     => '7625719aa21097422d0af1bf0ab8becb',
+        'appid'      => 'wx9f5d21231963a21a',
+        'secret'     => '66c89aaf6ec110924769e5b6629d9682',
         'grant_type' => 'authorization_code',
     ],
 ];
