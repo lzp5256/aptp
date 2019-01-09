@@ -7,8 +7,7 @@
  */
 namespace app\user\model;
 
-use think\Loader;
-use think\model;
+use think\Model;
 
 class User extends  Model
 {
