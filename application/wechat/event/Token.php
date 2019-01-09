@@ -64,7 +64,7 @@ class Token extends Base
                 if(!$addUser){
                     DB::rollback();
                 }
-                $this->data['user']['uid'] = (int)$addUser;
+                $this->data['user']['uid'] = (int)$userModel->getLastInsID();
             }
             $tokenData = $this->_getTokenData();
             $tokenModel = new TokenModel();
