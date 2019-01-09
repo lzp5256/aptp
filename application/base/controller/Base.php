@@ -9,6 +9,9 @@ namespace app\base\controller;
 
 class Base
 {
+    // 储存数据
+    protected $data = [];
+
     public function __construct()
     {
         // 判断是否是post请求
@@ -18,4 +21,22 @@ class Base
 
         // 验证token
     }
+
+    public function setData($setData)
+    {
+        $this->data = $setData;
+        return $this;
+    }
+
+    /**
+     * 生成用户token
+     * @param $data 用户session_key
+     * @return string
+     */
+    public function encryption($data)
+    {
+        return md5($data.rand(0,9).time());
+    }
+
+
 }

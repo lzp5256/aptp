@@ -8,25 +8,29 @@
 
 namespace app\wechat\controller;
 
+use app\wechat\event\Token as WeTokenEvent;
+use app\wechat\event\CheckParams as CheckGetWeTokenEvent;
 class Token
 {
 
     /**
      * 登录凭证校验。
-     * 通过 wx.login() 接口获得临时登录凭证 code 后传到开发者服务器调用此接口完成登录。
-     * Demo:GET https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code
-     * Author:sfw
+     *
+     * Author:lizhipeng
      * Date:2019/01/03
      */
     public function getWechatToken()
     {
-        // echo 'hello wechat';
-        $param = request()->param();
-        $result = sendCurlRequest(
-            "https://api.weixin.qq.com/sns/jscode2session?appid=".
-            config('wechat')['appid']."&secret=".config('wechat')['secret']."&js_code=".(string)$param['code'].
-            "&grant_type=".config('wechat')['grant_type']
-        );
+        $params = request()->param();
+        $vevent = new CheckGetWeTokenEvent();
+        if(!($res = $vevent->checkGetTokenParams($params)) || $res['errCode'] != 200){
+            // TODO 错误返回时应该记一条err日志 -待处理
+            return json($res);
+        }
+
+        $wevent = new WeTokenEvent();
+        $result = $wevent->setData($res['data'])->getWechatToken();
+
         return json($result);
     }
 

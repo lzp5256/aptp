@@ -15,7 +15,10 @@
  * @desc 封装var_dump
  */
 function vp($data){
-    return var_dump($data);
+    echo '<pre>';
+    var_dump($data);
+    echo '<pre/>';
+    die;
 }
 
 /**
