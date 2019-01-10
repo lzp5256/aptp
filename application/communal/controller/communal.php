@@ -9,7 +9,7 @@ namespace app\communal\controller;
 
 use think\Db;
 
-class communal
+class Communal
 {
 
     public function getBanners()

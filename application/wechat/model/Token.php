@@ -7,7 +7,7 @@
  */
 namespace app\wechat\model;
 
-use think\model;
+use think\Model;
 
 class Token extends Model
 {
