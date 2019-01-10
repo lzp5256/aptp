@@ -25,7 +25,7 @@ Route::group('qiniu',function (){
 
 // 首页路由分组
 Route::group('index',function (){
-    Route::post('GetBanners','index/index/getBanners');
+    //Route::post('GetBanners','index/index/getBanners');
 });
 
 
