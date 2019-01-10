@@ -7,6 +7,8 @@
  */
 namespace app\base\controller;
 
+use app\wechat\model\Token;
+
 class Base
 {
     // 储存数据
@@ -14,12 +16,28 @@ class Base
 
     public function __construct()
     {
+        $this->check();
+    }
+
+    public function check()
+    {
         // 判断是否是post请求
         if(request()->isPost() != true){
-            return 'request is not post';
+            return "METHOD ERROR";
         }
 
         // 验证token
+        $token = request()->post('token');
+        $uid = request()->post('uid');
+
+        $model = new Token();
+        $res = $model->findToken(['token'=>$token,'uid'=>$uid]);
+
+        if(empty($res->toArray())){
+            return 'Token ERROR';
+        }
+
+        return true;
     }
 
     public function setData($setData)

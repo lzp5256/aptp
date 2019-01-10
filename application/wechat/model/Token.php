@@ -18,4 +18,9 @@ class Token extends Model
         $this->data($data);
         return $this->save();
     }
+
+    public function findToken($where)
+    {
+        return $this->where($where)->find();
+    }
 }

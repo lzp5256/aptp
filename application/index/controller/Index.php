@@ -1,10 +1,17 @@
 <?php
 namespace app\index\controller;
 
-class Index
+use app\base\controller\Base;
+
+class Index extends Base
 {
-    public function index()
+    public function __construct()
     {
-        return 'hello index';
+        $check = parent::__construct();
+        if($check != true){
+            return json($check);
+        }
     }
+
+
 }
