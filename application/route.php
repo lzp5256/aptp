@@ -31,5 +31,6 @@ Route::group('index',function (){
 
 // 公共路由分组
 Route::group('communal',function (){
-    Route::post('GetBanners','communal/communal/getBanners');
+    Route::post('GetBanners','communal/communal/getBanners'); //获取banner
+    Route::post('GetIcons','communal/communal/getIcons'); // 获取icon
 });
