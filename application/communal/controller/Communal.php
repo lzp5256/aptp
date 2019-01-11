@@ -35,9 +35,9 @@ class Communal
         }
 
         foreach ($result as $k => $v) {
-            $Result['data']['id']= $v['id'];
-            $Result['data']['address']= $v['address'];
-            $Result['data']['url']= $v['url'];
+            $Result['data'][$k]['id']= $v['id'];
+            $Result['data'][$k]['address']= $v['address'];
+            $Result['data'][$k]['url']= $v['url'];
         }
 
         return json($Result);
