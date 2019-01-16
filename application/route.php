@@ -20,7 +20,7 @@ Route::group('wechat',function(){
 // 七牛相关路由
 Route::group('qiniu',function (){
     // 获取七牛token
-    Route::post('','');
+    Route::post('GetQniuToken','qiniu/qiniu/getQiniuToken');
 });
 
 // 首页路由分组
