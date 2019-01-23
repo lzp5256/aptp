@@ -7,7 +7,7 @@
  */
 namespace app\qiniu\controller;
 
-require ROOT_PATH.'/vendor/qiniu/autoload.php';
+//require ROOT_PATH.'/vendor/qiniu/autoload.php';
 
 use Qiniu\Auth;
 
@@ -20,6 +20,7 @@ class Qiniu
      */
     public function getQiniuToken()
     {
+        import('qiniu.autoload',VENDOR_PATH);
         //用于签名的公钥和私钥
         $AccessKey = config('Qiniu.accessKey');
         $SecretKey = config('Qiniu.secretKey');
