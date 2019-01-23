@@ -33,4 +33,5 @@ Route::group('index',function (){
 Route::group('communal',function (){
     Route::post('GetBanners','communal/communal/getBanners'); //获取banner
     Route::post('GetIcons','communal/communal/getIcons'); // 获取icon
+    Route::post('GetCitys','communal/communal/getCitys'); // 获取所有地区信息
 });
