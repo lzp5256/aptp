@@ -7,8 +7,6 @@
  */
 namespace app\qiniu\controller;
 
-//require ROOT_PATH.'/vendor/qiniu/autoload.php';
-
 use Qiniu\Auth;
 
 class Qiniu
