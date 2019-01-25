@@ -8,6 +8,7 @@
 namespace app\qiniu\controller;
 
 use Qiniu\Auth;
+use think\Config;
 
 class Qiniu
 {
@@ -19,9 +20,10 @@ class Qiniu
     public function getQiniuToken()
     {
         import('qiniu.autoload',VENDOR_PATH);
+        $config = Config::get('qiniu');
         //用于签名的公钥和私钥
-        $AccessKey = config('Qiniu.accessKey');
-        $SecretKey = config('Qiniu.secretKey');
+        $AccessKey = $config['AccessKey'];
+        $SecretKey = $config['SecretKey'];
         // 初始化签权对象
         $auth = new Auth($AccessKey,$SecretKey);
         // 空间名  https://developer.qiniu.io/kodo/manual/concepts
