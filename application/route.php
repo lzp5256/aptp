@@ -30,7 +30,7 @@ Route::group('index',function (){
 
 // 发布路由
 Route::group('demand',function (){
-   Route::post('release','demand/demand/test');
+   Route::post('release','demand/demand/release');
 });
 
 // 公共路由分组
