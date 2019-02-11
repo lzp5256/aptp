@@ -8,6 +8,7 @@
 namespace app\base\controller;
 
 use app\wechat\model\Token;
+use think\Exception;
 
 class Base
 {
@@ -16,28 +17,48 @@ class Base
 
     public function __construct()
     {
-        $this->check();
+        $result = $this->check();
+        return $result;
     }
 
     public function check()
     {
+        $Result = [
+            'errCode' => '200',
+            'errMsg' => 'success',
+            'data' => [],
+        ];
         // 判断是否是post请求
         if(request()->isPost() != true){
-            return "METHOD ERROR";
+            $Result['errCode'] = 'L10008';
+            $Result['errMsg'] = '抱歉,Method Error！';
+            return $Result;
         }
 
         // 验证token
         $token = request()->post('token');
         $uid = request()->post('uid');
 
-        $model = new Token();
-        $res = $model->findToken(['token'=>$token,'uid'=>$uid]);
-
-        if(empty($res->toArray())){
-            return 'Token ERROR';
+        if(empty($token)){
+            $Result['errCode'] = 'L10009';
+            $Result['errMsg'] = '抱歉,参数[Token]不能为空！';
+            return $Result;
+        }
+        if(empty($uid)){
+            $Result['errCode'] = 'L10010';
+            $Result['errMsg'] = '抱歉,参数[Uid]不能为空！';
+            return $Result;
         }
 
-        return true;
+        $model = new Token();
+        $res = $model->findToken(['token'=>$token,'uid'=>$uid]);
+        if(empty($res)){
+            $Result['errCode'] = 'L10011';
+            $Result['errMsg'] = '抱歉,未查询到有效Token！';
+            return $Result;
+        }
+
+        return $Result;
     }
 
     public function setData($setData)

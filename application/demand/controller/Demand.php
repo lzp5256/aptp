@@ -7,10 +7,29 @@
  */
 namespace  app\demand\controller;
 
-class Demand
+use app\base\controller\Base;
+use app\demand\event\Demand as DemandEvent;
+use app\demand\event\CheckParams as CheckEvent;
+
+class Demand extends Base
 {
-    public function test()
+    public function __construct()
     {
-        return '1';
+        $result = parent::__construct();
+        if($result['errCode'] != '200'){
+           echo $result['errMsg'];die;
+        }
+    }
+
+    public function release()
+    {
+        $params = request()->param();
+        $checkEvent = new CheckEvent();
+        if(($checkRes = $checkEvent->checkParams($params)) && $checkRes['errCode'] != '200'){
+            return json($checkRes);
+        }
+        $handleEvent = new DemandEvent();
+        $handleRes = $handleEvent->handle($checkRes['data']);
+        return json($handleRes);
     }
 }
