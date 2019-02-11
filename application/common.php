@@ -58,5 +58,18 @@ function sendCurlRequest($url,$request='',$method='',$timeout = 5){
     $log['curl_arr'][$curl_index]['result']=$output;
     \think\Log::write(json($log),'info');
     return $output;
+}
 
+/**
+ * @desc 验证手机号是否正确
+ * @param string $phone 手机号
+ * @return bool
+ */
+function isMobile($phone){
+    $search = '/^0?1[3|4|5|6|7|8][0-9]\d{8}$/';
+    if ( preg_match( $search, $phone ) ) {
+        return ( true );
+    } else {
+        return ( false );
+    }
 }
