@@ -11,7 +11,7 @@ use app\demand\model\Demand as DemandModel;
 use app\user\model\User as UserModel;
 class Index
 {
-    public function getReList()
+    public function getReList($param)
     {
         $Result = [
             'errCode' => '200',
@@ -19,7 +19,7 @@ class Index
             'data'    => [],
         ];
         $model = new DemandModel();
-        $data = $model->selectDemand(true,0,10);
+        $data = $model->selectDemand(true,$param['page'],5);
         if(count($data)<=0){
             $Result['errCode'] = 'L10029';
             $Result['errMsg'] = '抱歉，暂无送养数据！';
