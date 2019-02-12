@@ -31,7 +31,7 @@ class Index
         }
         $new_uids = array_unique($repeat_uids);
         $userModel =new UserModel();
-        $userData = $userModel->selectUser(['status'=>'1'],0,count($new_uids));
+        $userData = $userModel->selectUser(['status'=>'1','id'=>['IN',$new_uids]],0,count($new_uids));
         if(count($userData)<=0){
             $Result['errCode'] = 'L10030';
             $Result['errMsg'] = '抱歉，暂无用户数据！';
