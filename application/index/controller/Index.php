@@ -7,13 +7,7 @@ use app\index\event\Index as IndexEvent;
 
 class Index extends Base
 {
-    public function __construct()
-    {
-        $result = parent::__construct();
-        if($result['errCode'] != '200'){
-            echo $result['errMsg'];die;
-        }
-    }
+    public function __construct(){}
 
     public function getReList()
     {
