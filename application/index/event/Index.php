@@ -7,8 +7,8 @@
  */
 namespace app\index\event;
 
-use app\demand\model\demand as DemandModel;
-use app\user\model\user as UserModel;
+use app\demand\model\Demand as DemandModel;
+use app\user\model\User as UserModel;
 class Index
 {
     public function getReList()

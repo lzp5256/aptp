@@ -2,7 +2,7 @@
 namespace app\index\controller;
 
 use app\base\controller\Base;
-use app\index\event\index as IndexEvent;
+use app\index\event\Index as IndexEvent;
 
 
 class Index extends Base
