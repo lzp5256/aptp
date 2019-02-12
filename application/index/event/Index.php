@@ -22,7 +22,7 @@ class Index
         $data = $model->selectDemand(true,$param['page'],5);
         if(count($data)<=0){
             $Result['errCode'] = 'L10029';
-            $Result['errMsg'] = '抱歉，暂无数据！';
+            $Result['errMsg'] = '抱歉，暂无更多数据！';
             return $Result;
         }
         $arr = collection($data)->toArray();
