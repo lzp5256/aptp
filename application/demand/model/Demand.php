@@ -38,6 +38,6 @@ class Demand extends Model
      */
     public function selectDemand($where,$offset,$num,$field='*',$order='id desc')
     {
-        return $this->where($where)->field($field)->order($order)->limit("$offset,$num")->select();
+        return $this->where($where)->field($field)->order($order)->page("$offset,$num")->select();
     }
 }

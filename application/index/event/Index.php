@@ -22,8 +22,8 @@ class Index
         $data = $model->selectDemand(true,$param['page'],5);
         if(count($data)<=0){
             $Result['errCode'] = 'L10029';
-            $Result['errMsg'] = '抱歉，暂无送养数据！';
-            return json($Result);
+            $Result['errMsg'] = '抱歉，暂无数据！';
+            return $Result;
         }
         $arr = collection($data)->toArray();
         foreach ($arr as $k=>$v){
@@ -35,7 +35,7 @@ class Index
         if(count($userData)<=0){
             $Result['errCode'] = 'L10030';
             $Result['errMsg'] = '抱歉，暂无用户数据！';
-            return json($Result);
+            return $Result;
         }
         foreach ($userData as $k => $v){
             $user[$v->id] = $v->name;
