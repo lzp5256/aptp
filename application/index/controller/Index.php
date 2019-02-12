@@ -2,7 +2,7 @@
 namespace app\index\controller;
 
 use app\base\controller\Base;
-use app\demand\model\Demand;
+use app\index\event\index as IndexEvent;
 
 
 class Index extends Base
@@ -23,14 +23,11 @@ class Index extends Base
             'data'    => [],
         ];
         $params = request()->param();
-        $model = new Demand();
-        $data = $model->selectDemand(true,0,10);
-        if(count($data)<=0){
-            $Result['errCode'] = 'L10029';
-            $Result['errMsg'] = '抱歉，暂无数据！';
-        }else{
-            $Result['data'] = collection($data)->toArray();
+        $event = new IndexEvent();
+        if(($res = $event->getReList($params)) && $res['errCode'] != '200'){
+            return json($res);
         }
+        $Result['data'] = $res['data'];
         return json($Result);
     }
 
