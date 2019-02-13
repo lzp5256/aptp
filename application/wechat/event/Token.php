@@ -52,7 +52,11 @@ class Token extends Base
             // 如果用户不存在，新增用户信息
             if($findUser){
                 $updateWhere['id'] = $findUser['id'];
-                $updateData = ['session_key'=>$this->data['wechat']['session_key']];
+                $updateData = [
+                    'session_key'=>$this->data['wechat']['session_key'],
+                    'head_portrait_url'=>$this->data['params']['head_portrait_url'],
+                    'name'=>$this->data['params']['name'],
+                ];
                 $updateUser = $userModel->saveUser($updateWhere,$updateData);
                 if(!$updateUser){
                     DB::rollback();
@@ -98,6 +102,8 @@ class Token extends Base
     {
         return [
             'uid' => $this->data['user']['uid'],
+            'name'=> $this->data['params']['name'],
+            'head_portrait_url' => $this->data['params']['head_portrait_url'],
             'openid' => $this->data['wechat']['openid'],
             'token' => parent::encryption($this->data['wechat']['session_key']),
             'stime' => date('Y-m-d H:i:s'),
