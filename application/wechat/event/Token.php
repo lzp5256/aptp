@@ -91,6 +91,8 @@ class Token extends Base
     protected function _getUserData()
     {
         return [
+            'name'=> $this->data['params']['name'],
+            'head_portrait_url' => $this->data['params']['head_portrait_url'],
             'openid' => $this->data['wechat']['openid'],
             'session_key' => $this->data['wechat']['session_key'],
             'status' => '1',
@@ -102,8 +104,6 @@ class Token extends Base
     {
         return [
             'uid' => $this->data['user']['uid'],
-            'name'=> $this->data['params']['name'],
-            'head_portrait_url' => $this->data['params']['head_portrait_url'],
             'openid' => $this->data['wechat']['openid'],
             'token' => parent::encryption($this->data['wechat']['session_key']),
             'stime' => date('Y-m-d H:i:s'),
