@@ -45,7 +45,7 @@ class Index
         }
         foreach ($arr as $k => $v){
             $arr[$k]['upload'] = unserialize($v['upload']);
-            $arr[$k]['uname'] = $user[$v['uid']]['name'];
+            $arr[$k]['uname'] = base64_decode($user[$v['uid']]['name']);
             // 新增头像字段 --Author:lizhipeng Date:2019.02.15
             $arr[$k]['head_portrait'] = $user[$v['uid']]['head_portrait'];
         }

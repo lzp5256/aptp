@@ -55,7 +55,7 @@ class Token extends Base
                 $updateData = [
                     'session_key'=>$this->data['wechat']['session_key'],
                     'head_portrait_url'=>$this->data['params']['head_portrait_url'],
-                    'name'=>$this->data['params']['name'],
+                    'name'=>base64_encode($this->data['params']['name']),
                 ];
                 $updateUser = $userModel->saveUser($updateWhere,$updateData);
                 if(!$updateUser){
@@ -91,7 +91,7 @@ class Token extends Base
     protected function _getUserData()
     {
         return [
-            'name'=> $this->data['params']['name'],
+            'name'=> base64_encode($this->data['params']['name']),
             'head_portrait_url' => $this->data['params']['head_portrait_url'],
             'openid' => $this->data['wechat']['openid'],
             'session_key' => $this->data['wechat']['session_key'],
