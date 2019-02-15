@@ -38,11 +38,16 @@ class Index
             return $Result;
         }
         foreach ($userData as $k => $v){
-            $user[$v->id] = $v->name;
+            $user[$v->id] = [
+                'name'=>$v->name,//用户名
+                'head_portrait' =>$v->head_portrait_url,//头像地址
+            ];
         }
         foreach ($arr as $k => $v){
             $arr[$k]['upload'] = unserialize($v['upload']);
-            $arr[$k]['uname'] = $user[$v['uid']];
+            $arr[$k]['uname'] = $user[$v['uid']]['name'];
+            // 新增头像字段 --Author:lizhipeng Date:2019.02.15
+            $arr[$k]['head_portrait'] = $user[$v['uid']]['head_portrait'];
         }
         $Result['data']=$arr;
         return $Result;
