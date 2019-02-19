@@ -21,6 +21,10 @@ class Demand extends Base
         }
     }
 
+    /**
+     * @desc 发布
+     * @return \think\response\Json
+     */
     public function release()
     {
         $params = request()->param();
@@ -30,6 +34,23 @@ class Demand extends Base
         }
         $handleEvent = new DemandEvent();
         $handleRes = $handleEvent->handle($checkRes['data']);
+        return json($handleRes);
+    }
+
+    /**
+     * @desc 获取需求详情
+     * @date 2019.02.19
+     * @return json
+     */
+    public function detail()
+    {
+        $params = request()->param();
+        $checkEvent = new CheckEvent();
+        if(($checkRes = $checkEvent->checkDetailParams($params)) && $checkRes['errCode'] != '200'){
+            return json($checkRes);
+        }
+        $handleEvent = new DemandEvent();
+        $handleRes = $handleEvent->handleDetail($checkRes['data']);
         return json($handleRes);
     }
 }

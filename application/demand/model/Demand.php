@@ -26,7 +26,7 @@ class Demand extends Model
     }
 
     /**
-     * 查找用户信息
+     * 查找需求信息
      *
      * @param array $where 查询条件
      * @param string $field 查询字段 默认为全部
@@ -39,5 +39,10 @@ class Demand extends Model
     public function selectDemand($where,$offset,$num,$field='*',$order='id desc')
     {
         return $this->where($where)->field($field)->order($order)->page("$offset,$num")->select();
+    }
+
+    public function findDemand($where)
+    {
+        return $this->where($where)->find()->toArray();
     }
 }

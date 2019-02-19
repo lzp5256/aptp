@@ -8,8 +8,11 @@
 namespace app\demand\event;
 
 use app\base\controller\Base;
+use app\region\model\Region;
 use think\Exception;
 use app\demand\model\Demand as DemandModel;
+use app\user\model\User as UserModel;
+use app\region\model\Region as RegionModel;
 
 class Demand
 {
@@ -34,6 +37,47 @@ class Demand
             $Result['errMsg'] = $e->getMessage();
             return $Result;
         }
+        return $Result;
+    }
+
+    public function handleDetail($params)
+    {
+        $Result = [
+            'errCode' => '200',
+            'errMsg'  => 'success',
+            'data'    => [],
+        ];
+        $model = new DemandModel();
+        $data = $model->findDemand(['id'=>$params['param']['id']]);
+
+        if(empty($data)){
+            $Result['errCode'] = 'L10031';
+            $Result['errMsg'] = '抱歉，未查询到相关数据！';
+            return $Result;
+        }
+
+        // 查询用户
+        $userModel =new UserModel();
+        $userData = $userModel->findUser(['status'=>'1','id'=>$data['uid']]);
+        if(empty($userData)){
+            $Result['errCode'] = 'L10030';
+            $Result['errMsg'] = '抱歉，暂无用户数据！';
+            return $Result;
+        }
+        // 地区转换
+        $regionModel = new Region();
+        $regionData = $regionModel->findRegion(['rg_id'=>$data['region']]);
+
+        $data['type'] = strToType($data['type']);
+        $data['gender'] = $data['gender'] == '1' ? '公' : '母';
+        $data['charge'] = $data['charge'] == '1' ? '免费' : '收费';
+        $data['vaccine'] = $data['vaccine'] == '1' ? '未注射' : '已注射';
+        $data['upload'] = unserialize($data['upload']);
+        $data['uname'] = base64_decode($userData['name']);
+        $data['head_portrait'] = $userData['head_portrait_url'];
+        $data['region'] = empty($regionData) ? '未知' : $regionData->rg_name;
+
+        $Result['data']=$data;
         return $Result;
     }
 

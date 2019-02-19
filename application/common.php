@@ -73,3 +73,15 @@ function isMobile($phone){
         return ( false );
     }
 }
+
+/**
+ * @desc 类型转换
+ * @param $str 类型编号
+ * @return mixed
+ */
+function strToType($str){
+    $data = ['1'=>'狗', '2'=>'猫', '3'=>'其他'];
+    return $data[$str];
+}
+
+
