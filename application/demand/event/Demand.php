@@ -76,7 +76,7 @@ class Demand
         $data['uname'] = base64_decode($userData['name']);
         $data['head_portrait'] = $userData['head_portrait_url'];
         $data['region'] = empty($regionData) ? '未知' : $regionData->rg_name;
-
+        $data['updated_at'] = substr($data['updated_at'],0,10);
         $Result['data']=$data;
         return $Result;
     }
