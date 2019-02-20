@@ -28,10 +28,12 @@ Route::group('index',function (){
     Route::post('GetReList','index/index/getReList'); //获取首页推荐列表-
 });
 
-// 发布路由
+// 需求路由
 Route::group('demand',function (){
-   Route::post('release','demand/demand/release');
+    Route::post('release','demand/demand/release'); //发布
+    Route::post('detail','demand/demand/detail'); // 详情
 });
+
 
 // 公共路由分组
 Route::group('communal',function (){
