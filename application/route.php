@@ -31,7 +31,6 @@ Route::group('index',function (){
 // 需求路由
 Route::group('demand',function (){
     Route::post('release','demand/demand/release'); //发布
-    Route::post('detail','demand/demand/detail'); // 详情
 });
 
 
@@ -40,4 +39,5 @@ Route::group('communal',function (){
     Route::post('GetBanners','communal/communal/getBanners'); //获取banner
     Route::post('GetIcons','communal/communal/getIcons'); // 获取icon
     Route::post('GetCitys','communal/communal/getCitys'); // 获取所有地区信息
+    Route::post('detail','communal/communal/detail'); // 详情（不需要验证token）
 });
