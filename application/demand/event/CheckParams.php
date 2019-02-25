@@ -187,7 +187,7 @@ class CheckParams
 
         if(empty($params['wechat'])){
             $Result['errCode'] = 'L10037';
-            $Result['errMsg'] = '抱歉,请输入正确的手机号！';
+            $Result['errMsg'] = '抱歉,请输入您的微信号！';
             return $Result;
         }
         $this->data['param']['wechat'] = (string)$params['wechat'];
