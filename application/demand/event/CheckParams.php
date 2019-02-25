@@ -122,6 +122,30 @@ class CheckParams
      * @desc 获取详情参数验证
      * @return array
      */
+    public function checkDetailParams($params)
+    {
+        $Result = [
+            'errCode' => '200',
+            'errMsg'  => 'success',
+            'data'    => [],
+        ];
+
+        if(empty($params['id'])){
+            $Result['errCode'] = 'L10026';
+            $Result['errMsg'] = '抱歉,请输入领养要求！';
+            return $Result;
+        }
+
+        $this->data['param']['id'] = (string)$params['id'];
+
+        $Result['data'] = $this->data;
+        return $Result;
+    }
+
+    /**
+     * @desc 获取申请参数验证
+     * @return array
+     */
     public function checkApplyParams($params)
     {
         $Result = [
