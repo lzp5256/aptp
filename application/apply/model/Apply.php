@@ -26,6 +26,6 @@ class Apply extends Model
 
     public  function  findApply($where)
     {
-        return $this->where($where)->find()->toArray();
+        return $this->where($where)->find();
     }
 }
