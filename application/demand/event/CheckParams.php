@@ -122,7 +122,7 @@ class CheckParams
      * @desc 获取详情参数验证
      * @return array
      */
-    public function checkDetailParams($params)
+    public function checkApplyParams($params)
     {
         $Result = [
             'errCode' => '200',
@@ -130,13 +130,43 @@ class CheckParams
             'data'    => [],
         ];
 
-        if(empty($params['id'])){
-            $Result['errCode'] = 'L10026';
-            $Result['errMsg'] = '抱歉,请输入领养要求！';
+        if(empty($params['uid'])){
+            $Result['errCode'] = 'L10033';
+            $Result['errMsg'] = '抱歉,您还没有登录,不能申请！';
             return $Result;
         }
+        $this->data['param']['uid'] = (string)$params['id'];
 
-        $this->data['param']['id'] = (string)$params['id'];
+        if(empty($params['did'])){
+            $Result['errCode'] = 'L10039';
+            $Result['errMsg'] = '抱歉,系统异常,未获取到宠物ID！';
+            return $Result;
+        }
+        $this->data['param']['did'] = (string)$params['did'];
+
+        if(empty($params['phone'])){
+            $Result['errCode'] = 'L10034';
+            $Result['errMsg'] = '抱歉,输入的手机号长度错误！';
+            return $Result;
+        }
+        if(strlen($params['phone']) != 11){
+            $Result['errCode'] = 'L10035';
+            $Result['errMsg'] = '抱歉,输入的手机号长度错误！';
+            return $Result;
+        }
+        if(!isMobile($params['phone'])){
+            $Result['errCode'] = 'L10036';
+            $Result['errMsg'] = '抱歉,请输入正确的手机号！';
+            return $Result;
+        }
+        $this->data['param']['phone'] = (string)$params['phone'];
+
+        if(empty($params['wechat'])){
+            $Result['errCode'] = 'L10037';
+            $Result['errMsg'] = '抱歉,请输入正确的手机号！';
+            return $Result;
+        }
+        $this->data['param']['wechat'] = (string)$params['wechat'];
 
         $Result['data'] = $this->data;
         return $Result;

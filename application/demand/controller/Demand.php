@@ -37,4 +37,20 @@ class Demand extends Base
         return json($handleRes);
     }
 
+    /**
+     * @desc 申请
+     * @return \think\response\Json
+     */
+    public function apply()
+    {
+        $params = request()->param();
+        $checkEvent = new CheckEvent();
+        if(($checkRes = $checkEvent->checkApplyParams($params)) && $checkRes['errCode'] != '200'){
+            return json($checkRes);
+        }
+        $handleEvent = new DemandEvent();
+        $handleRes = $handleEvent->handleApply($checkRes['data']);
+        return json($handleRes);
+    }
+
 }

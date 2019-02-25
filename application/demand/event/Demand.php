@@ -7,12 +7,14 @@
  */
 namespace app\demand\event;
 
+use app\apply\model\Apply;
 use app\base\controller\Base;
 use app\region\model\Region;
 use think\Exception;
 use app\demand\model\Demand as DemandModel;
 use app\user\model\User as UserModel;
 use app\region\model\Region as RegionModel;
+use app\apply\model\Apply as ApplyModel;
 
 class Demand
 {
@@ -79,6 +81,38 @@ class Demand
         $data['updated_at'] = substr($data['updated_at'],0,10);
         $Result['data']=$data;
         return $Result;
+    }
+
+    public function handleApply($params)
+    {
+        $Result = [
+            'errCode' => '200',
+            'errMsg'  => 'success',
+            'data'    => [],
+        ];
+        $model = new Apply();
+        $data = $this->_getAddApplyData($params);
+        $res = $model->addApply($data);
+        if(!$res){
+            $Result['errCode'] = 'L10038';
+            $Result['errMsg'] = '申请失败！';
+            return $Result;
+        }
+        $Result['errMsg'] = '申请成功,稍后会有客服添加您的微信或拨打您电话，请注意接听';
+        return $Result;
+
+    }
+
+    protected function _getAddApplyData($params)
+    {
+        return $data = [
+            'uid' => (int)$params['param']['uid'],
+            'did' => (int)$params['param']['did'],
+            'phone' => (string) $params['param']['phone'],
+            'wechat' => (string) $params['param']['wechat'],
+            'status' => (int)1,
+            'created_at' => date('Y-m-d H:i:s'),
+        ];
     }
 
     /**

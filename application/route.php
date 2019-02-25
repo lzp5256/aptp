@@ -31,6 +31,7 @@ Route::group('index',function (){
 // 需求路由
 Route::group('demand',function (){
     Route::post('release','demand/demand/release'); //发布
+    Route::post('apply','demand/demand/apply'); //申请
 });
 
 
