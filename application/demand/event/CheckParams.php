@@ -159,7 +159,7 @@ class CheckParams
             $Result['errMsg'] = '抱歉,您还没有登录,不能申请！';
             return $Result;
         }
-        $this->data['param']['uid'] = (string)$params['id'];
+        $this->data['param']['uid'] = (string)$params['uid'];
 
         if(empty($params['did'])){
             $Result['errCode'] = 'L10039';
