@@ -23,4 +23,9 @@ class Apply extends Model
         $this->data($data);
         return $this->save();
     }
+
+    public  function  findApply($where)
+    {
+        return $this->where($where)->find()->toArray();
+    }
 }

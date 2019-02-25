@@ -90,7 +90,14 @@ class Demand
             'errMsg'  => 'success',
             'data'    => [],
         ];
+        // 先验证是否申请过
         $model = new Apply();
+        $findRes = $model->findApply(['uid'=>$params['param']['uid'],'did'=>$params['param']['did']]);
+        if($findRes){
+            $Result['errCode'] = 'L10039';
+            $Result['errMsg'] = '抱歉,您已经申请过了，不可以重复申请！';
+            return $Result;
+        }
         $data = $this->_getAddApplyData($params);
         $res = $model->addApply($data);
         if(!$res){
