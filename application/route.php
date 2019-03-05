@@ -41,4 +41,5 @@ Route::group('communal',function (){
     Route::post('GetIcons','communal/communal/getIcons'); // 获取icon
     Route::post('GetCitys','communal/communal/getCitys'); // 获取所有地区信息
     Route::post('detail','communal/communal/detail'); // 详情（不需要验证token）
+    Route::post('sendEmail','communal/communal/sendEmail'); // Email
 });
