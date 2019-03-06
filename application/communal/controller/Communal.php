@@ -10,8 +10,6 @@ namespace app\communal\controller;
 use think\Db;
 use app\demand\event\Demand as DemandEvent;
 use app\demand\event\CheckParams as CheckEvent;
-use app\communal\event\Check as CommunalCheckEvent;
-use app\communal\event\Handle;
 
 class Communal
 {
@@ -127,27 +125,6 @@ class Communal
         $handleEvent = new DemandEvent();
         $handleRes = $handleEvent->handleDetail($checkRes['data']);
         return json($handleRes);
-    }
-
-    public function sendEmail()
-    {
-        $Result = [
-            'errCode' => '200',
-            'errMsg' => 'success',
-            'data' => [],
-        ];
-        $param = request()->param();
-        $check = new CommunalCheckEvent();
-        if(($checkRes = $check->CheckParam($param)) && $checkRes['errCode'] != '200'){
-            return json($checkRes);
-        }
-        $handle = new Handle();
-        if(($handleRes = $handle->handle($checkRes['data'])) && $handleRes['errCode'] != '200'){
-            return json($handleRes);
-        }
-
-        return json($Result);
-
     }
 
 }
