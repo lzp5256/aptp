@@ -53,4 +53,21 @@ class Demand extends Base
         return json($handleRes);
     }
 
+    /**
+     * @desc 获取我的送养信息
+     * @date 2019.03.10
+     * @return \think\response\Json
+     */
+    public function getMyReleases()
+    {
+        $params = request()->param();
+        $checkEvent = new CheckEvent();
+        if(($checkRes = $checkEvent->checkMyReleaseParams($params)) && $checkRes['errCode'] != '200' ){
+            return json($checkRes);
+        }
+        $handleEvent = new DemandEvent();
+        $handleRes = $handleEvent->handleMyRelease($checkRes['data']);
+        return json($handleRes);
+    }
+
 }

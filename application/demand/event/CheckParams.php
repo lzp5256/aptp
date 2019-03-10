@@ -195,4 +195,29 @@ class CheckParams
         $Result['data'] = $this->data;
         return $Result;
     }
+
+    /**
+     * @desc 检查获取我发布的参数
+     * @date 2019.03.07
+     * @return array
+     */
+    public function checkMyReleaseParams($params)
+    {
+        $Result = [
+            'errCode' => '200',
+            'errMsg'  => 'success',
+            'data'    => [],
+        ];
+        if(empty($params['uid'])){
+            $Result['errCode'] = 'L10045';
+            $Result['errMsg'] = '抱歉,系统异常！';
+            return $Result;
+        }
+        $this->data['param']['uid'] = (int)$params['uid'];
+
+        $Result['data']= $this->data;
+
+        return $Result;
+    }
+
 }

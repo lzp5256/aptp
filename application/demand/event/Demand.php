@@ -42,6 +42,11 @@ class Demand
         return $Result;
     }
 
+    /**
+     * @desc 处理详情信息
+     * @param $params
+     * @return array
+     */
     public function handleDetail($params)
     {
         $Result = [
@@ -83,6 +88,11 @@ class Demand
         return $Result;
     }
 
+    /**
+     * @desc 处理申请方法
+     * @param $params
+     * @return array
+     */
     public function handleApply($params)
     {
         $Result = [
@@ -94,7 +104,7 @@ class Demand
         $model = new Apply();
         $findRes = $model->findApply(['uid'=>$params['param']['uid'],'did'=>$params['param']['did']]);
         if(!empty($findRes)){
-            $Result['errCode'] = 'L10039';
+            $Result['errCode'] = 'L10043';
             $Result['errMsg'] = '抱歉,您已经申请过了，不可以重复申请！';
             return $Result;
         }
@@ -110,6 +120,42 @@ class Demand
 
     }
 
+    /**
+     * @desc 处理我的送养信息
+     * @date 2019.03.10
+     * @param $params
+     * @return array
+     */
+    public function handleMyRelease($params)
+    {
+        $Result = [
+            'errCode' => '200',
+            'errMsg'  => 'success',
+            'data'    => [],
+        ];
+        $model = new DemandModel();
+        $getUserReleasList = $model->selectDemand(['uid'=>(string)$params['param']['uid'],'status'=>'1'],0,10);
+        if(empty($getUserReleasList)){
+            $Result['errCode'] = 'L10046';
+            $Result['errMsg'] = '抱歉,未获取到数据!';
+            return $Result;
+        }
+        foreach ($getUserReleasList as $k => $v){
+            $getUserReleasList[$k]['type_str'] = strToType($v['type']);
+            $getUserReleasList[$k]['gender_str'] = $v['gender']=='1' ? '公' : '母';
+            $getUserReleasList[$k]['charge_str'] = $v['charge']=='1' ? '免费' : '收费';
+            $getUserReleasList[$k]['vaccine_str'] = $v['vaccine']=='1' ? '未注射' : '已注射';
+            $getUserReleasList[$k]['upload'] = unserialize($v['upload']);
+        }
+        $Result['data'] = $getUserReleasList;
+        return $Result;
+    }
+
+    /**
+     * @desc 获取添加请求参数
+     * @param $params
+     * @return array
+     */
     protected function _getAddApplyData($params)
     {
         return $data = [

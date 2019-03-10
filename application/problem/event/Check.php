@@ -20,13 +20,13 @@ class Check
         ];
 
         if(empty($params['uid'])){
-            $Result['errCode'] = 'L10035';
+            $Result['errCode'] = 'L10040';
             $Result['errMsg'] = '抱歉,用户数据异常,请稍后再试！';
         }
         $this->data['param']['uid'] = (int)$params['uid'];
 
         if(empty($params['content'])){
-            $Result['errCode'] = 'L10034';
+            $Result['errCode'] = 'L10041';
             $Result['errMsg'] = '抱歉,邮件内容不能为空！';
         }
         $this->data['param']['content'] = (string) $params['content'];

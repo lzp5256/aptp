@@ -28,7 +28,7 @@ class Handle
         $user = $model->findUser(['id'=>$data['param']['uid']]);
         if(empty($user)){
             $Result['errMsg'] = '抱歉,未找到相关用户,请检查是否登录!';
-            $Result['errCode'] = 'L10036';
+            $Result['errCode'] = 'L10042';
             return $Result;
         }
         // 拼接内容
@@ -36,7 +36,7 @@ class Handle
         $res = $this->_send($title,$content);
         if($res != '1'){
             $Result['errMsg'] = $res;
-            $Result['errCode'] = 'L10037';
+            $Result['errCode'] = 'L10044';
             return $Result;
         }
         return $Result;
