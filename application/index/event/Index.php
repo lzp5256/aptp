@@ -48,7 +48,13 @@ class Index
             $arr[$k]['uname'] = base64_decode($user[$v['uid']]['name']);
             // 新增头像字段 --Author:lizhipeng Date:2019.02.15
             $arr[$k]['head_portrait'] = $user[$v['uid']]['head_portrait'];
+            // 字符串转换
+            $arr[$k]['type_str'] = strToType($v['type']);
+            $arr[$k]['gender_str'] = $v['gender']=='1' ? '公' : '母';
+            $arr[$k]['charge_str'] = $v['charge']=='1' ? '免费' : '收费';
+            $arr[$k]['vaccine_str'] = $v['vaccine']=='1' ? '未注射' : '已注射';
         }
+
         $Result['data']=$arr;
         return $Result;
     }
