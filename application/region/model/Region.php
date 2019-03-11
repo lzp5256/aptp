@@ -17,4 +17,9 @@ class Region extends  Model
     {
         return $this->where($where)->find();
     }
+
+    public function selectRegion($where,$offset,$num,$field='*')
+    {
+        return $this->where($where)->field($field)->page("$offset,$num")->select();
+    }
 }
