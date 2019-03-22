@@ -41,6 +41,10 @@ Route::group('my',function (){
     Route::post('feedback','problem/problem/feedback'); //问题反馈
 });
 
+// 任务路由
+Route::group('task',function (){
+    Route::post('sign','task/task/sign'); // 签到
+});
 
 // 公共路由分组
 Route::group('communal',function (){
@@ -48,4 +52,5 @@ Route::group('communal',function (){
     Route::post('GetIcons','communal/communal/getIcons'); // 获取icon
     Route::post('GetCitys','communal/communal/getCitys'); // 获取所有地区信息
     Route::post('detail','communal/communal/detail'); // 详情（不需要验证token）
+    Route::post('getRsaToken','communal/communal/getRsaToken'); //获取加密字符串
 });

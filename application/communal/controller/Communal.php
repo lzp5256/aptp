@@ -10,6 +10,7 @@ namespace app\communal\controller;
 use think\Db;
 use app\demand\event\Demand as DemandEvent;
 use app\demand\event\CheckParams as CheckEvent;
+use app\base\controller\RSAUtils;
 
 class Communal
 {
@@ -125,6 +126,20 @@ class Communal
         $handleEvent = new DemandEvent();
         $handleRes = $handleEvent->handleDetail($checkRes['data']);
         return json($handleRes);
+    }
+
+    /**
+     * @desc 获取Rsa加密字符串
+     * @date 2019.03.22
+     * @return string
+     */
+    public function getRsaToken()
+    {
+        $rsa = new RSAUtils();
+        $str = 'muyao';
+        $time = date('Ymd');
+        $Encrypt = $rsa->pubkeyEncrypt($str.$time);
+        return json(['encrypt'=>$Encrypt]);
     }
 
 }
