@@ -43,7 +43,7 @@ Route::group('my',function (){
 
 // 任务路由
 Route::group('task',function (){
-    Route::post('sign','task/task/sign'); // 签到
+    Route::post('sign','task/sign/sign'); // 签到
 });
 
 // 公共路由分组

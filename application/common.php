@@ -84,4 +84,22 @@ function strToType($str){
     return $data[$str];
 }
 
+/**
+ * @desc  json转换数组
+ * @param array $strArr 需要转换的json字符串
+ * @return array
+ */
+function strToJson($strArr){
+    $data = [];
+    foreach ($strArr as $k => $v){
+        if(empty($v)){
+            $data[$k] = [];
+        }else{
+            $data[$k] = json_decode($v,true);
+        }
+    }
+    return $data;
+}
+
+
 
