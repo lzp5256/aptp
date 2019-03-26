@@ -55,11 +55,9 @@ class Index extends Base
         $model = new UserCbAccount();
         $res = $model->findUserCbAccount(['uid'=>(int)$this->data['param']['uid'],'status'=>'1'],'id,uid,num,created_at');
         if(empty($res)){
-            $Result['errCode'] = 'L10058';
-            $Result['errMsg'] = '抱歉,未查询到账户信息,错误码[L10058]';
+            $Result['data'] = [];
             return $Result;
         }
-
         $Result['data'] = $res->toArray();
         return $Result;
     }
@@ -75,8 +73,7 @@ class Index extends Base
         $model = new Task();
         $res = $model->selectTask(['type'=>1,'status'=>'1'],0,10,'id,title,content,completables,integral,created_at');
         if(empty($res)){
-            $Result['errCode'] = 'L10059';
-            $Result['errMsg'] = '抱歉,未获取到任务列表,错误码[L10059]';
+            $Result['data'] = [];
             return $Result;
         }
 
@@ -95,8 +92,7 @@ class Index extends Base
         $model = new Exchange();
         $res = $model->selectExchange(['type'=>1,'status'=>'1'],0,10);
         if(empty($res)){
-            $Result['errCode'] = 'L10060';
-            $Result['errMsg'] = '抱歉,未获取到奖励列表,错误码[L10060]';
+            $Result['data'] = [];
             return $Result;
         }
 

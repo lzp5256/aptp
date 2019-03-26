@@ -35,7 +35,7 @@ class Index extends Base
         }
 
         $handleEvent = new IndexEvent();
-        if(($handle_res = $handleEvent->setData($check_res['data'])->handle()) && $check_res['errCode']!='200'){
+        if(($handle_res = $handleEvent->setData($check_res['data'])->handle()) && $handle_res['errCode']!='200'){
             return json($handle_res);
         }
 
