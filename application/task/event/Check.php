@@ -19,7 +19,6 @@ class Check
             'errMsg' => 'success',
             'data' => [],
         ];
-        $taskModel = new Task();
         if(empty($params['uid'])){
             $Result['errCode'] = 'L10046';
             $Result['errMsg'] = '抱歉,UID不能为空,请联系管理人员';
@@ -42,5 +41,22 @@ class Check
         $Result['data'] = $this->data;
         return $Result;
 
+    }
+
+    public function checkIndexParams($params)
+    {
+        $Result = [
+            'errCode' => '200',
+            'errMsg' => 'success',
+            'data' => [],
+        ];
+        if(empty($params['uid'])){
+            $Result['errCode'] = 'L10057';
+            $Result['errMsg'] = '抱歉,UID不能为空,请联系管理人员';
+            return $Result;
+        }
+        $this->data['param']['uid'] = (int)$params['uid'];
+        $Result['data']=$this->data;
+        return $Result;
     }
 }

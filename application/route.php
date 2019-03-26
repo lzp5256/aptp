@@ -43,6 +43,7 @@ Route::group('my',function (){
 
 // 任务路由
 Route::group('task',function (){
+    Route::post('index','task/index/index');
     Route::post('sign','task/sign/sign'); // 签到
 });
 
