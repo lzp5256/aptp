@@ -90,7 +90,7 @@ class Index extends Base
         ];
 
         $model = new Exchange();
-        $res = $model->selectExchange(['type'=>1,'status'=>'1'],0,10);
+        $res = $model->selectExchange(['type'=>1,'status'=>'1'],0,10,'*','id ASC');
         if(empty($res)){
             $Result['data'] = [];
             return $Result;
