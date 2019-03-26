@@ -71,12 +71,7 @@ class Index extends Base
         ];
 
         $model = new Task();
-        $res = $model->selectTask(
-            ['type'=>1,'status'=>'1'],
-            0,10,
-            'id,title,content,completables,integral,bindtap,bindtitle,open_type,created_at',
-            'id ASC'
-        );
+        $res = $model->selectTask(['type'=>1,'status'=>'1'],0,10,'*','id ASC');
         if(empty($res)){
             $Result['data'] = [];
             return $Result;
