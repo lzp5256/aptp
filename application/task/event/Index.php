@@ -94,7 +94,7 @@ class Index extends Base
             }
 
         }
-        $Result['data'] = $this->data;
+        $Result['data'] = $this->data['task_list'];
         return $Result;
     }
 
