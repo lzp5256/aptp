@@ -25,7 +25,7 @@ class Sign extends Base
     {
         $Result = [
             'errCode' => '200',
-            'errMsg' => 'success',
+            'errMsg' => '签到成功',
             'data' => [],
         ];
         $param = request()->param();
