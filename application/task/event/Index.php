@@ -11,6 +11,7 @@ use app\base\controller\Base;
 use app\task\model\Task;
 use app\user\model\UserCbAccount;
 use app\exchange\model\Exchange;
+use app\user\model\UserCbAccountChange;
 
 class Index extends Base
 {
@@ -76,8 +77,24 @@ class Index extends Base
             $Result['data'] = [];
             return $Result;
         }
+        // 查询每个任务的完成度
+        $this->data['task_list']= $res->toArray();
+        $taskDegree = $this->_getTaskCompletionDegree();
 
-        $Result['data'] = $res->toArray();
+        foreach ($this->data['task_list'] as $k => $v){
+            $this->data['task_list'][$k]['completable_status'] = '2';
+            $this->data['task_list'][$k]['completable_status_str'] = $v['bindtitle'];
+            $this->data['task_list'][$k]['completable'] = 0;
+            $this->data['task_list'][$k]['disabled'] = 'false';
+            if(in_array($v['id'],array_keys($taskDegree))){
+                $this->data['task_list'][$k]['completable_status'] = $taskDegree[$v['id']]['completable_status'];
+                $this->data['task_list'][$k]['completable_status_str'] = $taskDegree[$v['id']]['completable_status_str'];
+                $this->data['task_list'][$k]['completable'] = $taskDegree[$v['id']]['completable'];
+                $this->data['task_list'][$k]['disabled'] = $taskDegree[$v['id']]['disabled'];
+            }
+
+        }
+        $Result['data'] = $this->data;
         return $Result;
     }
 
@@ -95,10 +112,43 @@ class Index extends Base
             $Result['data'] = [];
             return $Result;
         }
-
         $Result['data'] = $res->toArray();
         return $Result;
     }
+
+    protected function _getTaskCompletionDegree()
+    {
+        $data = $tid = [];
+        foreach ($this->data['task_list'] as $k => $v){
+            $tid[] = $v['id'];
+        }
+        $tid_unique = array_unique($tid);
+        $model = new  UserCbAccountChange();
+        $res = $model->selectUserCbAccountChange(
+                [
+                    'uid'=>$this->data['param']['uid'],
+                    'status'=>'1',
+                    'cb_id'=>['IN',$tid_unique],
+                    'type' => '1',
+                    'created_at' => ['gt',date('Y-m-d',time())]
+                ], 0,100
+        );
+        if(count($res)<=0){
+            $res = [];
+            return $res;
+        }
+        foreach ($res->toArray() as $k => $v){
+            $data[$v['cb_id']] = [
+                'completable_status' => '1',
+                'completable_status_str' => '已完成',
+                'completable' => '1',
+                'disabled' => 'true',
+            ];
+        }
+        return $data;
+    }
+
+
 
 
 }
