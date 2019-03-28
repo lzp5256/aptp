@@ -10,11 +10,16 @@ namespace app\demand\event;
 use app\apply\model\Apply;
 use app\base\controller\Base;
 use app\region\model\Region;
+use app\task\event\Task;
+use app\user\event\UserCbAccountChange;
 use think\Exception;
 use app\demand\model\Demand as DemandModel;
 use app\user\model\User as UserModel;
 use app\region\model\Region as RegionModel;
 use app\apply\model\Apply as ApplyModel;
+use app\user\event\UserCbAccount as UserCbAccountEvent;
+use app\task\event\Task as TaskEvent;
+use app\user\event\UserCbAccountChange as UserCbAccountChageEvent;
 
 class Demand
 {
@@ -22,10 +27,11 @@ class Demand
     {
         $Result = [
             'errCode' => '200',
-            'errMsg'  => 'success',
+            'errMsg'  => '发布成功!',
             'data'    => [],
         ];
         $saveData = $this->_getSaveData($data);
+
         try{
             $model = new DemandModel();
             $res = $model->addDemand($saveData);
@@ -34,6 +40,26 @@ class Demand
                 $Result['errMsg'] = '添加失败！';
                 return $Result;
             }
+
+            if( $res && isset($data['param']['tid']) && ($data['param']['tid'] > 0) ){
+                $userCbAccountChangeEvent = new UserCbAccountChageEvent();
+                $checkRes = $userCbAccountChangeEvent->setData($data)->checkCompleteState();
+                if(($checkRes) && $checkRes['errCode'] =='200'){
+                    $data['param']['type'] = '1'; //类型为1(添加)
+                    $userCbAccountEvent = new UserCbAccountEvent();
+                    $taskEvent = new TaskEvent();
+                    $taskRes = $taskEvent->setData($data)->_checkTask();
+                    if($taskRes['errCode'] == '200')$data['task_list'] = $taskRes['data']['task_list'];
+                    $updateUserCbRes = $userCbAccountEvent->setData($data)->updateUserCb();
+                    if($updateUserCbRes['errCode'] == '200')$data['user_cb_account'] = $updateUserCbRes['data']['user_cb_account'];
+                    $userCbAccountChangeEvent->setData($data)->updateUserCbAccountChange();
+                }else{
+                    //TODO 添加日志
+                }
+
+
+            }
+
         }catch (Exception $e){
             $Result['errCode'] = 'L10028';
             $Result['errMsg'] = $e->getMessage();
@@ -176,7 +202,9 @@ class Demand
     public function _getSaveData($data)
     {
         foreach ($data['param'] as $k => $v){
-            $arr[$k] = $v;
+            if($k != 'tid'){
+                $arr[$k] = $v;
+            }
         }
         $arr['status'] = '1';
         $arr['created_at'] = date('Y-m-d H:i:s');

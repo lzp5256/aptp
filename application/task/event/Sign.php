@@ -216,7 +216,7 @@ class Sign
             'data' => [],
         ];
         $arr  = $this->Data;
-        // 查询是否存在此用户签到信息，新用户签到新增，老用户签到增加次数
+        // 查询是否存在此用户账户信息，新用户新增，老用户更新
         $userCbAccountModel = new UserCbAccountModel();
         $findUserCbAccountInfo = $userCbAccountModel->findUserCbAccount(['uid'=>(int)$arr['user_info']['id'],'status'=>'1']);
 
@@ -259,8 +259,6 @@ class Sign
             'data' => [],
         ];
         $arr  = $this->Data;
-
-        // 查询是否存在此用户签到信息，新用户签到新增，老用户签到增加次数
         $UserCbAccountChangeModel = new UserCbAccountChangeModel();
 
         // 新增

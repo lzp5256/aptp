@@ -113,6 +113,10 @@ class CheckParams
         }
         $this->data['param']['adopt'] = (string)$params['adopt'];
 
+        if(isset($params['tid'])){
+            $this->data['param']['tid'] = (string)$params['tid'];
+        }
+
         $Result['data'] = $this->data;
         return $Result;
 
