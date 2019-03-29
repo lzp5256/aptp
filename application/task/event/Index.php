@@ -56,7 +56,7 @@ class Index extends Base
         $model = new UserCbAccount();
         $res = $model->findUserCbAccount(['uid'=>(int)$this->data['param']['uid'],'status'=>'1'],'id,uid,num,created_at');
         if(empty($res)){
-            $Result['data'] = [];
+            $Result['data'] = ['user_cb_account_list'=>['uid'=>(int)$this->data['param']['uid'],'num'=>0]];
             return $Result;
         }
         $Result['data'] = $res->toArray();
