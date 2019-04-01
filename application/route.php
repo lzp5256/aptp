@@ -43,8 +43,10 @@ Route::group('my',function (){
 
 // 任务路由
 Route::group('task',function (){
-    Route::post('index','task/index/index');
+    Route::post('index','task/index/index'); //任务页面
     Route::post('sign','task/sign/sign'); // 签到
+    Route::post('GetExchangeDetail','exchange/exchange/detail'); // 兑换详情
+    Route::post('GetUserChangeRes','exchange/exchange/change'); // 兑换操作
 });
 
 // 公共路由分组

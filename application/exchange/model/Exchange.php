@@ -13,6 +13,18 @@ class Exchange extends Model
     protected $table = 'exchange';
 
     /**
+     * 查询一条兑换列表信息
+     *
+     * @param $where
+     * @param $field
+     * @return array|false|\PDOStatement|string|Model
+     */
+    public function findExchange($where,$field='*')
+    {
+        return $this->where($where)->field($field)->find();
+    }
+
+    /**
      * @desc 查询兑换列表
      *
      * @param array $where 查询条件
@@ -27,4 +39,6 @@ class Exchange extends Model
     {
         return $this->where($where)->field($field)->order($order)->limit("$offset,$num")->select();
     }
+
+
 }
