@@ -95,19 +95,14 @@ class Communal
         ];
 
         // 获取所有地区信息
-        $result = Db::table('region')->where('status',1)->where('delete_flag',0)->where('rg_level',2)->select();
+        $result = Db::table('region')->where('status',1)->where('delete_flag',0)->field('rg_id,rg_name,parent_id,rg_level')->select();
 
         if(!$result){
             $Result['errCode'] = 'L10007';
             $Result['errMsg'] = '抱歉,未获取到地区信息！';
         }
 
-        foreach ($result as $k => $v) {
-            $Result['data'][$k]['id']= $v['rg_id'];
-            $Result['data'][$k]['name']= $v['rg_name'];
-            $Result['data'][$k]['pinyin']= $v['pinyin'];
-        }
-
+        $Result['data'] = generateTree($result);
         return json($Result);
     }
 
