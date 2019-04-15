@@ -19,8 +19,8 @@ Route::group('wechat',function(){
 
 // 七牛相关路由
 Route::group('qiniu',function (){
-    // 获取七牛token
-    Route::get('GetQiniuToken','qiniu/qiniu/getQiniuToken');
+    Route::get('GetQiniuToken','qiniu/qiniu/getQiniuToken');// 获取七牛token
+    Route::get('GetCallBack','qiniu/qiniu/callBack');//回调
 });
 
 // 首页路由分组
