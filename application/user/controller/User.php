@@ -7,10 +7,47 @@
  */
 namespace app\user\controller;
 
-class User
+use app\base\controller\Base;
+use app\wechat\model\Token;
+
+class User extends Base
 {
-    public function test()
-    {
-        return 'hello 1';
+    /**
+     * @desc 获取用户登录状态用于验证用户是否需要重新登录
+     * @date 2019.04.17
+     * @author lizhipeng
+     * @return array
+     */
+    public function getLoginExpirationForWechat(){
+        $Result = [
+            'errCode' => '200',
+            'errMsg'  => '获取成功!',
+            'data'    => [],
+        ];
+        $code = request()->post('code');
+
+        if(empty($code)){
+            $Result['errCode'] ='L10058';
+            $Result['errMsg'] ='错误码[L10058]';
+        }
+        $wechatInfo = getWechatKeyInfo($code);
+
+        if(isset($wechatInfo['errcode']) && !empty($wechatInfo)){
+            $Result['errCode'] = 'L10059';
+            $Result['errMsg'] = '错误码[L10059]';
+            return json($Result);
+        }
+        $openId = $wechatInfo['openid'];
+        $model = new Token();
+        $findTokenInfo  = $model->findToken(['openid'=>$openId,'status'=>1]);
+
+        if(!$findTokenInfo){
+            $Result['errCode'] = 'L10060';
+            $Result['errMsg'] = '错误码[L10060]';
+            return $Result;
+        }
+        $Result['data'] = strtotime($findTokenInfo['etime']);
+
+        return $Result;
     }
 }

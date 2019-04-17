@@ -21,6 +21,6 @@ class Token extends Model
 
     public function findToken($where)
     {
-        return $this->where($where)->find();
+        return $this->where($where)->order('id desc')->find();
     }
 }
