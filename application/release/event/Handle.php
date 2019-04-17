@@ -41,7 +41,7 @@ class Handle extends Base
         return $data = [
             'uid'       => $this->data['param']['uid'],
             'title'     => $this->data['param']['title'],
-            'pic_url'   => $this->data['param']['upload'],
+            'pic_url'   => isset($this->data['param']['upload']) ? $this->data['param']['upload'] : '' ,
             'pet_type'  => $this->data['param']['pet_type'],
             'QA_type'   => $this->data['param']['QA_type'],
             'status'    => 1,

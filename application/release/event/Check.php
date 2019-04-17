@@ -22,14 +22,14 @@ class Check
         ];
         if(!isset($param['pet_type']) || $param['pet_type'] =='9999'){
             $Result['errCode'] = 'L10060';
-            $Result['errMsg'] = '错误码[L10060]';
+            $Result['errMsg'] = '抱歉,请选择问题类型,错误码[L10060]';
             return $Result;
         }
         $this->data['param']['pet_type'] = $param['pet_type'];
 
         if(!isset($param['qa_type']) || $param['qa_type'] =='9999'){
             $Result['errCode'] = 'L10061';
-            $Result['errMsg'] = '错误码[L10061]';
+            $Result['errMsg'] = '抱歉,请选择问题类型,错误码[L10061]';
             return $Result;
         }
         $this->data['param']['QA_type'] = $param['qa_type'];
@@ -43,17 +43,14 @@ class Check
 
         if(empty($param['title'])){
             $Result['errCode'] = 'L10063';
-            $Result['errMsg'] = '错误码[L10063]';
+            $Result['errMsg'] = '抱歉,请输入问题描述,错误码[L10063]';
             return $Result;
         }
         $this->data['param']['title'] = $param['title'];
 
-        if(empty($param['upload'])){
-            $Result['errCode'] = 'L10064';
-            $Result['errMsg'] = '错误码[L10064]';
-            return $Result;
+        if(isset($param['upload'])){
+            $this->data['param']['upload'] = $param['upload'];
         }
-        $this->data['param']['upload'] = $param['upload'];
 
         $Result['data'] = $this->data;
         return $Result;
