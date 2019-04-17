@@ -48,6 +48,6 @@ class User extends Base
         }
         $Result['data'] = strtotime($findTokenInfo['etime']);
 
-        return $Result;
+        return json($Result);
     }
 }
