@@ -46,7 +46,7 @@ class User extends Base
             return json($Result);
         }
         $Result['data']['expiration_date'] = strtotime($findTokenInfo['etime']);
-        $Result['data']['uid'] = strtotime($findTokenInfo['uid']);
+        $Result['data']['uid'] = $findTokenInfo['uid'];
 
         return json($Result);
     }
