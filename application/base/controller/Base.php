@@ -17,8 +17,8 @@ class Base
 
     public function __construct()
     {
-        $result = $this->check();
-        return $result;
+//        $result = $this->check();
+//        return $result;
     }
 
     public function check()

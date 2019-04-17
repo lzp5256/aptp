@@ -18,8 +18,7 @@ class Qa extends Base
             'errMsg'  => '发布成功',
             'data'    => [],
         ];
-        $param = request()->post('.');
-
+        $param = request()->post('');
         $check_event = new Check();
         if(($check_res = $check_event->checkQaParam($param)) && $check_res['errCode']!='200'){
             return json($check_res);
@@ -29,6 +28,8 @@ class Qa extends Base
         if(($handle_res = $handle_event->setData($check_res['data'])->handleReleaseQaRes()) && $handle_res['errCode']!='200'){
             return json($check_res);
         }
+
+        return json($Result);
 
     }
 }
