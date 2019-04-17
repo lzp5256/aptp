@@ -20,14 +20,14 @@ class Check
             'errMsg'  => '验证成功',
             'data'    => [],
         ];
-        if(!isset($param['pet_type']) || $param['pet_type']<0){
+        if(!isset($param['pet_type']) || $param['pet_type'] =='9999'){
             $Result['errCode'] = 'L10060';
             $Result['errMsg'] = '错误码[L10060]';
             return $Result;
         }
         $this->data['param']['pet_type'] = $param['pet_type'];
 
-        if(!isset($param['qa_type']) || $param['qa_type']<0){
+        if(!isset($param['qa_type']) || $param['qa_type'] =='9999'){
             $Result['errCode'] = 'L10061';
             $Result['errMsg'] = '错误码[L10061]';
             return $Result;
