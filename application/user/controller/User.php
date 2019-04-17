@@ -42,11 +42,11 @@ class User extends Base
         $findTokenInfo  = $model->findToken(['openid'=>$openId,'status'=>1]);
 
         if(!$findTokenInfo){
-            $Result['errCode'] = 'L10060';
-            $Result['errMsg'] = '错误码[L10060]';
-            return $Result;
+            $Result['errCode'] = '501';
+            return json($Result);
         }
-        $Result['data'] = strtotime($findTokenInfo['etime']);
+        $Result['data']['expiration_date'] = strtotime($findTokenInfo['etime']);
+        $Result['data']['uid'] = strtotime($findTokenInfo['uid']);
 
         return json($Result);
     }
