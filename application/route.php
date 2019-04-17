@@ -8,7 +8,7 @@ Route::get('/',function(){
 
 // 测试路由分组
 Route::group('test',function (){
-    Route::get('test1','index/test/test1');
+    Route::post('base64_decode','test/test/decode');
 });
 
 // 微信相关路由
@@ -47,6 +47,16 @@ Route::group('task',function (){
     Route::post('sign','task/sign/sign'); // 签到
     Route::post('GetExchangeDetail','exchange/exchange/detail'); // 兑换详情
     Route::post('GetUserChangeRes','exchange/exchange/change'); // 兑换操作
+});
+
+// 发布路由
+Route::group('release',function (){
+    Route::post('qa','task/index/index');
+});
+
+// 用户路由
+Route::group('user',function (){
+    Route::post('GetLoginExpirationForWechat','user/user/getLoginExpirationForWechat');
 });
 
 // 公共路由分组
