@@ -84,6 +84,7 @@ class Token extends Base
 
         // 返回token，用于每次访问的参数
         $Result['data']['token'] = $tokenData['token'];
+        $Result['data']['etime'] = strtotime($tokenData['etime']);
         $Result['data']['uid'] = $this->data['user']['uid'];
         return $Result;
     }
