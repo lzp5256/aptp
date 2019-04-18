@@ -4,6 +4,7 @@ namespace app\release\event;
 use app\base\controller\Base;
 use app\user\model\User;
 use app\qa\model\Qa;
+use app\article\model\Article;
 
 class Handle extends Base
 {
@@ -37,6 +38,36 @@ class Handle extends Base
         return $Result;
     }
 
+    /**
+     * @desc 发布文章处理
+     * @date 2019.04.18
+     * @author lizhipeng
+     * @return array
+     */
+    public function handleReleaseArticleRes(){
+        $Result = [
+            'errCode' => '200',
+            'errMsg'  => '发布成功',
+            'data'    => [],
+        ];
+        // 验证用户是否存在
+        $userModel = new User();
+        $checkUserRes = $userModel->findUser(['id'=>$this->data['param']['uid'],'status'=>1]);
+        if(empty($checkUserRes)){
+            $Result['errCode'] = 'L10071';
+            $Result['errMsg'] = '错误码[L10071]';
+            return $Result;
+        }
+        $model = new Article();
+        $saveRes = $model->addArticle($this->_getAddArticleData());
+        if(!$saveRes){
+            $Result['errCode'] = 'L10072';
+            $Result['errMsg'] = '错误码[L10072]';
+            return $Result;
+        }
+        return $Result;
+    }
+
     protected function _getAddQaData(){
         return $data = [
             'uid'       => $this->data['param']['uid'],
@@ -44,6 +75,17 @@ class Handle extends Base
             'pic_url'   => isset($this->data['param']['upload']) ? $this->data['param']['upload'] : '' ,
             'pet_type'  => $this->data['param']['pet_type'],
             'QA_type'   => $this->data['param']['QA_type'],
+            'status'    => 1,
+            'created_at'=> date('Y-m-d H:i:s'),
+        ];
+    }
+
+    protected function _getAddArticleData(){
+        return $data = [
+            'uid'       => $this->data['param']['uid'],
+            'title'     => $this->data['param']['title'],
+            'cover'     => $this->data['param']['cover'],
+            'content'   => $this->data['param']['content'],
             'status'    => 1,
             'created_at'=> date('Y-m-d H:i:s'),
         ];

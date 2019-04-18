@@ -52,6 +52,7 @@ Route::group('task',function (){
 // 发布路由
 Route::group('release',function (){
     Route::post('qa','release/qa/release');
+    Route::post('article','release/article/release');
 });
 
 // 用户路由
