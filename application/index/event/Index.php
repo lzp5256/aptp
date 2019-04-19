@@ -11,12 +11,10 @@ use app\base\controller\Base;
 use app\demand\model\Demand as DemandModel;
 use app\region\model\Region;
 use app\user\model\User as UserModel;
-use app\article\model\Dynamic;
-use app\qa\model\Qa;
+use app\dynamic\model\Dynamic;
 
 class Index extends Base
 {
-    protected $num = 1;
     /**
      * @desc 获取首页列表(旧版)
      * @param int  $param['page']  查询页数
@@ -90,46 +88,18 @@ class Index extends Base
             'data'    => [],
         ];
         $articleList = $this->_getArticleList();
-        $qaList = $this->_getQaList();
-        if(empty($articleList)){
-            $this->num = 3;
-        }elseif (empty($qaList)){
-            $this->num = 5;
-        }else{
-            $this->num = 2;
-        }
-        $demandList = $this->_getDemandList();
-        $list  = array_merge($articleList,$qaList,$demandList);
-        $Result['data'] =$list;
+        $Result['data'] =$articleList;
         return $Result;
     }
 
     protected function _getArticleList(){
         $articleModel = new Dynamic();
-        $getArticleList = $articleModel->selectArticle(['status'=>1], $this->data['page'],2);
+        $getArticleList = $articleModel->selectArticle(['status'=>1], $this->data['page'],5);
         if(empty($getArticleList)){
             return [];
         }
         return selectDataToArray($getArticleList);
 
-    }
-
-    protected function _getQaList(){
-        $qaModel = new Qa();
-        $getQaList = $qaModel->selectQa(['status'=>1], $this->data['page'],1);
-        if(empty($getQaList)){
-            return [];
-        }
-        return selectDataToArray($getQaList);
-    }
-
-    protected function _getDemandList(){
-        $demandModel = new DemandModel();
-        $getDemandList = $demandModel->selectDemand(['status'=>1],$this->data['page'],$this->num);
-        if(empty($getDemandList)){
-            return [];
-        }
-        return selectDataToArray($getDemandList);
     }
 
 }

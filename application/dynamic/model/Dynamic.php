@@ -1,5 +1,5 @@
 <?php
-namespace app\article\model;
+namespace app\dynamic\model;
 
 use think\Model;
 
