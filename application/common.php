@@ -128,4 +128,8 @@ function getWechatKeyInfo($code){
     return $result;
 }
 
+function selectDataToArray($data){
+    return collection($data)->toArray();
+}
+
 

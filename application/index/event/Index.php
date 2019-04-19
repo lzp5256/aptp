@@ -7,13 +7,18 @@
  */
 namespace app\index\event;
 
+use app\base\controller\Base;
 use app\demand\model\Demand as DemandModel;
 use app\region\model\Region;
 use app\user\model\User as UserModel;
-class Index
+use app\article\model\Article;
+use app\qa\model\Qa;
+
+class Index extends Base
 {
+    protected $num = 1;
     /**
-     * @desc 获取首页列表
+     * @desc 获取首页列表(旧版)
      * @param int  $param['page']  查询页数
      * @return array
      */
@@ -73,4 +78,58 @@ class Index
         $Result['data']=$arr;
         return $Result;
     }
+
+    /**
+     * @desc 获取首页列表数据 规则: 1.列表一次获取5条数据[两条文章数据，两条领养数据，一条问答数据]
+     *
+     */
+    public function getHomeList(){
+        $Result = [
+            'errCode' => '200',
+            'errMsg'  => 'success',
+            'data'    => [],
+        ];
+        $articleList = $this->_getArticleList();
+        $qaList = $this->_getQaList();
+        if(empty($articleList)){
+            $this->num = 3;
+        }elseif (empty($qaList)){
+            $this->num = 5;
+        }else{
+            $this->num = 2;
+        }
+        $demandList = $this->_getDemandList();
+        $list  = array_merge($articleList,$qaList,$demandList);
+        $Result['data'] =$list;
+        return $Result;
+    }
+
+    protected function _getArticleList(){
+        $articleModel = new Article();
+        $getArticleList = $articleModel->selectArticle(['status'=>1], $this->data['page'],2);
+        if(empty($getArticleList)){
+            return [];
+        }
+        return selectDataToArray($getArticleList);
+
+    }
+
+    protected function _getQaList(){
+        $qaModel = new Qa();
+        $getQaList = $qaModel->selectQa(['status'=>1], $this->data['page'],1);
+        if(empty($getQaList)){
+            return [];
+        }
+        return selectDataToArray($getQaList);
+    }
+
+    protected function _getDemandList(){
+        $demandModel = new DemandModel();
+        $getDemandList = $demandModel->selectDemand(['status'=>1],$this->data['page'],$this->num);
+        if(empty($getDemandList)){
+            return [];
+        }
+        return selectDataToArray($getDemandList);
+    }
+
 }

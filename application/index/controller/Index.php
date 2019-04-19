@@ -25,5 +25,23 @@ class Index extends Base
         return json($Result);
     }
 
+    /**
+     * @desc 获取首页信息
+     */
+    public function home(){
+        $Result = [
+            'errCode' => '200',
+            'errMsg'  => 'success',
+            'data'    => [],
+        ];
+        $page = request()->post('page');
+        $event = new IndexEvent();
+        if(($res = $event->setData(['page'=>$page])->getHomeList()) && $res['errCode'] != '200'){
+            return json($res);
+        }
+        $Result['data'] = $res['data'];
+        return json($Result);
+    }
+
 
 }
