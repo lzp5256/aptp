@@ -3,10 +3,10 @@ namespace app\article\model;
 
 use think\Model;
 
-class Article extends Model
+class Dynamic extends Model
 {
     // 设置当前模型对于的数据库名称
-    protected $table = 'article_demand';
+    protected $table = 'dynamic';
 
     /**
      * 查找多条文章信息

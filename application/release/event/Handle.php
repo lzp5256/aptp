@@ -4,7 +4,7 @@ namespace app\release\event;
 use app\base\controller\Base;
 use app\user\model\User;
 use app\qa\model\Qa;
-use app\article\model\Article;
+use app\article\model\Dynamic;
 
 class Handle extends Base
 {
@@ -58,7 +58,7 @@ class Handle extends Base
             $Result['errMsg'] = '错误码[L10071]';
             return $Result;
         }
-        $model = new Article();
+        $model = new Dynamic();
         $saveRes = $model->addArticle($this->_getAddArticleData());
         if(!$saveRes){
             $Result['errCode'] = 'L10072';

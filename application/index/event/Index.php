@@ -11,7 +11,7 @@ use app\base\controller\Base;
 use app\demand\model\Demand as DemandModel;
 use app\region\model\Region;
 use app\user\model\User as UserModel;
-use app\article\model\Article;
+use app\article\model\Dynamic;
 use app\qa\model\Qa;
 
 class Index extends Base
@@ -105,7 +105,7 @@ class Index extends Base
     }
 
     protected function _getArticleList(){
-        $articleModel = new Article();
+        $articleModel = new Dynamic();
         $getArticleList = $articleModel->selectArticle(['status'=>1], $this->data['page'],2);
         if(empty($getArticleList)){
             return [];
