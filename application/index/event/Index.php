@@ -12,6 +12,7 @@ use app\demand\model\Demand as DemandModel;
 use app\region\model\Region;
 use app\user\model\User as UserModel;
 use app\dynamic\model\Dynamic;
+use app\user\event\User as UserEvent;
 
 class Index extends Base
 {
@@ -97,6 +98,16 @@ class Index extends Base
         $getArticleList = $articleModel->selectArticle(['status'=>1], $this->data['page'],5);
         if(empty($getArticleList)){
             return [];
+        }
+        foreach ($getArticleList as $k => $v){
+            $getAllUid[] = $v['uid'];
+        }
+        $allUid = array_unique($getAllUid);
+        $event = new UserEvent();
+        $userData = $event->setData(['uid'=>$allUid])->getAllUserList();
+        foreach ($getArticleList as $k => $v){
+            $getArticleList[$k]['name'] = $userData[$v['uid']]['name'];
+            $getArticleList[$k]['user_url'] = $userData[$v['uid']]['url'];
         }
         return selectDataToArray($getArticleList);
 
