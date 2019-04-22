@@ -4,7 +4,7 @@ namespace app\release\event;
 use app\base\controller\Base;
 use app\user\model\User;
 use app\qa\model\Qa;
-use app\article\model\Dynamic;
+use app\dynamic\model\Dynamic;
 
 class Handle extends Base
 {
