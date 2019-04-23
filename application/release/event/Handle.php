@@ -11,6 +11,7 @@ use think\Request;
 class Handle extends Base
 {
     protected $log_level = 'error';
+
     /**
      * @desc 发布问答处理
      * @date 2019.04.16

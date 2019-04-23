@@ -57,6 +57,11 @@ Route::group('release',function (){
     Route::post('comment','release/comment/release');
 });
 
+// 评论路由
+Route::group('detail',function (){
+    Route::post('dynamicInfo','dynamic/dynamic/info');
+});
+
 // 用户路由
 Route::group('user',function (){
     Route::post('GetLoginExpirationForWechat','user/user/getLoginExpirationForWechat');
