@@ -99,6 +99,7 @@ class Index extends Base
         if(empty($getArticleList)){
             return [];
         }
+        $getAllUid = [];
         foreach ($getArticleList as $k => $v){
             $getAllUid[] = $v['uid'];
         }

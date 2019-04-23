@@ -132,4 +132,39 @@ function selectDataToArray($data){
     return collection($data)->toArray();
 }
 
+/**
+ * @desc 记录日志方法
+ * @param string $content 日志内容,格式为json
+ * @param string $type    日志级别，log ,error,debug
+ */
+function writeLog($content='',$type ='log' ){
+    \think\Log::record($content,$type);
+}
+
+/**
+ * 格式化日志参数
+ * @param $title
+ * @param $param
+ * @param $content
+ * @return array
+ */
+function getWriteLogInfo($title,$param,$content){
+    $data = [
+        'title'    => $title,
+        'param'    => $param,
+        'function' => getFunctionName(),
+        'content'  => $content,
+        'date'     => date('Y-m-d H:i:s'),
+    ];
+    return $data;
+}
+
+/**
+ * 获取方法名
+ * @return string
+ */
+function getFunctionName(){
+    return $str = '['.\think\Request::instance()->module().'-'.\think\Request::instance()->controller().']';
+}
+
 

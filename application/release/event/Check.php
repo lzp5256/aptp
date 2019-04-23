@@ -5,6 +5,9 @@ class Check
 {
     protected $data = [];
 
+    protected $log_level = 'log'; //日志级别,记录请求参数只允许使用log级别
+
+
     /**
      * @desc 验证参数
      * @param int    index   问题类型索引
@@ -102,6 +105,47 @@ class Check
         }
         $this->data['param']['content'] = $param['content'];
 
+        $Result['data'] = $this->data;
+        return $Result;
+    }
+
+    /**
+     * @desc 验证发布评论参数
+     * @param int       uid        用户id
+     * @param int       did        动态id
+     * @param string    content    评论内容
+     * @date 2019.04.23
+     * @author lizhipeng
+     * @return array
+     */
+    public function checkCommentParam($param){
+
+        $Result = [
+            'errCode' => '200',
+            'errMsg'  => '验证成功',
+            'data'    => [],
+        ];
+
+        if(empty($param['uid'])){
+            $Result['errCode'] = 'L10073';
+            $Result['errMsg'] = '抱歉,系统异常，请联系管理员';
+            return $Result;
+        }
+        $this->data['param']['uid'] = $param['uid'];
+
+        if(empty($param['did'])){
+            $Result['errCode'] = 'L10074';
+            $Result['errMsg'] = '抱歉,系统异常,请联系管理员';
+            return $Result;
+        }
+        $this->data['param']['did'] = $param['did'];
+
+        if(empty($param['content'])){
+            $Result['errCode'] = 'L10075';
+            $Result['errMsg'] = '抱歉,请输入评论内容';
+            return $Result;
+        }
+        $this->data['param']['content'] = trim($param['content']);
         $Result['data'] = $this->data;
         return $Result;
     }
