@@ -100,6 +100,14 @@ class Handle extends Base
             writeLog(getWriteLogInfo('发布评论,储存数据异常',json_encode($this->_getAddCommentData()),$commentModel->getLastSql()),$this->log_level);
             return $Result;
         }
+        $findCommentInfo = $commentModel->findDynamicCommentInfo(['id'=>$commentModel->getLastInsID(),'status'=>1]);
+        if(empty($findCommentInfo)){
+            $Result['errCode'] = 'L10081';
+            $Result['errMsg'] = '系统异常';
+            writeLog(getWriteLogInfo('发布评论,查询最后一条数据异常',json_encode(['id'=>$commentModel->getLastInsID()]),$commentModel->getLastSql()),$this->log_level);
+            return $Result;
+        }
+        $Result['data'] = $findCommentInfo->toArray();
         return $Result;
     }
 

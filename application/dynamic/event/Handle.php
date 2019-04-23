@@ -37,7 +37,7 @@ class Handle extends Base
 
         // 获取评论列表 ，一次100条
         $comemntModel =  new DynamicComment();
-        $selectCommentList = $comemntModel->getDynamicCommentList(['id'=>$this->data['param']['did'],'status'=>1],0,100);
+        $selectCommentList = $comemntModel->getDynamicCommentList(['did'=>$this->data['param']['did'],'status'=>1],0,100);
         if(empty($selectCommentList)){
             $list[0]['dynamic_comment_list'] = [];
             $Result['data'] = $list;
