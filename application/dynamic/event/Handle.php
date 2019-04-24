@@ -49,6 +49,7 @@ class Handle extends Base
         foreach ($selectCommentList as $k => $v){
             $getAllUid[] = $v['uid'];
         }
+
         $allUid = array_unique($getAllUid);
         $event = new UserEvent();
         $userData = $event->setData(['uid'=>$allUid])->getAllUserList();
