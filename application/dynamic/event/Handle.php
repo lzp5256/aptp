@@ -43,7 +43,21 @@ class Handle extends Base
             $Result['data'] = $list;
             return $Result;
         }
-        $list[0]['dynamic_comment_list'] = selectDataToArray($selectCommentList);
+
+        // 获取用户信息
+        $getAllUid = [];
+        foreach ($selectCommentList as $k => $v){
+            $getAllUid[] = $v['uid'];
+        }
+        $allUid = array_unique($getAllUid);
+        $event = new UserEvent();
+        $userData = $event->setData(['uid'=>$allUid])->getAllUserList();
+        foreach ($selectCommentList as $k => $v){
+            $selectCommentList[$k]['name'] = $userData[$v['uid']]['name'];
+            $selectCommentList[$k]['user_url'] = $userData[$v['uid']]['url'];
+        }
+
+        $list[0]['dynamic_comment_list'] = $selectCommentList;
         $Result['data'] = $list;
         return $Result;
     }

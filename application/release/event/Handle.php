@@ -3,6 +3,7 @@ namespace app\release\event;
 
 use app\base\controller\Base;
 use app\dynamic\model\DynamicComment;
+use app\user\event\User as UserEvent;
 use app\user\model\User;
 use app\qa\model\Qa;
 use app\dynamic\model\Dynamic;
@@ -92,6 +93,7 @@ class Handle extends Base
             writeLog((getWriteLogInfo('发布评论,验证动态异常',json_encode($this->data),$dymanicModel->getLastSql())),$this->log_level);
             return $Result;
         }
+        // 储存数据
         $commentModel = new DynamicComment();
         $addComment = $commentModel->addDynamicComment($this->_getAddCommentData());
         if(!$addComment){
@@ -100,6 +102,7 @@ class Handle extends Base
             writeLog(getWriteLogInfo('发布评论,储存数据异常',json_encode($this->_getAddCommentData()),$commentModel->getLastSql()),$this->log_level);
             return $Result;
         }
+        // 查询更新的数据
         $findCommentInfo = $commentModel->findDynamicCommentInfo(['id'=>$commentModel->getLastInsID(),'status'=>1]);
         if(empty($findCommentInfo)){
             $Result['errCode'] = 'L10081';
@@ -107,7 +110,14 @@ class Handle extends Base
             writeLog(getWriteLogInfo('发布评论,查询最后一条数据异常',json_encode(['id'=>$commentModel->getLastInsID()]),$commentModel->getLastSql()),$this->log_level);
             return $Result;
         }
-        $Result['data'] = $findCommentInfo->toArray();
+        $commentInfoArray = $findCommentInfo->toArray(); //转换为数组
+
+        // 获取用户信息
+        $event = new UserEvent();
+        $userData = $event->setData(['uid'=>$commentInfoArray['uid']])->getAllUserList();
+        $commentInfoArray['name'] = $userData[$commentInfoArray['uid']]['name'];
+        $commentInfoArray['user_url'] = $userData[$commentInfoArray['uid']]['url'];
+        $Result['data'] = $commentInfoArray;
         return $Result;
     }
 

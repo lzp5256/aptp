@@ -8,7 +8,7 @@ use app\dynamic\event\Handle;
 class Dynamic extends Base
 {
     public function info(){
-        $Result = ['errCode' => '200', 'errMsg'  => '发布成功', 'data' => []];
+        $Result = ['errCode' => '200', 'errMsg'  => '查询成功', 'data' => []];
         $param = request()->post('');
         $check_event = new Check();
         if(($check_res = $check_event->checkDynamicInfoParam($param)) && $check_res['errCode']!='200'){
