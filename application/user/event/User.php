@@ -17,7 +17,7 @@ class User extends Base {
         $where['status'] = 1;
         $where['id'] = ['IN',$uid];
         $model = new UserModel();
-        $data = $model->selectUser($where);
+        $data = $model->selectUser($where,0,count($uid));
         if(empty($data)){
             return [];
         }

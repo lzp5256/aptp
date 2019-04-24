@@ -114,7 +114,7 @@ class Handle extends Base
 
         // 获取用户信息
         $event = new UserEvent();
-        $userData = $event->setData(['uid'=>$commentInfoArray['uid']])->getAllUserList();
+        $userData = $event->setData(['uid'=>[$commentInfoArray['uid']]])->getAllUserList();
         $commentInfoArray['name'] = $userData[$commentInfoArray['uid']]['name'];
         $commentInfoArray['user_url'] = $userData[$commentInfoArray['uid']]['url'];
         $Result['data'] = $commentInfoArray;

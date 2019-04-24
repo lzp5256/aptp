@@ -28,7 +28,7 @@ class Handle extends Base
         }
         $list[0]['dynamic_list'] = $findDynamicInfo->toArray();
         $event = new UserEvent();
-        $userData = $event->setData(['uid'=>$findDynamicInfo->uid])->getAllUserList();
+        $userData = $event->setData(['uid'=>[$findDynamicInfo->uid]])->getAllUserList();
         if(empty($userData)){
             writeLog((getWriteLogInfo('获取动态详情,用户查询失败!',json_encode(['uid'=>$findDynamicInfo->uid]),'')),$this->log_level);
         }
