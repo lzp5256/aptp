@@ -93,6 +93,14 @@ class Handle extends Base
             writeLog((getWriteLogInfo('发布评论,验证动态异常',json_encode($this->data),$dymanicModel->getLastSql())),$this->log_level);
             return $Result;
         }
+        // 更新成功后更新首页数据
+        $saveHomeCommentNum = $dymanicModel->where(['id'=>$this->data['param']['did'],'status'=>1])->setInc('comment','1');
+        if(!$saveHomeCommentNum){
+            $Result['errCode'] = 'L10082';
+            $Result['errMsg'] = '错误码[L10082]';
+            writeLog(getWriteLogInfo('发布评论,更新comment数据异常','comment setInc 1 failed',$dymanicModel->getLastSql()),$this->log_level);
+            return $Result;
+        }
         // 储存数据
         $commentModel = new DynamicComment();
         $addComment = $commentModel->addDynamicComment($this->_getAddCommentData());
@@ -102,6 +110,7 @@ class Handle extends Base
             writeLog(getWriteLogInfo('发布评论,储存数据异常',json_encode($this->_getAddCommentData()),$commentModel->getLastSql()),$this->log_level);
             return $Result;
         }
+
         // 查询更新的数据
         $findCommentInfo = $commentModel->findDynamicCommentInfo(['id'=>$commentModel->getLastInsID(),'status'=>1]);
         if(empty($findCommentInfo)){

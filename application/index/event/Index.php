@@ -13,6 +13,7 @@ use app\region\model\Region;
 use app\user\model\User as UserModel;
 use app\dynamic\model\Dynamic;
 use app\user\event\User as UserEvent;
+use app\helper\helper;
 
 class Index extends Base
 {
@@ -99,12 +100,14 @@ class Index extends Base
         if(empty($getArticleList)){
             return [];
         }
-        $getAllUid = [];
+        $getAllUid = $allDid = [];
         foreach ($getArticleList as $k => $v){
             $getAllUid[] = $v['uid'];
+            $allDid[] = $v['id'];
         }
         $allUid = array_unique($getAllUid);
         $event = new UserEvent();
+        // 获取相关用户信息
         $userData = $event->setData(['uid'=>$allUid])->getAllUserList();
         foreach ($getArticleList as $k => $v){
             $getArticleList[$k]['name'] = $userData[$v['uid']]['name'];
@@ -112,6 +115,29 @@ class Index extends Base
         }
         return selectDataToArray($getArticleList);
 
+    }
+
+    /**
+     * 暂未使用
+     * @param $allDid
+     * @return array
+     */
+    protected function _getCommentNum($allDid){
+        if(empty($allDid))return [];  //未获取到did直接返回空
+        $helper = new helper();
+        $data = $helper->setData(['did'=>$allDid])->GetCommentList();
+        $IdToNum = [];
+        if(empty($data)){
+            foreach ($allDid as $K => $v){
+                $IdToNum[$v]=0;
+            }
+            return $IdToNum;
+        }
+
+        foreach ($data as $did => $list){
+            $data[$did] = count($list['list']);
+        }
+        return $data;
     }
 
 }

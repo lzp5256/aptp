@@ -9,7 +9,7 @@ class Dynamic extends Model
     protected $table = 'dynamic';
 
     /**
-     * 查找多条文章信息
+     * 查找多条动态信息
      *
      * @param array $where 查询条件
      * @param string $field 查询字段 默认为全部
@@ -26,7 +26,7 @@ class Dynamic extends Model
     }
 
     /**
-     * 查询一条文章信息
+     * 查询一条动态信息
      *
      * @param $where
      * @param $field
@@ -39,7 +39,7 @@ class Dynamic extends Model
     }
 
     /**
-     * add 文章
+     * add动态信息
      * @param $data
      * @return mixed
      */
@@ -47,5 +47,18 @@ class Dynamic extends Model
     {
         $this->data($data);
         return $this->save();
+    }
+
+    /**
+     * 更新动态信息
+     *
+     * @param $where
+     * @param $data
+     *
+     * @return false|int
+     */
+    public function saveDynamic($where,$data)
+    {
+        return $this->where($where)->update($data);
     }
 }

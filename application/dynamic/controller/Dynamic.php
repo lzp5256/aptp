@@ -7,6 +7,7 @@ use app\dynamic\event\Handle;
 
 class Dynamic extends Base
 {
+
     public function info(){
         $Result = ['errCode' => '200', 'errMsg'  => '查询成功', 'data' => []];
         $param = request()->post('');
@@ -21,4 +22,6 @@ class Dynamic extends Base
         $Result['data'] = $handle_res['data'];
         return json($Result);
     }
+
+
 }
