@@ -3,10 +3,13 @@ namespace app\helper;
 
 use app\base\controller\Base;
 use app\dynamic\model\DynamicComment as DynamicCommentModel;
+use app\user\model\User;
 
 class helper extends Base {
 
-    protected $data_type = 1; //1-字符串(默认) 2-数组
+    protected $data_type  = 1; //1-字符串(默认) 2-数组
+    const EFFECTIVE_STATE = '1'; //有效状态值
+    const INVALID_STATE   = '2'; //无效状态值
 
     /**
      * 公用方法 | 获取评论列表
@@ -29,6 +32,21 @@ class helper extends Base {
             $list[$v['did']]['list'][] = $v;
         }
         return $list;
+    }
+
+    /**
+     * 公用方法 | 检查用户是否有效
+     *
+     * return array
+     */
+    public function GetUserStatusById(){
+        $uid = $this->data['uid'];
+        $model = new User();
+        $findUserInfo = $model->findUser(['id'=>(int)$uid,'status'=>self::EFFECTIVE_STATE]);
+        if(empty($findUserInfo)){
+            return [];
+        }
+        return findDataToArray($findUserInfo);
     }
 
 }

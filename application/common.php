@@ -128,6 +128,19 @@ function getWechatKeyInfo($code){
     return $result;
 }
 
+/**
+ * @desc 对象转化数组 | 一维数组
+ * @param $data
+ * @return array
+ */
+function findDataToArray($data){
+    return $data->toArray();
+}
+/**
+ * @desc 对象转化数组 | 多维数组
+ * @param $data
+ * @return array
+ */
 function selectDataToArray($data){
     return collection($data)->toArray();
 }

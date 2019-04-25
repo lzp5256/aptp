@@ -55,6 +55,7 @@ Route::group('release',function (){
     Route::post('qa','release/qa/release');
     Route::post('article','release/article/release');
     Route::post('comment','release/comment/release');
+    Route::post('like','release/comment/like');
 });
 
 // 评论路由

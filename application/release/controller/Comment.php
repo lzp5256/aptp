@@ -9,6 +9,7 @@ use think\Request;
 class Comment extends Base
 {
     protected $log_level = 'error';
+
     /**
      * @desc 发布评论
      * @date 2019.04.23
@@ -24,6 +25,26 @@ class Comment extends Base
         }
         $handle_event = new Handle();
         if(($handle_res = $handle_event->setData($check_res['data'])->handleReleaseCommentRes()) && $handle_res['errCode']!='200'){
+            return json($handle_res);
+        }
+        $Result['data'] =$handle_res['data'];
+        return json($Result);
+    }
+
+    /**
+     * @desc 点赞操作
+     *
+     * @return array
+     */
+    public function like(){
+        $Result = ['errCode' => '200', 'errMsg'  => '点赞成功', 'data' => []];
+        $param = request()->post('');
+        $check_event = new Check();
+        if(($check_res = $check_event->checkCommentLikeParam($param)) && $check_res['errCode']!='200'){
+            return json($check_res);
+        }
+        $handle_event = new Handle();
+        if(($handle_res = $handle_event->setData($check_res['data'])->handleReleaseCommentLikeRes()) && $handle_res['errCode']!='200'){
             return json($handle_res);
         }
         $Result['data'] =$handle_res['data'];

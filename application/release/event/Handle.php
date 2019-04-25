@@ -3,10 +3,13 @@ namespace app\release\event;
 
 use app\base\controller\Base;
 use app\dynamic\model\DynamicComment;
+use app\dynamic\model\DynamicLike;
+use app\helper\helper;
 use app\user\event\User as UserEvent;
 use app\user\model\User;
 use app\qa\model\Qa;
 use app\dynamic\model\Dynamic;
+use think\Db;
 use think\Request;
 
 class Handle extends Base
@@ -130,6 +133,62 @@ class Handle extends Base
         return $Result;
     }
 
+    /**
+     * @desc 处理点赞操作 1.参数由setData方法传入
+     *
+     * @return array
+     */
+    public function handleReleaseCommentLikeRes(){
+        $Result = ['errCode' => '200', 'errMsg'  => '', 'data' => []];
+        Db::startTrans(); //开启事务
+        $helper = new helper();
+        $dynamicModel = new Dynamic();
+        $dynamicLikeModel = new DynamicLike();
+        // 验证用户信息
+        $checkUser = $helper->setData(['uid'=>$this->data['param']['uid']])->GetUserStatusById();
+        if(empty($checkUser)){
+            $Result['errCode'] = 'L10085';
+            $Result['errMsg'] = '抱歉,系统异常,未查询到用户信息';
+            writeLog(getWriteLogInfo('点赞,验证用户异常',json_encode(['uid'=>$this->data['param']['uid']]),''),$this->log_level);
+            return $Result;
+        }
+
+        // 验证动态信息
+        $findInfo = $dynamicModel->findArticle(['id'=>$this->data['param']['did'],'status'=>1]);
+        if(empty($findInfo)){
+            $Result['errCode'] = 'L10086';
+            $Result['errMsg'] = '抱歉,系统异常,未查询到此动态详情';
+            writeLog(getWriteLogInfo('点赞,验证动态异常',json_encode(['id'=>$this->data['param']['did']]),$dynamicModel->getLastSql()),$this->log_level);
+            return $Result;
+        }
+
+        // 更新主表数据
+        $upDynamic = $dynamicModel->where(['id'=>$this->data['param']['did'],'status'=>1])->setInc('likes','1');
+        if(!$upDynamic){
+            $Result['errCode'] = 'L10087';
+            $Result['errMsg'] = '抱歉,系统异常,未查询到此动态详情';
+            writeLog(getWriteLogInfo('点赞,更新主表动态数据异常',json_encode(['id'=>$this->data['param']['did']]),$dynamicModel->getLastSql()),$this->log_level);
+            Db::rollback();
+            return $Result;
+        }
+
+        // 新增详情记录
+        $addDynamicLike = $dynamicLikeModel->addDynamicLikes($this->_getAddDynamicLike());
+        if(!$addDynamicLike){
+            $Result['errCode'] = 'L10088';
+            $Result['errMsg'] = '抱歉,系统异常,未查询到此动态详情';
+            writeLog(getWriteLogInfo('点赞,新增详情数据异常',json_encode($this->_getAddDynamicLike()),$dynamicLikeModel->getLastSql()),$this->log_level);
+            Db::rollback();
+            return $Result;
+        }
+        if($upDynamic && $addDynamicLike){
+            writeLog('执行开始');
+            Db::commit();
+            writeLog('执行开始');
+            return $Result;
+        }
+    }
+
     protected function _getAddQaData(){
         return $data = [
             'uid'       => $this->data['param']['uid'],
@@ -158,6 +217,16 @@ class Handle extends Base
             'uid'       => $this->data['param']['uid'],
             'did'       => $this->data['param']['did'],
             'content'   => $this->data['param']['content'],
+            'status'    => 1,
+            'created_at'=> date('Y-m-d H:i:s'),
+        ];
+    }
+
+    protected function _getAddDynamicLike(){
+        return $data = [
+            'uid'       => $this->data['param']['uid'],
+            'did'       => $this->data['param']['did'],
+            'num'       => 1,
             'status'    => 1,
             'created_at'=> date('Y-m-d H:i:s'),
         ];
