@@ -4,6 +4,7 @@ namespace app\dynamic\event;
 use app\base\controller\Base;
 use app\dynamic\model\Dynamic;
 use app\dynamic\model\DynamicComment;
+use app\helper\helper;
 use app\user\event\User as UserEvent;
 
 class Handle extends Base
@@ -17,6 +18,7 @@ class Handle extends Base
             'errMsg'  => '验证成功',
             'data'    => [],
         ];
+        $helper = new helper();
         $list = [];
         $dynamicModel = new Dynamic();
         $findDynamicInfo = $dynamicModel->findArticle(['id'=>$this->data['param']['did'],'status'=>1]);
@@ -34,6 +36,14 @@ class Handle extends Base
         }
         $list[0]['dynamic_list']['user_name'] = $userData[$findDynamicInfo->uid]['name'];
         $list[0]['dynamic_list']['user_url'] = $userData[$findDynamicInfo->uid]['url'];
+
+        // 获取用户是否点赞操作
+        $getUserLikeState = $helper->setData(['uid'=>$findDynamicInfo->uid,'did'=>$this->data['param']['did']])->GetUserLikeState();
+        if(empty($getUserLikeState)){
+            $list[0]['dynamic_list']['like_state'] = 0;
+        }else{
+            $list[0]['dynamic_list']['like_state'] = $getUserLikeState[$findDynamicInfo->uid];
+        }
 
         // 获取评论列表 ，一次100条
         $comemntModel =  new DynamicComment();
@@ -54,8 +64,8 @@ class Handle extends Base
             $selectCommentList[$k]['name'] = $userData[$v['uid']]['name'];
             $selectCommentList[$k]['user_url'] = $userData[$v['uid']]['url'];
         }
-
         $list[0]['dynamic_comment_list'] = $selectCommentList;
+
         $Result['data'] = $list;
         return $Result;
     }

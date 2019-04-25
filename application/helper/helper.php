@@ -3,9 +3,11 @@ namespace app\helper;
 
 use app\base\controller\Base;
 use app\dynamic\model\DynamicComment as DynamicCommentModel;
+use app\dynamic\model\DynamicLike;
 use app\user\model\User;
 
 class helper extends Base {
+    /** 注:公用方法首字母大写 */
 
     protected $data_type  = 1; //1-字符串(默认) 2-数组
     const EFFECTIVE_STATE = '1'; //有效状态值
@@ -48,5 +50,35 @@ class helper extends Base {
         }
         return findDataToArray($findUserInfo);
     }
+
+    /**
+     * 公用方法 | 检查用户是否在规定动态内点赞状态
+     *
+     * return array
+     */
+    public function GetUserLikeState(){
+//        $uid = $this->data['uid'];
+//        $did = $this->data['did'];
+        $where['did'] = $this->data['did'];
+        if(is_array($this->data['did'])){
+            $this->data_type = 2;
+            $where['did'] = ['IN',$this->data['did']];
+        }
+        if($this->data_type == '1'){
+            $where['uid'] = $this->data['uid'];
+        }
+        $model = new DynamicLike();
+        $data = $model->where($where)->select();
+        if(empty($data)){
+            return [];
+        }
+        $arr = [];
+        foreach ($data as $k => $v){
+            $arr[$v['uid']] = 1;
+        }
+        return $arr;
+    }
+
+
 
 }
