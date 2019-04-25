@@ -42,7 +42,7 @@ class Handle extends Base
         if(empty($getUserLikeState)){
             $list[0]['dynamic_list']['like_state'] = 0;
         }else{
-            $list[0]['dynamic_list']['like_state'] = $getUserLikeState[$findDynamicInfo->uid];
+            $list[0]['dynamic_list']['like_state'] = $getUserLikeState[$this->data['param']['uid']];
         }
 
         // 获取评论列表 ，一次100条
