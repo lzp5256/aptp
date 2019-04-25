@@ -12,6 +12,13 @@ class Check extends Base
             'data'    => [],
         ];
 
+        if(empty($param['uid'])){
+            $Result['errCode'] = 'L10089';
+            $Result['errMsg'] = '抱歉,系统异常,请联系管理员';
+            return $Result;
+        }
+        $this->data['param']['uid'] = $param['uid'];
+
         if(empty($param['did'])){
             $Result['errCode'] = 'L10079';
             $Result['errMsg'] = '抱歉,系统异常,请联系管理员';
