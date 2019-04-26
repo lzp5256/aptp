@@ -84,13 +84,6 @@ class Check
         }
         $this->data['param']['uid'] = $param['uid'];
 
-        if(empty($param['cover'])){
-            $Result['errCode'] = 'L10068';
-            $Result['errMsg'] = '抱歉,请添加文章封面图片';
-            return $Result;
-        }
-        $this->data['param']['cover'] = $param['cover'];
-
         if(empty($param['title'])){
             $Result['errCode'] = 'L10069';
             $Result['errMsg'] = '抱歉,请输入文章标题';
@@ -104,6 +97,11 @@ class Check
             return $Result;
         }
         $this->data['param']['content'] = $param['content'];
+
+        if(empty($param['cover'])){
+            $this->data['param']['cover'] = '';
+        }
+        $this->data['param']['cover'] = json_encode($param['cover']);
 
         $Result['data'] = $this->data;
         return $Result;
