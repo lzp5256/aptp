@@ -95,7 +95,7 @@ class Index extends Base
     }
 
     protected function _getArticleList(){
-        $top_list = $list = [];
+        $top_list = $dynamic_list = $list = [];
         $articleModel = new Dynamic();
         $getArticleList = $articleModel->selectArticle(['status'=>1], $this->data['page'],5);
         if(empty($getArticleList)){
@@ -119,15 +119,15 @@ class Index extends Base
         $i = 0 ;
         foreach ($getArticleList as $k => $v){
             if($v['top'] == '1'){
-                array_push($top_list,$v);
-                unset($getArticleList[$k]);
+                $top_list[] = $v;
+            }else{
+                $dynamic_list[]  = $v ;
             }
-            $getArticleList[$i]  = $v ;
             $i++;
         }
         $list = [
             'top_list' => $top_list,
-            'dynamic_list' => $getArticleList,
+            'dynamic_list' => $dynamic_list,
         ];
         return $list;
 
