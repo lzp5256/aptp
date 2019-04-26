@@ -205,7 +205,7 @@ class Handle extends Base
         return $data = [
             'uid'       => $this->data['param']['uid'],
             'title'     => $this->data['param']['title'],
-            'cover'     => $this->data['param']['cover'],
+            'cover'     => isset($this->data['param']['cover']) ? $this->data['param']['cover'] : '',
             'content'   => $this->data['param']['content'],
             'status'    => 1,
             'created_at'=> date('Y-m-d H:i:s'),

@@ -99,7 +99,7 @@ class Check
         $this->data['param']['content'] = $param['content'];
 
         if(!empty($param['cover'])){
-            $this->data['param']['cover'] = json_encode($param['cover']);
+            $this->data['param']['cover'] = $param['cover'];
         }
 
         $Result['data'] = $this->data;
