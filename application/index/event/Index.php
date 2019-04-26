@@ -95,11 +95,13 @@ class Index extends Base
     }
 
     protected function _getArticleList(){
+        $top_list = $list = [];
         $articleModel = new Dynamic();
         $getArticleList = $articleModel->selectArticle(['status'=>1], $this->data['page'],5);
         if(empty($getArticleList)){
             return [];
         }
+        $getArticleList =selectDataToArray($getArticleList);
         $getAllUid = $allDid = [];
         foreach ($getArticleList as $k => $v){
             $getAllUid[] = $v['uid'];
@@ -109,11 +111,23 @@ class Index extends Base
         $event = new UserEvent();
         // 获取相关用户信息
         $userData = $event->setData(['uid'=>$allUid])->getAllUserList();
+
         foreach ($getArticleList as $k => $v){
             $getArticleList[$k]['name'] = $userData[$v['uid']]['name'];
             $getArticleList[$k]['user_url'] = $userData[$v['uid']]['url'];
         }
-        return selectDataToArray($getArticleList);
+
+        foreach ($getArticleList as $k => $v){
+            if($v['top'] == '1'){
+                array_push($top_list,$v);
+                unset($getArticleList[$k]);
+            }
+        }
+        $list = [
+            'top_list' => $top_list,
+            'dynamic_list' => $getArticleList,
+        ];
+        return $list;
 
     }
 
