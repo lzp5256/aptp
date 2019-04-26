@@ -116,12 +116,14 @@ class Index extends Base
             $getArticleList[$k]['name'] = $userData[$v['uid']]['name'];
             $getArticleList[$k]['user_url'] = $userData[$v['uid']]['url'];
         }
-
+        $i = 0 ;
         foreach ($getArticleList as $k => $v){
             if($v['top'] == '1'){
                 array_push($top_list,$v);
                 unset($getArticleList[$k]);
             }
+            $getArticleList[$i]  = $v ;
+            $i++;
         }
         $list = [
             'top_list' => $top_list,
