@@ -2,6 +2,7 @@
 namespace app\helper;
 
 use app\base\controller\Base;
+use app\dynamic\model\Dynamic;
 use app\dynamic\model\DynamicComment as DynamicCommentModel;
 use app\dynamic\model\DynamicLike;
 use app\user\model\User;
@@ -80,5 +81,20 @@ class helper extends Base {
     }
 
 
+
+    /**
+     * 公用方法 | 获取动态详情
+     *
+     * return array
+     */
+    public function GetDynamicById(){
+        $did = $this->data['did'];
+        $model = new Dynamic();
+        $findArticle = $model->findArticle(['id'=>(int)$did,'status'=>self::EFFECTIVE_STATE]);
+        if(empty($findArticle)){
+            return [];
+        }
+        return findDataToArray($findArticle);
+    }
 
 }

@@ -89,6 +89,37 @@ class Token extends Base
         return $Result;
     }
 
+    public function getWechatAccessToken(){
+        $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type='.config('wechat')['client_grant_type'].'&appid='.config('wechat')['appid'].'&secret='.config('wechat')['secret'];
+        $res = sendCurlRequest($url);
+        return $res;
+    }
+
+    public function getSendMessageRes(){
+        $Result =[
+            'errCode' => '200',
+            'errMsg' => 'success',
+            'data' => [],
+        ];
+        $url = config('wechat')['url']['sendTemplateMessage'].$this->data['data']['access_token'];
+        $data = [
+            'access_token'  => $this->data['data']['access_token'], // 接口调用凭证
+            'touser'        => $this->data['data']['open_id'],      // 接收者（用户）的 openid
+            'template_id'   => $this->data['data']['template_id'],  // 模板消息的id
+            'page'          => $this->data['data']['redirect'],     // 跳转页面
+            'form_id'       => $this->data['data']['form_id'],      // 模版id
+            'data'          => $this->data['data']['keyWordValue'], // 模版内容
+        ];
+        $res = sendCurlRequest($url,json_encode($data),'POST');
+        if(!empty($res) && json_decode($res,true)['errcode'] == '0'){
+            return $Result;
+        }else{
+            $Result['errCode'] = json_decode($res,true)['errcode'];
+            $Result['errMsg'] = json_decode($res,true)['errmsg'];
+            return $Result;
+        }
+    }
+
     protected function _getUserData()
     {
         return [

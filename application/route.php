@@ -15,6 +15,7 @@ Route::group('test',function (){
 Route::group('wechat',function(){
     // 获取微信
     Route::post('GetToken','wechat/token/getWechatToken');
+    Route::post('SendMessage','wechat/message/getSendTemplateMessageRes');
 });
 
 // 七牛相关路由

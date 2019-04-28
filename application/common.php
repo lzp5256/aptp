@@ -29,7 +29,7 @@ function vp($data){
  * @param string $method 请求方式 不填为GET
  * @return mixed
  */
-function sendCurlRequest($url,$request='',$method='',$timeout = 5){
+function sendCurlRequest($url,$request='',$method='',$timeout = 5 ){
     $log = [];
     $curl_index=time().rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9);
     $log['curl_arr'][$curl_index]['url'] = $url;
@@ -42,7 +42,7 @@ function sendCurlRequest($url,$request='',$method='',$timeout = 5){
     curl_setopt($con, CURLOPT_HEADER, false);
     // 默认为Get请求Post请求为true
     if($method){
-        curl_setopt($con, CURLOPT_POSTFIELDS, http_build_query($request));
+        curl_setopt($con, CURLOPT_POSTFIELDS, $request);
         curl_setopt($con, CURLOPT_POST,true);
     }
 
