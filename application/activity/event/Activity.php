@@ -23,4 +23,20 @@ class Activity extends Base
         $Res['data'] = selectDataToArray($res);
         return $Res;
     }
+
+    public function getActivityInfoOfEvent(){
+        $Res = [
+            'errCode' => '200',
+            'errMsg'  => 'success',
+            'data'    => [],
+        ];
+        $model = new ActivityModel();
+        if(!($res = $model->getOneActivityInfo(['status'=>1,'id'=>$this->data['param']['id']]))){
+            $Res['errCode'] = '10102';
+            $Res['errMsg']  = '详情获取失败';
+            return $Res;
+        }
+        $Res['data'] = findDataToArray($res);
+        return $Res;
+    }
 }
