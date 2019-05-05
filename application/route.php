@@ -64,6 +64,11 @@ Route::group('detail',function (){
     Route::post('dynamicInfo','dynamic/dynamic/info');
 });
 
+// 活动路由
+Route::group('activity',function (){
+    Route::post('list','activity/activity/getActivityList');
+});
+
 // 用户路由
 Route::group('user',function (){
     Route::post('GetLoginExpirationForWechat','user/user/getLoginExpirationForWechat');
