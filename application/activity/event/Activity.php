@@ -62,7 +62,7 @@ class Activity extends Base
         return [
             'uid' => $this->data['param']['uid'],
             'activity_id' => $this->data['param']['aid'],
-            'cover' => json_encode($this->data['param']['img']),
+            'cover' => $this->data['param']['img'],
             'status' => 1,
             'created_at' => date('Y-m-d H:i:s'),
             'content'=>$this->data['param']['content'],
