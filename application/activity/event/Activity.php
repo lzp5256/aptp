@@ -72,7 +72,19 @@ class Activity extends Base
             $Res['errMsg']  = '新增失败';
             return $Res;
         }
-        $Res['data'] = selectDataToArray($res);
+        $arr = selectDataToArray($res);
+        $idToImageList = [];
+        foreach ($arr as $k => $v){
+            $arr[$k]['cover']=json_decode($v['cover'],true);
+            foreach ($arr[$k]['cover'] as $k1 => $v1){
+                $idToImageList[$v['id']][] =$v1['img'];
+            }
+        }
+        foreach ($arr as $k => $v){
+            $arr[$k]['cover'] = $idToImageList[$v['id']];
+        }
+
+        $Res['data'] = $arr;
         return $Res;
     }
 
