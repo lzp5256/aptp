@@ -5,6 +5,7 @@ use app\activity\model\ActivityDetail;
 use app\base\controller\Base;
 use app\activity\model\Activity as ActivityModel;
 use app\activity\model\ActivityDetail as ActivityDetailModel;
+use app\user\event\User;
 
 class Activity extends Base
 {
@@ -48,7 +49,7 @@ class Activity extends Base
             'errMsg'  => 'success',
             'data'    => [],
         ];
-        $model = new ActivityDetail();
+        $model = new ActivityDetailModel();
         $data = $this->_getAddActivityDetailData();
         if(!($res = $model->getAddActivityDetailRes($data))){
             $Res['errCode'] = '10102';
@@ -64,7 +65,7 @@ class Activity extends Base
             'errMsg'  => 'success',
             'data'    => [],
         ];
-        $model = new ActivityDetail();
+        $model = new ActivityDetailModel();
         if(!($res = $model->getActivityDetailList(['status'=>1,'activity_id'=>$this->data['param']['aid']]))
         && empty($res)
         ){
@@ -73,9 +74,16 @@ class Activity extends Base
             return $Res;
         }
         $arr = selectDataToArray($res);
+
+        // 获取用户信息
+        if(!($userList = $this->_getUserList($arr)) && empty($userList)){
+            $userList = [];
+        }
+
         $idToImageList = [];
         foreach ($arr as $k => $v){
             $arr[$k]['cover']=json_decode($v['cover'],true);
+            $arr[$k]['user'] = $userList[$v['uid']];
             foreach ($arr[$k]['cover'] as $k1 => $v1){
                 $idToImageList[$v['id']][] =$v1['img'];
             }
@@ -97,5 +105,19 @@ class Activity extends Base
             'created_at' => date('Y-m-d H:i:s'),
             'content'=>$this->data['param']['content'],
         ];
+    }
+
+    protected function _getUserList($arr){
+        $event = new User();
+        $user_id = [];
+        foreach ($arr as $k => $v){
+            $user_id[] = $v['uid'];
+        }
+        $un_user_id = array_unique($user_id);
+        $getAllUserList = $event->setData(['uid'=>$un_user_id])->getAllUserList();
+        if(!$getAllUserList){
+            return [];
+        }
+        return $getAllUserList;
     }
 }
