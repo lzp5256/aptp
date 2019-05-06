@@ -21,4 +21,42 @@ class Check
         $Res['data'] = $this->data;
         return $Res;
     }
+
+    public function checkActivityReleaseParam($param){
+        $Res = [
+            'errCode' => '200',
+            'errMsg'  => 'success',
+            'data'    => [],
+        ];
+        if(empty($param['uid'])){
+            $Res['errCode'] = '10000';
+            $Res['errMsg']  = 'failed';
+            return $Res;
+        }
+        $this->data['param']['uid'] = (int)$param['uid'];
+
+        if(empty($param['aid'])){
+            $Res['errCode'] = '10000';
+            $Res['errMsg']  = '抱歉,系统异常,请联系管理员!';
+            return $Res;
+        }
+        $this->data['param']['aid'] = (int)$param['aid'];
+
+        if(empty($param['content'])){
+            $Res['errCode'] = '10000';
+            $Res['errMsg']  = '抱歉,请输入内容';
+            return $Res;
+        }
+        $this->data['param']['content'] = htmlspecialchars($param['content']);
+
+        if(empty($param['img'])){
+            $Res['errCode'] = '10000';
+            $Res['errMsg']  = '抱歉,图片不能为空';
+            return $Res;
+        }
+        $this->data['param']['img'] = (string)$param['img'];
+
+        $Res['data'] = $this->data;
+        return $Res;
+    }
 }

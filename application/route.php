@@ -68,6 +68,7 @@ Route::group('detail',function (){
 Route::group('activity',function (){
     Route::post('list','activity/activity/getActivityList');
     Route::post('info','activity/activity/getActivityInfo');
+    Route::post('release','activity/activity/getActivityReleaseRes');
 });
 
 // 用户路由

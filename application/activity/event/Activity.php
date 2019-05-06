@@ -1,8 +1,10 @@
 <?php
 namespace app\activity\event;
 
+use app\activity\model\ActivityDetail;
 use app\base\controller\Base;
 use app\activity\model\Activity as ActivityModel;
+use app\activity\model\ActivityDetail as ActivityDetailModel;
 
 class Activity extends Base
 {
@@ -38,5 +40,32 @@ class Activity extends Base
         }
         $Res['data'] = findDataToArray($res);
         return $Res;
+    }
+
+    public function getActivityReleaseOfEvent(){
+        $Res = [
+            'errCode' => '200',
+            'errMsg'  => 'success',
+            'data'    => [],
+        ];
+        $model = new ActivityDetail();
+        $data = $this->_getAddActivityDetailData();
+        if(!($res = $model->getAddActivityDetailRes($data))){
+            $Res['errCode'] = '10102';
+            $Res['errMsg']  = '新增失败';
+            return $Res;
+        }
+        return $Res;
+    }
+
+    protected function _getAddActivityDetailData(){
+        return [
+            'uid' => $this->data['param']['uid'],
+            'activity_id' => $this->data['param']['aid'],
+            'cover' => json_encode($this->data['param']['img']),
+            'status' => 1,
+            'created_at' => date('Y-m-d H:i:s'),
+            'content'=>$this->data['param']['content'],
+        ];
     }
 }
