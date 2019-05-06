@@ -59,4 +59,22 @@ class Check
         $Res['data'] = $this->data;
         return $Res;
     }
+
+    public function checkActivityWorksListParam($param){
+        $Res = [
+            'errCode' => '200',
+            'errMsg'  => 'success',
+            'data'    => [],
+        ];
+
+        if(empty($param['aid'])){
+            $Res['errCode'] = '10000';
+            $Res['errMsg']  = '抱歉,系统异常,请联系管理员!';
+            return $Res;
+        }
+        $this->data['param']['aid'] = (int)$param['aid'];
+
+        $Res['data'] = $this->data;
+        return $Res;
+    }
 }

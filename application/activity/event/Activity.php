@@ -58,6 +58,24 @@ class Activity extends Base
         return $Res;
     }
 
+    public function getActivityWorksListOfEvent(){
+        $Res = [
+            'errCode' => '200',
+            'errMsg'  => 'success',
+            'data'    => [],
+        ];
+        $model = new ActivityDetail();
+        if(!($res = $model->getActivityDetailList(['status'=>1,'activity_id'=>$this->data['param']['aid']]))
+        && empty($res)
+        ){
+            $Res['errCode'] = '10102';
+            $Res['errMsg']  = '新增失败';
+            return $Res;
+        }
+        $Res['data'] = selectDataToArray($res);
+        return $Res;
+    }
+
     protected function _getAddActivityDetailData(){
         return [
             'uid' => $this->data['param']['uid'],
