@@ -72,7 +72,7 @@ class Activity extends Base
         && empty($res)
         ){
             $Res['errCode'] = '10102';
-            $Res['errMsg']  = '获取失败';
+            $Res['errMsg']  = '暂无更多数据';
             return $Res;
         }
         $arr = selectDataToArray($res);
@@ -106,7 +106,7 @@ class Activity extends Base
         ];
         $helper = new helper();
         $model = new ActivityDetailModel();
-        if(!($res = $model->getOneActivityDetailInfo(['status'=>1,'id'=>$this->data['param']['id'],'uid'=>$this->data['param']['uid']]))){
+        if(!($res = $model->getOneActivityDetailInfo(['status'=>1,'id'=>$this->data['param']['id']]))){
             $Res['errCode'] = '10102';
             $Res['errMsg']  = '详情获取失败';
             return $Res;
@@ -114,7 +114,7 @@ class Activity extends Base
 
         $res = findDataToArray($res);
 
-        $getUserInfo = $helper->setData(['uid'=>$this->data['param']['uid']])->GetUserStatusById();
+        $getUserInfo = $helper->setData(['uid'=>$res['uid']])->GetUserStatusById();
         $getUserInfo['name'] = base64_decode($getUserInfo['name']);
         $res['user'] = $getUserInfo;
 

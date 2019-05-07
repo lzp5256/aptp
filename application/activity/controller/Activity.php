@@ -52,7 +52,7 @@ class Activity extends Base
     public function getActivityReleaseRes(){
         $Res = [
             'errCode' => '200',
-            'errMsg'  => 'success',
+            'errMsg'  => '发布成功,审核成功后会展示到相应的活动列表.感谢您参加本活动,祝您生活愉快!',
             'data'    => [],
         ];
 
