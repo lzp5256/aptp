@@ -74,6 +74,13 @@ class Check
         }
         $this->data['param']['aid'] = (int)$param['aid'];
 
+        if(empty($param['page'])){
+            $Res['errCode'] = '10000';
+            $Res['errMsg']  = '抱歉,系统异常,请联系管理员!';
+            return $Res;
+        }
+        $this->data['param']['page'] = (int)$param['page'];
+
         $Res['data'] = $this->data;
         return $Res;
     }

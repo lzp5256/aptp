@@ -67,11 +67,12 @@ class Activity extends Base
             'data'    => [],
         ];
         $model = new ActivityDetailModel();
-        if(!($res = $model->getActivityDetailList(['status'=>1,'activity_id'=>$this->data['param']['aid']]))
+        $num = 10;
+        if(!($res = $model->getActivityDetailPageList(['status'=>1,'activity_id'=>$this->data['param']['aid']],$this->data['param']['page'],$num))
         && empty($res)
         ){
             $Res['errCode'] = '10102';
-            $Res['errMsg']  = '新增失败';
+            $Res['errMsg']  = '获取失败';
             return $Res;
         }
         $arr = selectDataToArray($res);
