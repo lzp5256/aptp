@@ -114,6 +114,7 @@ class Activity extends Base
         $res = findDataToArray($res);
 
         $getUserInfo = $helper->setData(['uid'=>$this->data['param']['uid']])->GetUserStatusById();
+        $getUserInfo['name'] = base64_decode($getUserInfo['name']);
         $res['user'] = $getUserInfo;
 
         // 获取所属活动
