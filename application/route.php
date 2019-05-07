@@ -70,6 +70,7 @@ Route::group('activity',function (){
     Route::post('info','activity/activity/getActivityInfo');
     Route::post('release','activity/activity/getActivityReleaseRes');
     Route::post('works','activity/activity/getActivityWorksRes');
+    Route::post('detail','activity/activity/getActivityWorksDetailRes');
 });
 
 // 用户路由

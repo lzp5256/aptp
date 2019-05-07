@@ -5,6 +5,7 @@ use app\activity\model\ActivityDetail;
 use app\base\controller\Base;
 use app\activity\model\Activity as ActivityModel;
 use app\activity\model\ActivityDetail as ActivityDetailModel;
+use app\helper\helper;
 use app\user\event\User;
 
 class Activity extends Base
@@ -93,6 +94,39 @@ class Activity extends Base
         }
 
         $Res['data'] = $arr;
+        return $Res;
+    }
+
+    public function getActivityWorksDetailOfEvent(){
+        $Res = [
+            'errCode' => '200',
+            'errMsg'  => 'success',
+            'data'    => [],
+        ];
+        $helper = new helper();
+        $model = new ActivityDetailModel();
+        if(!($res = $model->getOneActivityDetailInfo(['status'=>1,'id'=>$this->data['param']['id'],'uid'=>$this->data['param']['uid']]))){
+            $Res['errCode'] = '10102';
+            $Res['errMsg']  = '详情获取失败';
+            return $Res;
+        }
+
+        $res = findDataToArray($res);
+
+        $getUserInfo = $helper->setData(['uid'=>$this->data['param']['uid']])->GetUserStatusById();
+        $res['user'] = $getUserInfo;
+
+        // 获取所属活动
+        $getActivityInfo = $helper->setData(['activity_id'=>(int)$res['activity_id']])->GetActivityInfoById();
+        $res['activity'] = $getActivityInfo;
+
+        $idToImageList = [];
+        $cover = json_decode($res['cover'],true);
+        foreach ($cover as $k => $v){
+            $idToImageList[$res['id']][] =$v['img'];
+        }
+        $res['cover_arr'] = $idToImageList[$res['id']];
+        $Res['data'] = $res;
         return $Res;
     }
 

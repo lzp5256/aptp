@@ -77,4 +77,29 @@ class Check
         $Res['data'] = $this->data;
         return $Res;
     }
+
+    public function checkActivityWorksDetailParam($param){
+        $Res = [
+            'errCode' => '200',
+            'errMsg'  => 'success',
+            'data'    => [],
+        ];
+
+        if(empty($param['uid'])){
+            $Res['errCode'] = '10000';
+            $Res['errMsg']  = '抱歉,系统异常,请联系管理员!';
+            return $Res;
+        }
+        $this->data['param']['uid'] = (int)$param['uid'];
+
+        if(empty($param['activity_detail_id'])){
+            $Res['errCode'] = '10000';
+            $Res['errMsg']  = '抱歉,系统异常,请联系管理员!';
+            return $Res;
+        }
+        $this->data['param']['id'] = (int)$param['activity_detail_id'];
+
+        $Res['data'] = $this->data;
+        return $Res;
+    }
 }

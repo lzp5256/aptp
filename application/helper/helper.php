@@ -6,6 +6,7 @@ use app\dynamic\model\Dynamic;
 use app\dynamic\model\DynamicComment as DynamicCommentModel;
 use app\dynamic\model\DynamicLike;
 use app\user\model\User;
+use app\activity\model\Activity;
 
 class helper extends Base {
     /** 注:公用方法首字母大写 */
@@ -95,6 +96,21 @@ class helper extends Base {
             return [];
         }
         return findDataToArray($findArticle);
+    }
+
+    /**
+     * 公用方法 | 获取活动信息
+     *
+     * return array
+     */
+    public function GetActivityInfoById(){
+        $activity_id = $this->data['activity_id'];
+        $model = new Activity();
+        $getOneActivityInfo = $model->getOneActivityInfo(['id'=>(int)$activity_id,'status'=>self::EFFECTIVE_STATE]);
+        if(empty($getOneActivityInfo)){
+            return [];
+        }
+        return findDataToArray($getOneActivityInfo);
     }
 
 }
