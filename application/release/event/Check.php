@@ -116,13 +116,11 @@ class Check
      * @return array
      */
     public function checkCommentParam($param){
-
         $Result = [
             'errCode' => '200',
             'errMsg'  => '验证成功',
             'data'    => [],
         ];
-
         if(empty($param['uid'])){
             $Result['errCode'] = 'L10073';
             $Result['errMsg'] = '抱歉,系统异常，请联系管理员';
@@ -143,6 +141,14 @@ class Check
             return $Result;
         }
         $this->data['param']['content'] = trim($param['content']);
+
+        if(empty($param['action'])){
+            $Result['errCode'] = 'L10076';
+            $Result['errMsg'] = '抱歉,系统异常';
+            return $Result;
+        }
+        $this->data['param']['action'] = trim($param['action']);
+
         $Result['data'] = $this->data;
         return $Result;
     }
@@ -175,6 +181,13 @@ class Check
             return $Result;
         }
         $this->data['param']['did'] = $param['did'];
+
+        if(empty($param['action'])){
+            $Result['errCode'] = 'L10076';
+            $Result['errMsg'] = '抱歉,系统异常';
+            return $Result;
+        }
+        $this->data['param']['action'] = trim($param['action']);
 
         $Result['data'] = $this->data;
         return $Result;
