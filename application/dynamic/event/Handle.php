@@ -38,7 +38,7 @@ class Handle extends Base
         $list[0]['dynamic_list']['user_url'] = $userData[$findDynamicInfo->uid]['url'];
 
         // 获取用户是否点赞操作
-        $getUserLikeState = $helper->setData(['uid'=>$this->data['param']['uid'],'did'=>$this->data['param']['did']])->GetUserLikeState();
+        $getUserLikeState = $helper->setData(['uid'=>$this->data['param']['uid'],'did'=>$this->data['param']['did'],'action'=>$this->data['param']['action']])->GetUserLikeState();
         if(empty($getUserLikeState)){
             $list[0]['dynamic_list']['like_state'] = 0;
         }else{

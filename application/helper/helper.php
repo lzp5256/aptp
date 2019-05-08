@@ -66,6 +66,7 @@ class helper extends Base {
 //        $uid = $this->data['uid'];
 //        $did = $this->data['did'];
         $where['did'] = $this->data['did'];
+        $where['action'] = $this->data['action'];
         if(is_array($this->data['did'])){
             $this->data_type = 2;
             $where['did'] = ['IN',$this->data['did']];

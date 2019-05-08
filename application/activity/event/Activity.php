@@ -123,6 +123,13 @@ class Activity extends Base
         // 获取所属活动
         $getActivityInfo = $helper->setData(['activity_id'=>(int)$res['activity_id']])->GetActivityInfoById();
         $res['activity'] = $getActivityInfo;
+        // 获取用户是否点赞操作
+        $getUserLikeState = $helper->setData(['uid'=>$this->data['param']['uid'],'did'=>$this->data['param']['id'],'action'=>$this->data['param']['action']])->GetUserLikeState();
+        if(empty($getUserLikeState)){
+            $res['like_state'] = 0;
+        }else{
+            $res['like_state'] = $getUserLikeState[$this->data['param']['uid']];
+        }
 
         $idToImageList = [];
         $cover = json_decode($res['cover'],true);

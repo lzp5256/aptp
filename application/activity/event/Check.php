@@ -92,12 +92,26 @@ class Check
             'data'    => [],
         ];
 
+        if(empty($param['uid'])){
+            $Res['errCode'] = '10000';
+            $Res['errMsg']  = '抱歉,系统异常,请联系管理员!';
+            return $Res;
+        }
+        $this->data['param']['uid'] = (int)$param['uid'];
+
         if(empty($param['activity_detail_id'])){
             $Res['errCode'] = '10000';
             $Res['errMsg']  = '抱歉,系统异常,请联系管理员!';
             return $Res;
         }
         $this->data['param']['id'] = (int)$param['activity_detail_id'];
+
+        if(empty($param['action'])){
+            $Res['errCode'] = '10000';
+            $Res['errMsg']  = '抱歉,系统异常,请联系管理员!';
+            return $Res;
+        }
+        $this->data['param']['action'] = (string)$param['action'];
 
         $Res['data'] = $this->data;
         return $Res;

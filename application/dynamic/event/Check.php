@@ -26,6 +26,13 @@ class Check extends Base
         }
         $this->data['param']['did'] = $param['did'];
 
+        if(empty($param['action'])){
+            $Result['errCode'] = 'L10079';
+            $Result['errMsg'] = '抱歉,系统异常,请联系管理员';
+            return $Result;
+        }
+        $this->data['param']['action'] = $param['action'];
+
         $Result['data'] = $this->data;
         return $Result;
     }
