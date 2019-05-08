@@ -23,6 +23,7 @@ class helper extends Base {
     public function GetCommentList(){
         $where['status'] = '1';
         $where['did'] = $this->data['did'];  // 默认为字符串
+        $where['action'] = $this->data['action'];
         // 如果传入值为数组，则更换条件
         if(is_array($this->data['did'])){
             $this->data_type = 2;
@@ -31,6 +32,9 @@ class helper extends Base {
 
         $model = new DynamicCommentModel();
         $data  = selectDataToArray($model->where($where)->select());
+        if(empty($data)){
+            return [];
+        }
         $list = [];
         foreach ($data as $k => $v){
             $list[$v['did']]['list'][] = $v;

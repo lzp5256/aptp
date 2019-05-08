@@ -5,8 +5,10 @@ use app\activity\model\ActivityDetail;
 use app\base\controller\Base;
 use app\activity\model\Activity as ActivityModel;
 use app\activity\model\ActivityDetail as ActivityDetailModel;
+use app\dynamic\model\DynamicComment;
 use app\helper\helper;
 use app\user\event\User;
+use app\user\event\User as UserEvent;
 
 class Activity extends Base
 {
@@ -131,6 +133,47 @@ class Activity extends Base
         $Res['data'] = $res;
         return $Res;
     }
+
+    /**
+     * 获取活动详情中的评论列表
+     *
+     * @desc  param 参数都保存在 $this->data 中,由setData传入
+     * @param int uid 用户id
+     * @param int id  活动列表详情id(动态列表详情）
+     * @param string action 操作名(用来区分是哪种操作)
+     *
+     * @return array
+     */
+    public function getActivityWorksCommentListOfEvent(){
+        $Res = [
+            'errCode' => '200',
+            'errMsg'  => 'success',
+            'data'    => [],
+        ];
+        $comemntModel =  new DynamicComment();
+        $list = $comemntModel->getDynamicCommentList(['did'=>$this->data['param']['id'],'status'=>1,'action'=>'activity'],0,100);
+        if(empty($list)){
+            $list = [];
+            $Res['data'] = $list;
+            return $Res;
+        }
+        $list = selectDataToArray($list);
+        // 获取用户信息
+        $getAllUid = [];
+        foreach ($list as $k => $v){
+            $getAllUid[] = $v['uid'];
+        }
+        $event = new UserEvent();
+        $userData = $event->setData(['uid'=>array_unique($getAllUid)])->getAllUserList();
+        foreach ($list as $k => $v){
+            $list[$k]['name'] = $userData[$v['uid']]['name'];
+            $list[$k]['user_url'] = $userData[$v['uid']]['url'];
+        }
+        $Res['data'] = $list;
+        return $Res;
+    }
+
+    /** 私有方法 */
 
     protected function _getAddActivityDetailData(){
         return [

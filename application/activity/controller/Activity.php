@@ -114,4 +114,28 @@ class Activity extends Base
         return json($Res);
     }
 
+    public function getActivityWorksCommentListRes(){
+
+        $Res = [
+            'errCode' => '200',
+            'errMsg'  => 'success',
+            'data'    => [],
+        ];
+        $param = request()->post();
+
+        $checkEvent = new Check();
+        if(!($checkRes = $checkEvent->checkActivityWorksCommentListParam($param)) || $checkRes['errCode'] != '200'){
+            return json($checkRes);
+        }
+
+        $event = new ActivityEvent();
+        if(!($handle_res = $event->setData($checkRes['data'])->getActivityWorksCommentListOfEvent()) || $handle_res['errCode']!= '200'){
+            return json($handle_res);
+        }
+
+        $Res['data'] = $handle_res['data'];
+        return json($Res);
+    }
+
+
 }

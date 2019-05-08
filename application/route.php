@@ -71,6 +71,7 @@ Route::group('activity',function (){
     Route::post('release','activity/activity/getActivityReleaseRes');
     Route::post('works','activity/activity/getActivityWorksRes');
     Route::post('detail','activity/activity/getActivityWorksDetailRes');
+    Route::post('works_comment_list','activity/activity/getActivityWorksCommentListRes');
 });
 
 // 用户路由

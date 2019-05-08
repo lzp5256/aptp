@@ -102,4 +102,36 @@ class Check
         $Res['data'] = $this->data;
         return $Res;
     }
+
+    public function checkActivityWorksCommentListParam($param){
+        $Res = [
+            'errCode' => '200',
+            'errMsg'  => 'success',
+            'data'    => [],
+        ];
+
+        if(empty($param['uid'])){
+            $Res['errCode'] = '10000';
+            $Res['errMsg']  = '抱歉,系统异常,请联系管理员!';
+            return $Res;
+        }
+        $this->data['param']['uid'] = (int)$param['uid'];
+
+        if(empty($param['info_id'])){
+            $Res['errCode'] = '10000';
+            $Res['errMsg']  = '抱歉,系统异常,请联系管理员!';
+            return $Res;
+        }
+        $this->data['param']['id'] = (int)$param['info_id'];
+
+        if(empty($param['action'])){
+            $Res['errCode'] = '10000';
+            $Res['errMsg']  = '抱歉,系统异常,请联系管理员!';
+            return $Res;
+        }
+        $this->data['param']['action'] = (int)$param['action'];
+
+        $Res['data'] = $this->data;
+        return $Res;
+    }
 }
