@@ -29,9 +29,9 @@ class Communal
             'errMsg' => 'success',
             'data' => [],
         ];
-
+        $type = request()->post('type');
         // 获取最新的banners
-        $result = Db::table('banners')->where('status',1)->where('type',1)->order('id desc')->select();
+        $result = Db::table('banners')->where('status',1)->where('type',$type)->order('id desc')->select();
         if(!$result){
             $Result['errCode'] = 'L10005';
             $Result['errMsg'] = '抱歉,未获取到banner信息！';
