@@ -42,7 +42,10 @@ class Activity extends Base
             $Res['errMsg']  = '详情获取失败';
             return $Res;
         }
-        $Res['data'] = findDataToArray($res);
+        $res = findDataToArray($res);
+        $res['activity_start_time'] = date('Y-m-d',strtotime($res['activity_start_time']));
+        $res['activity_end_time'] = date('Y-m-d',strtotime($res['activity_end_time']));
+        $Res['data'] = $res;
         return $Res;
     }
 
