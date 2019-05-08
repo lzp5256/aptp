@@ -49,7 +49,7 @@ class Check
         }
         $this->data['param']['content'] = htmlspecialchars($param['content']);
 
-        if(empty($param['img'])){
+        if(empty($param['img']) || $param['img'] == '[]'){
             $Res['errCode'] = '10000';
             $Res['errMsg']  = '抱歉,图片不能为空';
             return $Res;
