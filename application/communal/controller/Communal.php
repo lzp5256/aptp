@@ -7,6 +7,7 @@
  */
 namespace app\communal\controller;
 
+use app\other\model\OtherFlag;
 use think\Db;
 use app\demand\event\Demand as DemandEvent;
 use app\demand\event\CheckParams as CheckEvent;
@@ -135,6 +136,32 @@ class Communal
         $time = date('Ymd');
         $Encrypt = $rsa->pubkeyEncrypt($str.$time);
         return json(['encrypt'=>$Encrypt]);
+    }
+
+    /**
+     * @desc 获取发布页面数据
+     * @date 2019.05.13
+     * @return array|\think\response\Json
+     */
+    public function getAdoptData(){
+        $Result = [
+            'errCode' => '200',
+            'errMsg' => 'success',
+            'data' => [],
+        ];
+        $arr = [];
+        $model = new OtherFlag();
+        $data = $model->getOtherFlagList(['flagState'=>'1']);
+        if(empty($data)){
+            return [];
+        }
+        $data = selectDataToArray($data);
+        foreach ($data  as $k => $v){
+            $arr[explode(':',$v['flagName'])[3]] = explode(':',$v['flagValue']);
+        }
+
+        $Result['data'] = $arr;
+        return json($Result);
     }
 
 }

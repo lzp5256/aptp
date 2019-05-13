@@ -86,4 +86,5 @@ Route::group('communal',function (){
     Route::post('GetCitys','communal/communal/getCitys'); // 获取所有地区信息
     Route::post('detail','communal/communal/detail'); // 详情（不需要验证token）
     Route::post('getRsaToken','communal/communal/getRsaToken'); //获取加密字符串
+    Route::post('getAdoptData','communal/communal/getAdoptData'); //获取领养发布页面数据
 });
