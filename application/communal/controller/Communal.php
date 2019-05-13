@@ -159,7 +159,16 @@ class Communal
         foreach ($data  as $k => $v){
             $arr[explode(':',$v['flagName'])[3]] = explode(':',$v['flagValue']);
         }
-
+        foreach ($arr as $k => $v){
+            foreach ($v as $k1 => $v1){
+                $arr[$k][$k1]=[
+                    'id' => $k1,
+                    'name' => $v1,
+                    'checked' => false,
+                    'value' => $k1
+                ];
+            }
+        }
         $Result['data'] = $arr;
         return json($Result);
     }
