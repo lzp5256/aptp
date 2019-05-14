@@ -37,7 +37,7 @@ class Adopt extends Base
     public function getAddAdoptRes(){
         $return_res = [
             'errCode' => '200',
-            'errMsg'  => 'success',
+            'errMsg'  => '发布成功,审核通过后会显示在首页',
             'data'    => [],
         ];
         $param = request()->post();
