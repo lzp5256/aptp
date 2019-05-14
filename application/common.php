@@ -66,7 +66,7 @@ function sendCurlRequest($url,$request='',$method='',$timeout = 5 ){
  * @return bool
  */
 function isMobile($phone){
-    $search = '/^0?1[3|4|5|6|7|8][0-9]\d{8}$/';
+    $search = '/^0?1[3|4|5|6|7|8|9][0-9]\d{8}$/';
     if ( preg_match( $search, $phone ) ) {
         return ( true );
     } else {
