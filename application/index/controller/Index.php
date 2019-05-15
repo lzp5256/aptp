@@ -17,9 +17,9 @@ class Index extends Base
             'errMsg'  => 'success',
             'data'    => [],
         ];
-        $params = request()->param();
+        $page = request()->post('page');
         $event = new IndexEvent();
-        if(($res = $event->getReList($params)) && $res['errCode'] != '200'){
+        if(($res = $event->getReList($page)) && $res['errCode'] != '200'){
             return json($res);
         }
         $Result['data'] = $res['data'];
@@ -38,6 +38,21 @@ class Index extends Base
         $page = request()->post('page');
         $event = new IndexEvent();
         if(($res = $event->setData(['page'=>$page])->getHomeList()) && $res['errCode'] != '200'){
+            return json($res);
+        }
+        $Result['data'] = $res['data'];
+        return json($Result);
+    }
+
+    public function V2Home(){
+        $Result = [
+            'errCode' => '200',
+            'errMsg'  => 'success',
+            'data'    => [],
+        ];
+        $page = request()->post('page');
+        $event = new IndexEvent();
+        if(($res = $event->setData(['page'=>$page])->getHomeListVT()) && $res['errCode'] != '200'){
             return json($res);
         }
         $Result['data'] = $res['data'];

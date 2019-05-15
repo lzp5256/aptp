@@ -27,8 +27,10 @@ Route::group('qiniu',function (){
 // 首页路由分组
 Route::group('index',function (){
     Route::post('GetReList','index/index/getReList'); //获取首页推荐列表-旧
-    Route::post('GetHomeList','index/index/home');    //获取首页推荐列表
+    Route::post('GetHomeList','index/index/home');    //获取首页推荐列表-旧
+    Route::post('home','index/index/V2Home');    //获取首页推荐列表
     Route::post('GetNewUserList','index/index/getUserList'); //获取最新注册的用户
+
 });
 
 // 需求路由

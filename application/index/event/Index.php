@@ -13,7 +13,9 @@ use app\region\model\Region;
 use app\user\model\User as UserModel;
 use app\dynamic\model\Dynamic;
 use app\user\event\User as UserEvent;
+use app\adopt\model\AdoptList;
 use app\helper\helper;
+
 
 class Index extends Base
 {
@@ -80,7 +82,7 @@ class Index extends Base
     }
 
     /**
-     * @desc 获取首页列表数据 规则: 1.列表一次获取5条数据[两条文章数据，两条领养数据，一条问答数据]
+     * @desc 获取首页列表数据 （V1）
      *
      */
     public function getHomeList(){
@@ -130,6 +132,58 @@ class Index extends Base
             'dynamic_list' => $dynamic_list,
         ];
         return $list;
+
+    }
+
+    /**
+     * @desc 获取首页列表数据（V2）
+     *
+     */
+    public function getHomeListVT(){
+        $Result = [
+            'errCode' => '200',
+            'errMsg'  => 'success',
+            'data'    => [],
+        ];
+        $articleList = $this->_getAdoptList();
+        $Result['data'] =$articleList;
+        return $Result;
+    }
+
+    protected function _getAdoptList(){
+        $adoptModel = new AdoptList();
+        $getAdoptList = $adoptModel->getAdoptPageList(['state'=>1,'adoptState'=>1], $this->data['page'],10);
+        if(empty($getAdoptList)){
+            return [];
+        }
+        $getAdoptList =selectDataToArray($getAdoptList);
+        $getAllUid = $allDid = [];
+        foreach ($getAdoptList as $k => $v){
+            $getAllUid[] = $v['uid'];
+            $allDid[] = $v['id'];
+        }
+        $allUid = array_unique($getAllUid);
+        $event = new UserEvent();
+        // 获取相关用户信息
+        $userData = $event->setData(['uid'=>$allUid])->getAllUserList();
+
+        foreach ($getAdoptList as $k => $v){
+            $getAdoptList[$k]['name'] = $userData[$v['uid']]['name'];
+            $getAdoptList[$k]['user_url'] = $userData[$v['uid']]['url'];
+        }
+
+        $helper = new helper();
+        $flagList = $helper->GetFlagList();
+        $flagKeys = array_keys($flagList);
+        foreach ($getAdoptList as $k => $v){
+            foreach ($flagKeys as $k1 => $v1){
+                if(isset($getAdoptList[$k][$v1])){
+                    $getAdoptList[$k][$v1] = $flagList[$v1][$v[$v1]];
+                }
+
+            }
+        }
+        return $getAdoptList;
 
     }
 
