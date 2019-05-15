@@ -3,6 +3,7 @@ namespace app\index\controller;
 
 use app\base\controller\Base;
 use app\index\event\Index as IndexEvent;
+use app\user\model\User;
 
 
 class Index extends Base
@@ -40,6 +41,28 @@ class Index extends Base
             return json($res);
         }
         $Result['data'] = $res['data'];
+        return json($Result);
+    }
+
+    /**
+     * @desc 获取新注册的用户
+     */
+    public function getUserList(){
+        $Result = [
+            'errCode' => '200',
+            'errMsg'  => 'success',
+            'data'    => [],
+        ];
+        $model = new User();
+        $user  = $model->selectUser(['status'=>1],0,10);
+        if(empty($user)){
+            $list  = [];
+        }
+        $list  = selectDataToArray($user);
+        foreach ($list as $k => $v){
+            $list[$k]['user_name'] = base64_decode($v['name']);
+        }
+        $Result['data'] = $list;
         return json($Result);
     }
 
