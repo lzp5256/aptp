@@ -176,6 +176,7 @@ class Index extends Base
         $flagList = $helper->GetFlagList();
         $flagKeys = array_keys($flagList);
         foreach ($getAdoptList as $k => $v){
+            $getAdoptList[$k]['imgList'] = json_decode($v['imgList'],true);
             foreach ($flagKeys as $k1 => $v1){
                 if(isset($getAdoptList[$k][$v1])){
                     $getAdoptList[$k][$v1] = $flagList[$v1][$v[$v1]];
