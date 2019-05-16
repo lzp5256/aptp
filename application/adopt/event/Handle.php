@@ -51,6 +51,23 @@ class Handle extends Base
         }
         $data['user_name'] = $userData[$data['uid']]['name'];
         $data['user_url']  = $userData[$data['uid']]['url'];
+
+        // 数据转换
+        $helper = new helper();
+        $flag_list = $helper->GetFlagList();
+
+        $data['imgList'] = json_decode($getAdoptInfo['imgList'],true);
+        $data['age'] = $flag_list['age'][$data['age']];
+        $data['sex'] = $flag_list['sex'][$data['sex']];
+        $data['type'] = $flag_list['type'][$data['type']];
+        $data['vaccine'] = $flag_list['vaccine'][$data['vaccine']];
+        $data['sterilization'] = $flag_list['sterilization'][$data['sterilization']];
+        $data['insectRepellent'] = $flag_list['insectRepellent'][$data['insectRepellent']];
+        $condition = explode(',',$data['condition']);
+        foreach ($condition as $k => $v){
+            $data['condition_arr'][$k] = $flag_list['condition'][$v];
+        }
+        $data['source_name'] = $flag_list['source'][$data['source']];
         $return_res['data'] = $data;
         return $return_res;
 
