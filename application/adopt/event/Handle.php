@@ -5,6 +5,7 @@ use app\adopt\model\AdoptList;
 use app\base\controller\Base;
 use app\helper\helper;
 use app\helper\message;
+use app\region\model\Region;
 use app\user\event\User as UserEvent;
 
 class Handle extends Base
@@ -68,6 +69,12 @@ class Handle extends Base
             $data['condition_arr'][$k] = $flag_list['condition'][$v];
         }
         $data['source_name'] = $flag_list['source'][$data['source']];
+        $model = new Region();
+        $info  = $model->findRegion(['status'=>1,'rg_id'=>$data['city'],'delete_flag'=>0,'rg_level'=>'2']);
+        if(empty($info)){
+            $data['city_name'] ='-';
+        }
+        $data['city_name'] = $info->rg_name;
         $return_res['data'] = $data;
         return $return_res;
 
