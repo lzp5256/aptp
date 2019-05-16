@@ -51,8 +51,8 @@ class Handle extends Base
         }
         $data['user_name'] = $userData[$data['uid']]['name'];
         $data['user_url']  = $userData[$data['uid']]['url'];
-
-        return $data;
+        $return_res['data'] = $data;
+        return $return_res;
 
     }
 
