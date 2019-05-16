@@ -55,6 +55,7 @@ class Handle extends Base
             'state'     => 1,
             'createdAt' => date('Y-m-d H:i:s'),
             'origin'    => 1,
+            'adoptState'=> 1,
         ];
     }
 
