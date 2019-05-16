@@ -80,6 +80,7 @@ Route::group('activity',function (){
 // 领养路由
 Route::group('adopt',function (){
     Route::post('add','adopt/adopt/getAddAdoptRes'); // 发布新增领养
+    Route::post('detail','adopt/adopt/getAdoptDetailRes');// 详情
 });
 
 // 用户路由

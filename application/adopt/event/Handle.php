@@ -5,11 +5,13 @@ use app\adopt\model\AdoptList;
 use app\base\controller\Base;
 use app\helper\helper;
 use app\helper\message;
+use app\user\event\User as UserEvent;
 
 class Handle extends Base
 {
     protected $log_level = 'error';  //定义日志级别
 
+    // 处理新增领养信息操作
     public function handleAddAdopt(){
         $return_res = [
             'errCode' => '200',
@@ -24,6 +26,34 @@ class Handle extends Base
         }
         $this->_sendEmailMessage();
         return $return_res;
+    }
+
+    // 处理新增领养信息操作
+    public function handleAdoptDetailRes(){
+        $return_res = [
+            'errCode' => '200',
+            'errMsg'  => '添加成功',
+            'data'    => [],
+        ];
+        $model = new AdoptList();
+        $getAdoptInfo = $model->getOneAdoptInfo(['id'=>(int)$this->data['check_param_list']['id'],'state'=>1]);
+        if(empty($getAdoptInfo)){
+            $return_res['errCode'] = '00027';
+            $return_res['errMsg'] = message::$message['00027'];
+            return $return_res;
+        }
+        $data = findDataToArray($getAdoptInfo);
+
+        $event = new UserEvent();
+        $userData = $event->setData(['uid'=>[$data['uid']]])->getAllUserList();
+        if(empty($userData)){
+            writeLog((getWriteLogInfo('获取动态详情,用户查询失败!',json_encode(['uid'=>$data['uid']]),'')),$this->log_level);
+        }
+        $data['user_name'] = $userData[$data['uid']]['name'];
+        $data['user_url']  = $userData[$data['uid']]['url'];
+
+        return $data;
+
     }
 
     protected function _addAdoptData(){

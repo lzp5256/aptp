@@ -48,7 +48,7 @@ class Message extends Base
         $data = [];
         $getDynamicInfo = $helper->setData(['did'=>$post['did']])->GetDynamicById();
         $getDUserInfo = $helper->setData(['uid'=>$getDynamicInfo['uid']])->GetUserStatusById();
-        $getUserInfo = $helper->setData(['uid'=> $post['uid']])->GetUserStatusById();
+//        $getUserInfo = $helper->setData(['uid'=> $post['uid']])->GetUserStatusById();
         if(empty($getUserInfo)){
             return false;
         }

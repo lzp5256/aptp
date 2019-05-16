@@ -221,4 +221,24 @@ class Check extends Base
         $return_res['data'] = $this->data;
         return $return_res;
     }
+
+
+    public function CheckAdoptDetailParam(){
+        $return_res = [
+            'errCode' => '200',
+            'errMsg'  => 'success',
+            'data'    => [],
+        ];
+
+        // 获取$this->data中的param参数列表,验证通过后保存到$this->data['check_list']中
+        $param = $this->data['param'];
+        if(!isset($param['id']) || empty($param['id']) || $param['id']<=0 ){
+            $return_res['errCode'] = '00026';
+            $return_res['errMsg'] = message::$message['00026'];
+            return $return_res;
+        }
+        $this->data['check_param_list']['id'] = (int)$param['id'];
+        $return_res['data'] = $this->data;
+        return $return_res;
+    }
 }

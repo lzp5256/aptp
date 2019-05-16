@@ -53,4 +53,26 @@ class Adopt extends Base
         }
         return json($return_res);
     }
+
+
+    public function getAdoptDetailRes(){
+        $return_res = [
+            'errCode' => '200',
+            'errMsg'  => 'success',
+            'data'    => [],
+        ];
+        $param = request()->post();
+
+        $check_event = new Check();
+        if(($check_res = $check_event->setData(['param'=>$param])->CheckAdoptDetailParam()) && $check_res['errCode'] != '200'){
+            return json($check_res);
+        }
+
+        $handle_event = new Handle();
+        if(($handle_res = $handle_event->setData($check_res['data'])->handleAdoptDetailRes()) && $handle_res['errCode'] != '200'){
+            return json($handle_res);
+        }
+        return json($return_res);
+
+    }
 }
