@@ -72,6 +72,7 @@ class Adopt extends Base
         if(($handle_res = $handle_event->setData($check_res['data'])->handleAdoptDetailRes()) && $handle_res['errCode'] != '200'){
             return json($handle_res);
         }
+        $return_res['data'] = $handle_res['data'];
         return json($return_res);
 
     }
