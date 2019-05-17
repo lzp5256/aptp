@@ -9,6 +9,7 @@ namespace app\demand\event;
 
 use app\apply\model\Apply;
 use app\base\controller\Base;
+use app\helper\helper;
 use app\region\model\Region;
 use app\task\event\Task;
 use app\user\event\UserCbAccountChange;
@@ -141,7 +142,16 @@ class Demand
             $Result['errMsg'] = '申请失败！';
             return $Result;
         }
-        $Result['errMsg'] = '申请成功,稍后会有客服添加您的微信或拨打您电话，请注意接听';
+        $helper = new helper();
+        // 拼接内容
+        $title = "新增申请领养信息";
+        $content = "用户ID为\t【".$params['param']['uid']."】的用户在." .date('Y-m-d H:i:s')."申请了ID为".$params['param']['did']."的一条领养信息\t";
+        $res = $helper->SendEmail($title,$content);
+        if($res != '1'){
+            writeLog(getWriteLogInfo('邮件异常','title:'.$title,'content:'.$content,$this->log_level));
+        }
+
+        $Result['errMsg'] = '申请成功,稍后会有客服添加您的微信与您联系，请注意查看';
         return $Result;
 
     }
