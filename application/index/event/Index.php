@@ -152,7 +152,7 @@ class Index extends Base
 
     protected function _getAdoptList(){
         $adoptModel = new AdoptList();
-        $getAdoptList = $adoptModel->getAdoptPageList(['state'=>1,'adoptState'=>1], $this->data['page'],10);
+        $getAdoptList = $adoptModel->getAdoptPageList(['state'=>1,'adoptState'=>1], $this->data['page'],10,'id,uid,imgList,describe,browses,createdAt,adoptState');
         if(empty($getAdoptList)){
             return [];
         }
@@ -172,17 +172,17 @@ class Index extends Base
             $getAdoptList[$k]['user_url'] = $userData[$v['uid']]['url'];
         }
 
-        $helper = new helper();
-        $flagList = $helper->GetFlagList();
-        $flagKeys = array_keys($flagList);
+//        $helper = new helper();
+//        $flagList = $helper->GetFlagList();
+//        $flagKeys = array_keys($flagList);
         foreach ($getAdoptList as $k => $v){
             $getAdoptList[$k]['imgList'] = json_decode($v['imgList'],true);
-            foreach ($flagKeys as $k1 => $v1){
-                if(isset($getAdoptList[$k][$v1])){
-                    $getAdoptList[$k][$v1] = $flagList[$v1][$v[$v1]];
-                }
-
-            }
+//            foreach ($flagKeys as $k1 => $v1){
+//                if(isset($getAdoptList[$k][$v1])){
+//                    $getAdoptList[$k][$v1] = $flagList[$v1][$v[$v1]];
+//                }
+//
+//            }
         }
         return $getAdoptList;
 
