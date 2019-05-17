@@ -13,13 +13,6 @@ use app\demand\event\CheckParams as CheckEvent;
 
 class Demand extends Base
 {
-    public function __construct()
-    {
-        $result = parent::__construct();
-        if($result['errCode'] != '200'){
-           echo $result['errMsg'];die;
-        }
-    }
 
     /**
      * @desc 发布

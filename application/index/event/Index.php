@@ -152,7 +152,7 @@ class Index extends Base
 
     protected function _getAdoptList(){
         $adoptModel = new AdoptList();
-        $getAdoptList = $adoptModel->getAdoptPageList(['state'=>1,'adoptState'=>1], $this->data['page'],10,'id,uid,imgList,describe,browses,createdAt,adoptState');
+        $getAdoptList = $adoptModel->getAdoptPageList(['state'=>1,'adoptState'=>1], $this->data['page'],5,'id,uid,imgList,describe,browses,createdAt,adoptState');
         if(empty($getAdoptList)){
             return [];
         }
