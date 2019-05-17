@@ -58,6 +58,13 @@ class Check extends Base
             $return_res['errMsg'] = message::$message['00002'];
             return $return_res;
         }
+
+        if(count(json_decode($param['imgList'],true) < 3)){
+            $return_res['errCode'] = '00028';
+            $return_res['errMsg'] = message::$message['00028'];
+            return $return_res;
+        }
+
         $this->data['check_list']['imgList'] = (string)$param['imgList'];
 
         if(!isset($param['name']) || empty($param['name']) ){
@@ -149,7 +156,7 @@ class Check extends Base
             $return_res['errMsg'] = message::$message['00014'];
             return $return_res;
         }
-        if(strlen($param['describe']) > 300){
+        if(strlen($param['describe']) > 600){
             $return_res['errCode'] = '00015';
             $return_res['errMsg'] = message::$message['00015'];
             return $return_res;
