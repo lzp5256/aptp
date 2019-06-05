@@ -28,9 +28,9 @@ class Check extends Base
             return $return_res;
         }
 
-        if(count(json_decode($param['src'],true)) < 3){
-            $return_res['errCode'] = '00028';
-            $return_res['errMsg'] = message::$message['00028'];
+        if(count(json_decode($param['src'],true)) < 1){
+            $return_res['errCode'] = '00036';
+            $return_res['errMsg'] = message::$message['00036'];
             return $return_res;
         }
         $this->data['param_list']['src'] = (string)$param['src'];

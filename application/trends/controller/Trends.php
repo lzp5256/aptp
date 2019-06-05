@@ -15,7 +15,7 @@ class Trends extends Base
     public function release(){
         $Res = [
             'errCode' => '200',
-            'errMsg'  => 'success',
+            'errMsg'  => '发布成功',
             'data'    => [],
         ];
         $param = request()->post('');
