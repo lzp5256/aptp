@@ -68,4 +68,30 @@ class Check extends Base
         return $Res;
 
     }
+
+    public function CheckTrendsInfoParamRes($params){
+        $Res = [
+            'errCode' => '200',
+            'errMsg'  => 'success',
+            'data'    => [],
+        ];
+
+        if(!isset($params['uid']) || $params['uid'] <= 0 || empty($params['uid'])){
+            $Res['errCode'] = '00001';
+            $Res['errMsg'] = message::$message['00001'];
+            return $Res;
+        }
+        $this->data['param_list']['uid'] = (int)$params['uid'];
+
+        if(!isset($params['id']) || $params['id'] <= 0 || empty($params['id'])){
+            $Res['errCode'] = '00037';
+            $Res['errMsg'] = message::$message['00037'];
+            return $Res;
+        }
+        $this->data['param_list']['id'] = (int)$params['id'];
+
+        $Res['data'] = $this->data;
+        return $Res;
+
+    }
 }
