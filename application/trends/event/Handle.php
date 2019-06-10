@@ -50,7 +50,7 @@ class Handle extends Base
             'user_src'  => $user['head_portrait_url'],
         ];
         $trends_data['src'] = json_decode($trends_data['src'],true);
-        $Res['data'] = $trends_info_res;
+        $Res['data'] = $trends_data;
         return $Res;
     }
 
