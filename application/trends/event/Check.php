@@ -94,4 +94,22 @@ class Check extends Base
         return $Res;
 
     }
+
+    public function  CheckTrendsListParamRes($params){
+        $Res = [
+            'errCode' => '200',
+            'errMsg'  => 'success',
+            'data'    => [],
+        ];
+
+        if(!isset($params['page']) || $params['page'] <= 0 || empty($params['page'])){
+            $Res['errCode'] = '00039';
+            $Res['errMsg'] = message::$message['00039'];
+            return $Res;
+        }
+        $this->data['param_list']['page'] = (int)$params['page'];
+
+        $Res['data'] = $this->data;
+        return $Res;
+    }
 }

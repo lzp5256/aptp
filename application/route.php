@@ -55,6 +55,7 @@ Route::group('demand',function (){
 Route::group('trends',function (){
     Route::post('release','trends/trends/release'); // 用户发布动态
     Route::post('info','trends/trends/info'); // 用户动态详情
+    Route::post('list','trends/trends/index'); // 用户动态详情
 });
 
 

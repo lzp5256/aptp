@@ -8,6 +8,31 @@ use app\trends\event\Handle;
 class Trends extends Base
 {
     /**
+     * @desc 动态列表
+     * @date 2019.06.10
+     * @author lizhipeng
+     */
+    public function index(){
+        $Res = [
+            'errCode' => '200',
+            'errMsg'  => '获取成功',
+            'data'    => [],
+        ];
+        $param = request()->post('');
+        $check_event = new Check();
+        if(($check_res = $check_event->CheckTrendsListParamRes($param)) && $check_res['errCode'] != '200'){
+            return json($check_res);
+        }
+
+        $handle_event = new Handle();
+        if(($handle_res = $handle_event->setData($check_res['data'])->HandleTrendsListRes()) && $handle_res['errCode'] != '200'){
+            return json($handle_res);
+        }
+
+        $Res['data'] = $handle_res['data'];
+        return json($Res);
+    }
+    /**
      * @desc 用户动态发布
      * @date 2019.06.03
      * @author lizhipeng
