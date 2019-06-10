@@ -82,7 +82,8 @@ class Handle extends Base
         foreach ($trends_list_res as $k => $v){
             $trends_list_res[$k]['name'] = $userData[$v['uid']]['name'];
             $trends_list_res[$k]['user_url'] = $userData[$v['uid']]['url'];
-            $trends_list_res[$k]['src'] = json_decode($v['src'],true);
+            $trends_list_res[$k]['pic'] = json_decode($v['src'],true)['0'];
+            $trends_list_res[$k]['height'] = 0; //默认高度
         }
 
         $Res['data'] = $trends_list_res;
