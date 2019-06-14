@@ -59,7 +59,7 @@ class Check extends Base
             return $return_res;
         }
 
-        if(count(json_decode($param['imgList'],true)) < 3){
+        if(count(json_decode($param['imgList'],true)) < 1){
             $return_res['errCode'] = '00028';
             $return_res['errMsg'] = message::$message['00028'];
             return $return_res;
