@@ -97,3 +97,12 @@ Route::group('trends',function (){
 //    Route::post('works_comment_list','activity/activity/getActivityWorksCommentListRes');
 //});
 
+
+/**************************************  ask route **************************************/
+// 问题路由
+Route::group('question',function (){
+    Route::post('release','release/qr');
+    Route::post('list','controller/question/ql');
+    Route::post('browse','controller/question/qb');
+    Route::post('info','controllers/question/qi');
+});

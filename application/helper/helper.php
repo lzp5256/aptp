@@ -6,6 +6,7 @@ use app\dynamic\model\Dynamic;
 use app\dynamic\model\DynamicComment as DynamicCommentModel;
 use app\dynamic\model\DynamicLike;
 use app\other\model\OtherFlag;
+use app\region\model\Region;
 use app\user\model\User;
 use app\activity\model\Activity;
 use PHPMailer\PHPMailer\Exception;
@@ -173,4 +174,18 @@ class helper extends Base {
         }
     }
 
+    /**
+     * 公用方法 | 获取地区名称
+     *
+     */
+    public function GetCityByCode($code,$level){
+        $model = new Region();
+        $info  = $model->findRegion(['status'=>1,'rg_id'=>$code,'delete_flag'=>0,'rg_level'=>$level]);
+        if(empty($info)){
+            return [];
+        }
+        $res = $info->toArray();
+        var_dump($res);die;
+//        return
+    }
 }
