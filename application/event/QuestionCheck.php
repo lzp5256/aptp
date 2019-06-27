@@ -12,12 +12,12 @@ class QuestionCheck extends Base
             'data'    => [],
         ];
         if (empty($param['uid']) || !isset($param['uid']) || $param['uid'] <= 0){
-            return $this->setReturnMsg('00001');
+            return $this->setReturnMsg('200001');
         }
         $this->data['param_list']['uid'] = (int)$param['uid'];
 
         if (empty($param['title'])){
-            return $this->setReturnMsg('00002');
+            return $this->setReturnMsg('200002');
         }
         $this->data['param_list']['title'] = (string)$param['title'];
 
@@ -38,7 +38,7 @@ class QuestionCheck extends Base
             'data'    => [],
         ];
         if (empty($param['p']) || !isset($param['p']) || $param['p'] <= 0){
-            return $this->setReturnMsg('00004');
+            return $this->setReturnMsg('200004');
         }
         $this->data['param_list']['p'] = (int)$param['p'];
 
@@ -53,7 +53,7 @@ class QuestionCheck extends Base
             'data'    => [],
         ];
         if (empty($param['qid']) || !isset($param['qid']) || $param['qid'] <= 0){
-            return $this->setReturnMsg('00001');
+            return $this->setReturnMsg('200001');
         }
         $this->data['param_list']['qid'] = (int)$param['qid'];
 
@@ -68,12 +68,12 @@ class QuestionCheck extends Base
             'data'    => [],
         ];
         if (empty($param['qid']) || !isset($param['qid']) || $param['qid'] <= 0){
-            return $this->setReturnMsg('00001');
+            return $this->setReturnMsg('200001');
         }
         $this->data['param_list']['qid'] = (int)$param['qid'];
 
         if (empty($param['uid']) || !isset($param['uid']) || $param['uid'] <= 0){
-            return $this->setReturnMsg('00001');
+            return $this->setReturnMsg('200001');
         }
 
         $res['data'] = $this->data;

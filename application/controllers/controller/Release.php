@@ -1,8 +1,8 @@
 <?php
 namespace app\controllers\controller;
 
-use app\event\ReleaseCheck;
-use app\event\ReleaseHandles;
+use app\event\QuestionCheck;
+use app\event\QuestionHandles;
 
 class Release
 {
@@ -14,8 +14,8 @@ class Release
             'data'    => [],
         ];
         $params = request()->post('');
-        $check_event   = new ReleaseCheck();
-        $handles_event = new ReleaseHandles();
+        $check_event   = new QuestionCheck();
+        $handles_event = new QuestionHandles();
 
         if(($check_res = $check_event->checkQrParams($params)) && $check_res['errCode'] != 200 ){
             return json($check_res);

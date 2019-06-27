@@ -4,6 +4,7 @@ namespace app\event;
 use app\base\controller\Base;
 use app\model\AskQuestion;
 use app\user\event\User;
+use app\event\AskUser;
 
 class QuestionHandles extends Base
 {
@@ -19,11 +20,11 @@ class QuestionHandles extends Base
         try{
             $addData = $this->_getAddData();
             if(($add = $model->add($addData)) && $add == 0){
-                return $this->setReturnMsg('00003');
+                return $this->setReturnMsg('200003');
             }
             return $res;
         }catch (Exception $e){
-            return $this->setReturnMsg('00001');
+            return $this->setReturnMsg('200001');
         }
     }
 
@@ -37,7 +38,7 @@ class QuestionHandles extends Base
         $user  = new User();
         try{
             if(!($getQlRes = $model->selectAll(['state' => self::STATE_VALID,'show'=>self::STATE_VALID],$this->data['param_list']['p'],20))){
-                return $this->setReturnMsg('00005');
+                return $this->setReturnMsg('200005');
             }
             foreach ($getQlRes as $k => $v){
                 $uid[] = $v['uid'];
@@ -50,7 +51,7 @@ class QuestionHandles extends Base
             $res['data'] = $getQlRes;
             return $res;
         }catch (Exception $e){
-            return $this->setReturnMsg('00001');
+            return $this->setReturnMsg('200001');
         }
     }
 
@@ -61,29 +62,29 @@ class QuestionHandles extends Base
             'data'    => [],
         ];
         $model = new AskQuestion();
-        $user  = new User();
+        $AskUser  = new AskUser();
         try{
             if(!($getQiRes = $model->findOne(['state' => self::STATE_VALID,'show'=>self::STATE_VALID,'qid'=>$this->data['param_list']['qid']]))){
-                return $this->setReturnMsg('00005');
+                return $this->setReturnMsg('200005');
             }
             $QiRes = findDataToArray($getQiRes);
-            $userList = $user->setData(['uid'=>[$QiRes['uid']]])->getAllUserList();
+            $userList = $AskUser->setData(['uid'=>[$QiRes['uid']]])->getAllUserList();
 
             $QiRes['user_name'] = $userList[$QiRes['uid']]['name'];
             $res['data'] = $QiRes;
             return $res;
         }catch (Exception $e){
-            return $this->setReturnMsg('00001');
+            return $this->setReturnMsg('200001');
         }
     }
 
     protected function _getAddData(){
         return [
+            'state'     => 1,
             'uid'       => (int)$this->data['param_list']['uid'],
             'title'     => (string)$this->data['param_list']['title'],
             'describe'  => (string)$this->data['param_list']['describe'],
             'show'      => 1,
-            'state'     => 1,
             'created_at'=> date('Y-m-d H:i:s')
         ];
     }

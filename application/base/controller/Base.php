@@ -8,6 +8,7 @@
 namespace app\base\controller;
 
 use app\wechat\model\Token;
+use app\helper\message;
 use think\Exception;
 
 class Base
@@ -79,7 +80,7 @@ class Base
 
     public function setReturnMsg($code){
         $message = new message();
-        return ['errCode'=>$code,'errMsg' => $message::$message[$code],'data' => []];
+        return ['errCode'=>$code,'errMsg' =>$message::$message[$code],'data' => []];
     }
 
 

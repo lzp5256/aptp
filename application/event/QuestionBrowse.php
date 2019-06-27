@@ -2,7 +2,7 @@
 namespace app\event;
 
 use app\base\controller\Base;
-use app\question\model\AskQuestion;
+use app\model\AskQuestion;
 
 class QuestionBrowse extends Base
 {
@@ -15,11 +15,11 @@ class QuestionBrowse extends Base
         $model = new AskQuestion();
         try{
             if(!($u_res = $model->setUpdate(['state'=>1,'qid'=>(int)$this->data['param_list']['qid']],'Inc','browse'))){
-                return $this->setReturnMsg('00006');
+                return $this->setReturnMsg('200006');
             }
             return $res;
         }catch (Exception $e){
-            return $this->setReturnMsg('00001');
+            return $this->setReturnMsg('200001');
         }
     }
 }

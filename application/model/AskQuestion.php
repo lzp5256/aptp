@@ -5,7 +5,7 @@ use think\Model;
 
 class AskQuestion extends Model
 {
-    protected $table='question';
+    protected $table='ask_question';
 
     /**
      * 获取多条记录
