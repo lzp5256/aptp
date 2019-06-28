@@ -102,7 +102,7 @@ Route::group('trends',function (){
 // 问题路由
 Route::group('question',function (){
     Route::post('release','release/qr');
-    Route::post('list','controller/question/ql');
-    Route::post('browse','controller/question/qb');
+    Route::post('list','controllers/question/ql');
+    Route::post('browse','controllers/question/qb');
     Route::post('info','controllers/question/qi');
 });
