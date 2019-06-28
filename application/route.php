@@ -101,7 +101,7 @@ Route::group('trends',function (){
 /**************************************  ask route **************************************/
 // 问题路由
 Route::group('question',function (){
-    Route::post('release','controlerrs/release/qr');
+    Route::post('release','controllers/release/qr');
     Route::post('list','controllers/question/ql');
     Route::post('browse','controllers/question/qb');
     Route::post('info','controllers/question/qi');
