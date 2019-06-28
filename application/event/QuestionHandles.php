@@ -35,7 +35,7 @@ class QuestionHandles extends Base
             'data'    => [],
         ];
         $model = new AskQuestion();
-        $user  = new User();
+        $user  = new AskUser();
         try{
             if(!($getQlRes = $model->selectAll(['state' => self::STATE_VALID,'show'=>self::STATE_VALID],$this->data['param_list']['p'],20))){
                 return $this->setReturnMsg('200005');
