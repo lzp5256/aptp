@@ -47,6 +47,7 @@ class QuestionHandles extends Base
             $userList = $user->setData(['uid'=>$uid])->getAllUserList();
             foreach ($getQlRes as $k => $v){
                 $getQlRes[$k]['user_name'] = $userList[$v['uid']]['name'];
+                $getQlRes[$k]['browse']    = $v['browse']*10+$v['browse'];
             }
             $res['data'] = $getQlRes;
             return $res;
