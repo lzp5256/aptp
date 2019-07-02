@@ -88,4 +88,30 @@ class Question
         $res['data'] = $handles_res;
         return json($res);
     }
+
+    /**
+     * 问题评论
+     *
+     * @author lizhipeng
+     * @date   2019.07.01
+     * @return \think\response\Json
+     */
+    public function qc(){
+        $res = [
+            'errCode' => '200',
+            'errMsg'  => '评论成功',
+            'data'    => [],
+        ];
+        $param = request()->post();
+        $check_event   = new QuestionCheck();
+        $handles_event = new QuestionHandles();
+
+        if(($check_res = $check_event->checkQcParams($param)) && $check_res['errCode'] != '200'){
+            return json($check_res);
+        }
+        if(($handles_res = $handles_event->setData($check_res['data'])->handlesQcRes()) && $handles_res['errCode'] != '200'){
+            return json($handles_res);
+        }
+        return json($res);
+    }
 }
