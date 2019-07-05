@@ -107,3 +107,10 @@ Route::group('question',function (){
     Route::post('info','controllers/question/qi');     // 详情
     Route::post('comment','controllers/question/qc');  // 评论
 });
+
+
+/**************************************  rc route **************************************/
+Route::group('rc',function (){
+    Route::post('add','controllers/rc/ra');
+    Route::post('search','controllers/rc/rs');
+});
