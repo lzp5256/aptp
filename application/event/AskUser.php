@@ -30,6 +30,16 @@ class AskUser extends Base {
         return $arr;
     }
 
+    public function checkUser(){
+        $id = $this->data['uid'];
+        $AUModel = new AskUserModel();
+        $user = $AUModel->findAskUser(['uid'=>$id,'state'=>1]);
+        if (empty($user)){
+            return [];
+        }
+        return findDataToArray($user);
+    }
+
 }
 
 

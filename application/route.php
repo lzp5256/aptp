@@ -101,8 +101,16 @@ Route::group('trends',function (){
 /**************************************  ask route **************************************/
 // 问题路由
 Route::group('question',function (){
-    Route::post('release','controllers/release/qr');
-    Route::post('list','controllers/question/ql');
-    Route::post('browse','controllers/question/qb');
-    Route::post('info','controllers/question/qi');
+    Route::post('release','controllers/release/qr');   // 发布
+    Route::post('list','controllers/question/ql');     // 列表
+    Route::post('browse','controllers/question/qb');   // 浏览
+    Route::post('info','controllers/question/qi');     // 详情
+    Route::post('comment','controllers/question/qc');  // 评论
+});
+
+
+/**************************************  rc route **************************************/
+Route::group('rc',function (){
+    Route::post('add','controllers/rc/ra');
+    Route::post('search','controllers/rc/rs');
 });

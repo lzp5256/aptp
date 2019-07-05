@@ -75,7 +75,38 @@ class QuestionCheck extends Base
         if (empty($param['uid']) || !isset($param['uid']) || $param['uid'] <= 0){
             return $this->setReturnMsg('200001');
         }
+        $this->data['param_list']['uid'] = (int)$param['uid'];
 
+        $res['data'] = $this->data;
+        return $res;
+    }
+
+    public function checkQcParams($param){
+
+        $res = [
+            'errCode' => '200',
+            'errMsg'  => '校验成功',
+            'data'    => [],
+        ];
+        if (empty($param['qid']) || !isset($param['qid']) || $param['qid'] <= 0){
+            return $this->setReturnMsg('200001');
+        }
+        $this->data['param_list']['qid'] = (int)$param['qid'];
+
+        if (empty($param['uid']) || !isset($param['uid']) || $param['uid'] <= 0){
+            return $this->setReturnMsg('200001');
+        }
+        $this->data['param_list']['uid'] = (int)$param['uid'];
+
+        if (empty($param['content']) || !isset($param['content'])){
+            return $this->setReturnMsg('200008');
+        }
+
+        if (mb_strlen($param['content']) <= 5){
+            return $this->setReturnMsg('200009');
+        }
+        $this->data['param_list']['content'] = (string)$param['content'];
+        $this->data['time'] = date('Y-m-d H:i:s');
         $res['data'] = $this->data;
         return $res;
     }
