@@ -17,4 +17,17 @@ class RcCheck extends Base
         $res['data'] = $this->data;
         return $res;
     }
+
+    public function checkRiParams(){
+        $res = [
+            'errCode' => '200',
+            'errMsg'  => '',
+            'data'    => [],
+        ];
+        if(empty($this->data['v'])){
+            return $this->setReturnMsg('300001');
+        }
+        $res['data'] = $this->data;
+        return $res;
+    }
 }

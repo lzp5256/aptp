@@ -74,4 +74,27 @@ class Rc extends Base
         $res['data'] = $handlesRes['data'];
         return json($res);
     }
+
+    public function ri(){
+        $res = [
+            'errCode' => '200',
+            'errMsg'  => '查询成功',
+            'data'    => [],
+        ];
+        $param = request()->post();
+
+        $checkEvent  = new RcCheck();
+        $handleEvent = new RcHandles();
+
+        if(($checkRes = $checkEvent->setData($param)->checkRiParams()) && $checkRes['errCode'] != '200'){
+            return json($checkRes);
+        }
+
+        if(($handlesRes = $handleEvent->setData($checkRes['data'])->handlesRiRes()) && $handlesRes['errCode'] != '200'){
+            return json($handlesRes);
+        }
+
+        $res['data'] = $handlesRes['data'];
+        return json($res);
+    }
 }
