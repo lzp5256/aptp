@@ -113,4 +113,5 @@ Route::group('question',function (){
 Route::group('rc',function (){
     Route::post('add','controllers/rc/ra');
     Route::post('search','controllers/rc/rs');
+    Route::post('info','controllers/rc/ri');
 });
