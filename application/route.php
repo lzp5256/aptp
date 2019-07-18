@@ -97,6 +97,11 @@ Route::group('trends',function (){
 //    Route::post('works_comment_list','activity/activity/getActivityWorksCommentListRes');
 //});
 
+/**************************************  pet route **************************************/
+// 福利路由
+Route::group('welfare',function (){
+    Route::post('list','controllers/welfare/wl');     // 列表
+});
 
 /**************************************  ask route **************************************/
 // 问题路由
