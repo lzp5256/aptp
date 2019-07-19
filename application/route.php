@@ -102,6 +102,10 @@ Route::group('trends',function (){
 Route::group('welfare',function (){
     Route::post('list','controllers/welfare/wl');     // 列表
 });
+// 积分路由
+Route::group('integral',function (){
+    Route::post('add','controllers/integral/toAdd');     // 新增积分
+});
 
 /**************************************  ask route **************************************/
 // 问题路由
