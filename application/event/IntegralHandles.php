@@ -21,6 +21,10 @@ class IntegralHandles extends Base
 
         Db::startTrans();
         try{
+            $userAccountChangeModel = new UserAccountChange();
+            if(($res = $userAccountChangeModel->getOne(['status'=>1,'uid'=>$this->data['param']['uid'],'created_at'=>['like',date('Y-m-d',time()).'%']])) && !empty($res)){
+                return $this->setReturnMsg('00040');
+            }
             $userAccountModel = new UserAccount();
             $getUserAccountInfo = $userAccountModel->getOne(['status'=>1,'uid'=>$this->data['param']['uid']]);
             if(empty($getUserAccountInfo)){
@@ -30,13 +34,11 @@ class IntegralHandles extends Base
                     return $this->setReturnMsg('104');
                 }
             }
-
             if($this->user_status == 1){
                 $uaid = $getUserAccountInfo->id;
             }else{
                 $uaid = $userAccountModel->getLastInsID();
             }
-            $userAccountChangeModel = new UserAccountChange();
             $upChange = $userAccountChangeModel->toAdd($this->_toChangeAddData($uaid));
             if(!$upChange){
                 Db::rollback();
