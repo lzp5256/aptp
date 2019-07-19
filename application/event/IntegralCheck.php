@@ -2,8 +2,8 @@
 namespace app\event;
 
 use app\base\controller\Base;
-use app\Model\TaskList;
-use app\Model\User;
+use app\model\TaskList;
+use app\model\User;
 
 class IntegralCheck extends Base
 {
