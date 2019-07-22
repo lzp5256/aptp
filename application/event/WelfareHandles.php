@@ -15,7 +15,7 @@ class WelfareHandles extends Base
             'data'    => [],
         ];
         $model = new Welfare();
-        if(!($returnData = $model->getAll(['state'=>1],0,20))){
+        if(!($returnData = $model->getAll(['state'=>1],0,20,'*','sort ASC'))){
             return $this->setReturnMsg('300002');
         }
         $res['data'] = $returnData;
