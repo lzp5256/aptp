@@ -78,9 +78,9 @@ class Base
         return md5($data.rand(0,9).time());
     }
 
-    public function setReturnMsg($code){
+    public function setReturnMsg($code,$data = []){
         $message = new message();
-        return ['errCode'=>$code,'errMsg' =>$message::$message[$code],'data' => []];
+        return ['errCode'=>$code,'errMsg' =>$message::$message[$code],'data' => $data];
     }
 
 

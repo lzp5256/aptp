@@ -107,6 +107,11 @@ Route::group('integral',function (){
     Route::post('add','controllers/integral/toAdd');     // 新增积分
 });
 
+// 文章路由
+Route::group('article',function (){
+    Route::post('info','controllers/article/toInfo'); //获取文章详情
+});
+
 /**************************************  ask route **************************************/
 // 问题路由
 Route::group('question',function (){
