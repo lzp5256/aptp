@@ -20,4 +20,18 @@ class ArticleCheck extends Base
 
         return $this->setReturnMsg('200',$this->data);
     }
+
+    public function checkToListParams($param)
+    {
+        if(empty($param) || !is_array($param)){
+            return $this->setReturnMsg('502');
+        }
+
+        if(empty($param['page']) || !isset($param['page'])){
+            return $this->setReturnMsg('400002');
+        }
+        $this->data['param']['page'] = (int)$param['page'];
+
+        return $this->setReturnMsg('200',$this->data);
+    }
 }

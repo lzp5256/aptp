@@ -27,4 +27,15 @@ class ArticleHandles extends Base
 
         return $this->setReturnMsg('200',$info);
     }
+
+    public function handleToListRes()
+    {
+        $helper = new helper();
+        $page   = $this->data['param']['page'];
+
+        $ArticleModel = new Article();
+        $list   = $ArticleModel->getAll(['state'=>1],$page,10);
+        $list   = empty($list) ? array() : selectDataToArray($list);
+        var_dump($list);die;
+    }
 }
