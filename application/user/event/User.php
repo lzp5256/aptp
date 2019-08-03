@@ -24,8 +24,9 @@ class User extends Base {
         $arr = [];
         foreach ($data as $k => $v){
             $arr[$v['id']] = [
-                'name' => base64_decode($v['name']),
-                'url'  => $v['head_portrait_url']
+                'name'  => base64_decode($v['name']),
+                'url'   => $v['head_portrait_url'],
+                'label' => $v['label'],
             ];
         }
         return $arr;
