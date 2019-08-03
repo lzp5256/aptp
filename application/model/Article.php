@@ -20,7 +20,7 @@ class Article extends Model
      */
     public function getAll($where,$offset=0,$num=1,$field='*',$order='id desc')
     {
-        return $this->where($where)->field($field)->order($order)->limit("$offset,$num")->select();
+        return $this->where($where)->field($field)->order($order)->page($offset,$num)->select();
     }
 
     /**
