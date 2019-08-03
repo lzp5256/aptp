@@ -31,11 +31,24 @@ class ArticleHandles extends Base
     public function handleToListRes()
     {
         $helper = new helper();
+
         $page   = $this->data['param']['page'];
 
         $ArticleModel = new Article();
         $list   = $ArticleModel->getAll(['state'=>1],$page,10);
         $list   = empty($list) ? array() : selectDataToArray($list);
-        var_dump($list);die;
+
+
+        $UserEvent = new User();
+        $all_user_id = array_unique(array_column($list,'uid'));
+        $UserInfo = $UserEvent->setData(['uid'=>$all_user_id])->getAllUserList();
+
+        foreach ($list as $k => $v){
+            $list[$k]['user_name'] = $UserInfo[$v['uid']]['name'];
+            $list[$k]['user_src'] = $UserInfo[$v['uid']]['url'];
+            $list[$k]['time'] = $helper->time_tran($v['time']);
+        }
+
+        return $this->setReturnMsg('200',$list);
     }
 }
