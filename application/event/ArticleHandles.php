@@ -47,7 +47,9 @@ class ArticleHandles extends Base
             $list[$k]['user_name'] = $UserInfo[$v['uid']]['name'];
             $list[$k]['user_src'] = $UserInfo[$v['uid']]['url'];
             $list[$k]['time'] = $helper->time_tran($v['time']);
+            $list[$k]['pic_list'] = $helper->get_pic_src($v['content']);
         }
+        var_dump($list);die;
 
         return $this->setReturnMsg('200',$list);
     }
