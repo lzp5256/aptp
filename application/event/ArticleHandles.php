@@ -61,4 +61,20 @@ class ArticleHandles extends Base
 
         return $this->setReturnMsg('200',$list);
     }
+
+    public function handleToRecommendRes()
+    {
+        $helper = new helper();
+        $aid   = $this->data['param']['aid'];
+
+        $ArticleModel = new Article();
+        $list   = $ArticleModel->getAll(['id'=>['neq',$aid],'state'=>1],1,5,'id,title,content');
+        $list   = empty($list) ? array() : selectDataToArray($list);
+        foreach ($list as $k => $v){
+            $list[$k]['pic_list'] = count($helper->get_pic_src($v['content'])) > 0  ? $helper->get_pic_src($v['content'])[0] : [] ;
+        }
+        return $this->setReturnMsg('200',$list);
+    }
+
+
 }
