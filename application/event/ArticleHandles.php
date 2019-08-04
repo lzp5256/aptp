@@ -47,7 +47,16 @@ class ArticleHandles extends Base
             $list[$k]['user_name'] = $UserInfo[$v['uid']]['name'];
             $list[$k]['user_src'] = $UserInfo[$v['uid']]['url'];
             $list[$k]['time'] = $helper->time_tran($v['time']);
-            $list[$k]['pic_list'] = $helper->get_pic_src($v['content']);
+            if(count($helper->get_pic_src($v['content'])) >= 3 ){
+                $list[$k]['pic_list'] = [
+                    $helper->get_pic_src($v['content'])[0],
+                    $helper->get_pic_src($v['content'])[1],
+                    $helper->get_pic_src($v['content'])[2]
+                ];
+            }else{
+                $list[$k]['pic_list'] = $helper->get_pic_src($v['content']);
+            }
+
         }
 
         return $this->setReturnMsg('200',$list);
