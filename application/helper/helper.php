@@ -229,6 +229,7 @@ class helper extends Base {
         }
     }
 
+    // 处理时间
     function time_tran($the_time)
     {
         $now_time = date("Y-m-d H:i:s", time() + 8 * 60 * 60);
@@ -252,5 +253,14 @@ class helper extends Base {
                 }
             }
         }
+    }
+
+    // 从富文本中提取图片地址
+    function get_pic_src($content)
+    {
+        $pageContents = str_replace('\"','"',$content);
+        $reg = '/<img (.*?)+src=[\'"](.*?)[\'"]/i';
+        preg_match_all( $reg , $pageContents , $results );
+        return $results[2];
     }
 }
