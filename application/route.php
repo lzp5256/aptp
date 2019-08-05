@@ -112,6 +112,7 @@ Route::group('article',function (){
     Route::post('list','controllers/article/toList'); // 获取文章列表
     Route::post('info','controllers/article/toInfo'); // 获取文章详情
     Route::post('recommend','controllers/article/toRecommend'); // 获取推荐文章
+    Route::post('browse','controllers/article/toBrowse');   // 浏览
 });
 
 /**************************************  ask route **************************************/

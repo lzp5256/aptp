@@ -76,5 +76,18 @@ class ArticleHandles extends Base
         return $this->setReturnMsg('200',$list);
     }
 
+    public function handleToBrowseRes()
+    {
+        $model = new Article();
+        try{
+            if(!($u_res = $model->setUpdate(['state'=>1,'id'=>(int)$this->data['param']['aid']],'Inc','browse'))){
+                return $this->setReturnMsg('103');
+            }
+            return $this->setReturnMsg('200',$u_res);
+        }catch (Exception $e){
+            return $this->setReturnMsg('502');
+        }
+    }
+
 
 }

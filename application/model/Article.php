@@ -60,4 +60,20 @@ class Article extends Model
     {
         return $this->where($where)->update($data);
     }
+
+    /**
+     * 数据累加/减更新
+     */
+    public function setUpdate($where,$type,$key,$value = 1){
+        switch ($type){
+            case 'Inc':
+                return $this->where($where)->setInc($key,$value);
+                break;
+            case 'Dec':
+                return $this->where($where)->setDec($key,$value);
+                break;
+            default:
+                return false;
+        }
+    }
 }
