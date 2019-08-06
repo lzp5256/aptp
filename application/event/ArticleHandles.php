@@ -3,8 +3,10 @@ namespace app\event;
 
 use app\base\controller\Base;
 use app\model\Article;
+use app\model\UserComment;
 use app\user\event\User;
 use app\helper\helper;
+use think\Db;
 
 class ArticleHandles extends Base
 {
@@ -87,6 +89,48 @@ class ArticleHandles extends Base
         }catch (Exception $e){
             return $this->setReturnMsg('502');
         }
+    }
+
+    public function handleToCommentRes()
+    {
+        $AriticleModel = new Article();
+        $UserCommModel = new UserComment();
+        Db::startTrans(); //开启事务
+        try{
+            $setUserComment = $this->_getSetCommentData();
+            $saveUserComment = $UserCommModel->toAdd($setUserComment);
+            if(!$saveUserComment){
+                Db::rollback();
+                return $this->setReturnMsg('104');
+            }
+
+            $saveArticle = $AriticleModel->setUpdate(['state'=>1,'id'=>$this->data['param']['id']],'Inc','comments');
+            if(!$saveArticle){
+                Db::rollback();
+                return $this->setReturnMsg('103');
+            }
+
+            if($saveUserComment && $saveArticle){
+                Db::commit();
+                return $this->setReturnMsg('200');
+            }
+
+        }catch (Exception $e){
+            Db::rollback();
+            return $this->setReturnMsg('502');
+        }
+    }
+
+    protected function _getSetCommentData()
+    {
+        return [
+            'uid'  => $this->data['param']['uid'],
+            'type' => 1, //文章默认为1
+            'type_id' => $this->data['param']['id'],
+            'content' => $this->data['param']['content'],
+            'created_at' => $this->data['created_at'],
+            'state' => 1
+        ];
     }
 
 
