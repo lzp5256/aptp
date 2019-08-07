@@ -4,6 +4,7 @@ namespace app\event;
 use app\base\controller\Base;
 use app\model\Article;
 use app\model\UserComment;
+use app\model\UserLikes;
 use app\user\event\User;
 use app\helper\helper;
 use think\Db;
@@ -93,24 +94,54 @@ class ArticleHandles extends Base
 
     public function handleToCommentRes()
     {
-        $AriticleModel = new Article();
-        $UserCommModel = new UserComment();
+        $ArticleModel = new Article();
+        $UserLikesModel = new UserComment();
         Db::startTrans(); //开启事务
         try{
             $setUserComment = $this->_getSetCommentData();
-            $saveUserComment = $UserCommModel->toAdd($setUserComment);
+            $saveUserComment = $UserLikesModel->toAdd($setUserComment);
             if(!$saveUserComment){
                 Db::rollback();
                 return $this->setReturnMsg('104');
             }
 
-            $saveArticle = $AriticleModel->setUpdate(['state'=>1,'id'=>$this->data['param']['id']],'Inc','comments');
+            $saveArticle = $ArticleModel->setUpdate(['state'=>1,'id'=>$this->data['param']['id']],'Inc','comments');
             if(!$saveArticle){
                 Db::rollback();
                 return $this->setReturnMsg('103');
             }
 
             if($saveUserComment && $saveArticle){
+                Db::commit();
+                return $this->setReturnMsg('200');
+            }
+
+        }catch (Exception $e){
+            Db::rollback();
+            return $this->setReturnMsg('502');
+        }
+    }
+
+    public function handleToLikeRes()
+    {
+        $ArticleModel = new Article();
+        $UserLikesModel = new UserLikes();
+        Db::startTrans(); //开启事务
+        try{
+            $setUserLikes = $this->_getSetLikeData();
+            $saveUserLikes = $UserLikesModel->toAdd($setUserLikes);
+            if(!$saveUserLikes){
+                Db::rollback();
+                return $this->setReturnMsg('104');
+            }
+
+            $saveArticle = $ArticleModel->setUpdate(['state'=>1,'id'=>$this->data['param']['id']],'Inc','likes');
+            if(!$saveArticle){
+                Db::rollback();
+                return $this->setReturnMsg('103');
+            }
+
+            if($setUserLikes && $saveArticle){
                 Db::commit();
                 return $this->setReturnMsg('200');
             }
@@ -128,6 +159,17 @@ class ArticleHandles extends Base
             'type' => 1, //文章默认为1
             'type_id' => $this->data['param']['id'],
             'content' => $this->data['param']['content'],
+            'created_at' => $this->data['created_at'],
+            'state' => 1
+        ];
+    }
+
+    protected function _getSetLikeData()
+    {
+        return [
+            'uid'  => $this->data['param']['uid'],
+            'type' => 1, //文章默认为1
+            'type_id' => $this->data['param']['id'],
             'created_at' => $this->data['created_at'],
             'state' => 1
         ];
