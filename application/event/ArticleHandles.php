@@ -152,6 +152,31 @@ class ArticleHandles extends Base
         }
     }
 
+    public function handleToCommentListRes()
+    {
+        $helper = new helper();
+        $UserCommentModel = new UserComment();
+        $list = $UserCommentModel->getAll(
+            ['state'=>1,'type'=>1,'type_id'=>$this->data['param']['id']],
+            $this->data['param']['page'],'10','id,uid,content,created_at'
+        );
+        if(empty($list)){
+            return $this->setReturnMsg('200',array());
+        }
+        $list = selectDataToArray($list);
+
+        $UserEvent = new User();
+        $all_user_id = array_unique(array_column($list,'uid'));
+        $UserInfo = $UserEvent->setData(['uid'=>$all_user_id])->getAllUserList();
+
+        foreach ($list as $k => $v) {
+            $list[$k]['user_name'] = $UserInfo[$v['uid']]['name'];
+            $list[$k]['user_src'] = $UserInfo[$v['uid']]['url'];
+            $list[$k]['time'] = $helper->time_tran($v['created_at']);
+        }
+        return $this->setReturnMsg('200',$list);
+    }
+
     protected function _getSetCommentData()
     {
         return [
