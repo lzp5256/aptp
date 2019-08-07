@@ -114,6 +114,7 @@ Route::group('article',function (){
     Route::post('recommend','controllers/article/toRecommend'); // 获取推荐文章
     Route::post('browse','controllers/article/toBrowse');   // 文章浏览
     Route::post('comment','controllers/article/toComment'); // 文章评论
+    Route::post('commentList','controllers/article/toCommentList'); // 文章评论列表
     Route::post('like','controllers/article/toLike'); // 文章点赞
 });
 

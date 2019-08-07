@@ -145,4 +145,30 @@ class ArticleCheck extends Base
         return $this->setReturnMsg('200',$this->data);
 
     }
+
+    public function checkToCommentListParams($param)
+    {
+        if(empty($param) || !is_array($param)){
+            return $this->setReturnMsg('100');
+        }
+        if(empty($param['id']) || !isset($param['id'])){
+            return $this->setReturnMsg('400001');
+        }
+        $this->data['param']['id'] = (int)$param['id'];
+
+        if(empty($param['page']) || !isset($param['page'])){
+            return $this->setReturnMsg('400002');
+        }
+        $this->data['param']['page'] = (int)$param['page'];
+
+        $ArticleModel = new Article();
+        $ArticleInfo  = $ArticleModel->getOne(['state'=>1,'id'=>$param['id']]);
+        if(empty($ArticleInfo)){
+            return $this->setReturnMsg('400005');
+        }
+        $this->data['article_info'] = findDataToArray($ArticleInfo);
+        $this->data['created_at']  = date('Y-m-d H:i:s');
+        return $this->setReturnMsg('200',$this->data);
+
+    }
 }
