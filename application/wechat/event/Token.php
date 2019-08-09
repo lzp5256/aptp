@@ -8,6 +8,7 @@
 namespace app\wechat\event;
 
 use app\base\controller\Base;
+use app\model\User as UserModel;
 use app\user\model\User;
 use app\wechat\model\Token as TokenModel;
 use think\Db;
@@ -80,11 +81,12 @@ class Token extends Base
             return $e->getMessage();
         }
 
-        // 返回token，用于每次访问的参数
-        // $Result['data']['token'] = $tokenData['token'];
-        $Result['data']['uid']   = $this->data['user']['uid'];
-        //$Result['data']['uname'] = $this->data['user']['name'];
-        //$Result['data']['usrc']  = $this->data['user']['head_portrait_url'];
+        $UserModel = new UserModel();
+        $UserInfo  = $UserModel->getOne(['status'=>1,'id'=>$this->data['user']['uid']]);
+        if(empty($UserInfo)){
+            return $this->setReturnMsg('105');
+        }
+        $Result['data']['user'] = findDataToArray($UserInfo);
         return $Result;
     }
 
