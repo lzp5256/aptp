@@ -29,10 +29,6 @@ Route::group('adopt',function (){
     Route::post('detail','adopt/adopt/getAdoptDetailRes');// 详情
 });
 
-// 用户路由
-Route::group('user',function (){
-    Route::post('GetLoginExpirationForWechat','user/user/getLoginExpirationForWechat');
-});
 
 // 需求路由
 Route::group('demand',function (){
