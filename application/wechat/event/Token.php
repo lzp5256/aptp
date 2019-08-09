@@ -54,7 +54,7 @@ class Token extends Base
                 $updateWhere['id'] = $findUser['id'];
                 $updateData = [
                     'session_key'=>$this->data['wechat']['session_key'],
-                    'head_portrait_url'=>$this->data['params']['head_portrait_url'],
+                    'head_portrait_url'=>'http://images.yipinchongke.com/logo.png',
                     'name'=>'用户'.time().rand(0,100),
                 ];
                 $updateUser = $userModel->saveUser($updateWhere,$updateData);

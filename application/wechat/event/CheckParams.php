@@ -31,18 +31,7 @@ class CheckParams
 
         $Result['data']['params']['code'] = (string) $params['code'];
         $Result['data']['params']['current_time'] = date('Y-m-d H:i:s');
-        if(empty($params['head_url'])){
-            $Result['errCode'] = 'L10031';
-            $Result['errMsg'] = '抱歉,未获取到头像信息！';
-            return $Result;
-        }
-        $Result['data']['params']['head_portrait_url'] = (string) $params['head_url'];
-        if(empty($params['uname'])){
-            $Result['errCode'] = 'L10032';
-            $Result['errMsg'] = '抱歉,未获取到用户名！';
-            return $Result;
-        }
-        $Result['data']['params']['name'] = (string) $params['uname'];
+
         return $Result;
     }
 }
