@@ -54,8 +54,6 @@ class Token extends Base
                 $updateWhere['id'] = $findUser['id'];
                 $updateData = [
                     'session_key'=>$this->data['wechat']['session_key'],
-                    'head_portrait_url'=>'http://images.yipinchongke.com/logo.png',
-                    'name'=>'用户'.time().rand(0,100),
                 ];
                 $updateUser = $userModel->saveUser($updateWhere,$updateData);
                 if(!$updateUser){
@@ -122,8 +120,8 @@ class Token extends Base
     protected function _getUserData()
     {
         return [
-            'name'=> base64_encode($this->data['params']['name']),
-            'head_portrait_url' => $this->data['params']['head_portrait_url'],
+            'name'=> '用户'.time().rand(0,100),
+            'head_portrait_url' => 'http://images.yipinchongke.com/logo.png',
             'openid' => $this->data['wechat']['openid'],
             'session_key' => $this->data['wechat']['session_key'],
             'status' => '1',
@@ -136,7 +134,6 @@ class Token extends Base
         return [
             'uid' => $this->data['user']['uid'],
             'openid' => $this->data['wechat']['openid'],
-            'token' => parent::encryption($this->data['wechat']['session_key']),
             'created_at' => date('Y-m-d H:i:s'),
             'status' => '1',
         ];
