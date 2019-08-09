@@ -55,7 +55,7 @@ class Token extends Base
                 $updateData = [
                     'session_key'=>$this->data['wechat']['session_key'],
                     'head_portrait_url'=>$this->data['params']['head_portrait_url'],
-                    'name'=>base64_encode($this->data['params']['name']),
+                    'name'=>'用户'.time().rand(0,100),
                 ];
                 $updateUser = $userModel->saveUser($updateWhere,$updateData);
                 if(!$updateUser){
@@ -84,7 +84,6 @@ class Token extends Base
 
         // 返回token，用于每次访问的参数
         $Result['data']['token'] = $tokenData['token'];
-        $Result['data']['etime'] = strtotime($tokenData['etime']);
         $Result['data']['uid'] = $this->data['user']['uid'];
         return $Result;
     }
@@ -138,8 +137,6 @@ class Token extends Base
             'uid' => $this->data['user']['uid'],
             'openid' => $this->data['wechat']['openid'],
             'token' => parent::encryption($this->data['wechat']['session_key']),
-            'stime' => date('Y-m-d H:i:s'),
-            'etime' => date('Y-m-d H:i:s',strtotime('+7 day')),
             'created_at' => date('Y-m-d H:i:s'),
             'status' => '1',
         ];
