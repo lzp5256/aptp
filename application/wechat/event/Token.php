@@ -81,10 +81,10 @@ class Token extends Base
         }
 
         // 返回token，用于每次访问的参数
-        $Result['data']['token'] = $tokenData['token'];
+        // $Result['data']['token'] = $tokenData['token'];
         $Result['data']['uid']   = $this->data['user']['uid'];
-        $Result['data']['uname'] = $this->data['user']['name'];
-        $Result['data']['usrc']  = $this->data['user']['head_portrait_url'];
+        //$Result['data']['uname'] = $this->data['user']['name'];
+        //$Result['data']['usrc']  = $this->data['user']['head_portrait_url'];
         return $Result;
     }
 

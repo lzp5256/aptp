@@ -53,7 +53,6 @@ Route::group('welfare',function (){
 Route::group('integral',function (){
     Route::post('add','controllers/integral/toAdd');     // 新增积分
 });
-
 // 文章路由
 Route::group('article',function (){
     Route::post('list','controllers/article/toList'); // 获取文章列表
@@ -63,6 +62,10 @@ Route::group('article',function (){
     Route::post('comment','controllers/article/toComment'); // 文章评论
     Route::post('commentList','controllers/article/toCommentList'); // 文章评论列表
     Route::post('like','controllers/article/toLike'); // 文章点赞
+});
+// 用户路由
+Route::group('user',function (){
+    Route::post('info','controllers/user/toUserInfo'); // 获取用户详情
 });
 
 /**************************************  ask route **************************************/
