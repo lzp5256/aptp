@@ -67,6 +67,22 @@ Route::group('article',function (){
 Route::group('user',function (){
     Route::post('info','controllers/user/toUserInfo'); // 获取用户详情
 });
+// 宠物档案
+Route::group('archives',function (){
+    Route::post('create','controllers/archives/toCreate'); // 创建宠物档案
+    Route::post('list','controllers/archives/toList'); // 获取宠物档案列表
+});
+
+
+
+
+
+
+
+
+
+
+
 
 /**************************************  ask route **************************************/
 // 问题路由
