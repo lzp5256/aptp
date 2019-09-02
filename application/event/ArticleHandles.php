@@ -3,6 +3,7 @@ namespace app\event;
 
 use app\base\controller\Base;
 use app\model\Article;
+use app\model\SysImages;
 use app\model\UserComment;
 use app\model\UserLikes;
 use app\user\event\User;
@@ -177,6 +178,55 @@ class ArticleHandles extends Base
         return $this->setReturnMsg('200',$list);
     }
 
+    public function handleToCreateRes()
+    {
+        Db::startTrans();
+        try{
+            $model = new Article();
+            $setData = $this->_setAddData();
+            if(!($res = $model->toAdd($setData))){
+                return $this->setReturnMsg('104');
+            }
+            if(isset($this->data['params']['imgList'])){
+                $save_image_data = [
+                    'uid' => $this->data['params']['uid'],
+                    'src' => $this->data['params']['imgList'],
+                    'type' => 1,
+                    'state' => 1,
+                    'created_at' => date('Y-m-d H:i:s'),
+                ];
+                $sys_images_model = new SysImages();
+                $add_sys_image = $sys_images_model->toAdd($save_image_data);
+                if($res && $add_sys_image){
+                    Db::commit();
+                }else{
+                    Db::rollback();
+                    return $this->setReturnMsg('104');
+                }
+            }
+            $this->_sendEmail($res);
+            Db::commit();
+            return $this->setReturnMsg('200');
+        }catch (Exception $e){
+            Db::rollback();
+            return $this->setReturnMsg('502');
+        }
+    }
+
+    protected function _setAddData()
+    {
+        return [
+            'uid'   => $this->data['params']['uid'],
+            'title' => $this->data['params']['title'],
+            'type'  => $this->data['params']['type'],
+            'content'  => $this->data['params']['content'],
+            'abstract' => $this->data['params']['abstract'],
+            'time'  =>date('Y-m-d H:i:s'),
+            'state' => 1,
+            'created_at'=>date('Y-m-d H:i:s')
+        ];
+    }
+
     protected function _getSetCommentData()
     {
         return [
@@ -198,6 +248,17 @@ class ArticleHandles extends Base
             'created_at' => $this->data['created_at'],
             'state' => 1
         ];
+    }
+
+    protected function _sendEmail($id){
+        $helper = new helper();
+        // 拼接内容
+        $title = date('Y-m-d H:i:s')."新增动态";
+        $content = "用户ID为\t【".$this->data['params']['uid']."】的用户在." .date('Y-m-d H:i:s')."添加一条新的动态信息【ID:".$id."】,请尽快审核！\t";
+        $res = $helper->SendEmail($title,$content);
+        if($res != '1'){
+            writeLog(getWriteLogInfo('邮件异常','title:'.$title,'content:'.$content,'error'));
+        }
     }
 
 
