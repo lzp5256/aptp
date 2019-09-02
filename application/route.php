@@ -55,6 +55,7 @@ Route::group('integral',function (){
 });
 // 文章路由
 Route::group('article',function (){
+    Route::post('create','controllers/article/toCreate'); // 创建动态
     Route::post('list','controllers/article/toList'); // 获取文章列表
     Route::post('info','controllers/article/toInfo'); // 获取文章详情
     Route::post('recommend','controllers/article/toRecommend'); // 获取推荐文章

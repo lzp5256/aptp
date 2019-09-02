@@ -171,4 +171,36 @@ class ArticleCheck extends Base
         return $this->setReturnMsg('200',$this->data);
 
     }
+
+    public function checkToCreateParams($params)
+    {
+
+        if(!is_array($params) || empty($params)){
+            return $this->setReturnMsg('100');
+        }
+        if(empty($params['uid']) || !isset($params['uid'])){
+            return $this->setReturnMsg('101');
+        }
+        $this->data['params']['uid'] = (int)$params['uid'];
+
+        if(isset($params['imgList']) && !empty($params['imgList']) && $params['imgList'] != '[]' ){
+            $this->data['params']['imgList'] = (string)$params['imgList'];
+        }
+
+        if(empty($params['title'])){
+            return $this->setReturnMsg('400007');
+        }
+        $this->data['params']['title'] = (string)$params['title'];
+
+        $this->data['params']['type'] = 2;
+
+        $this->data['params']['abstract'] = '-';
+
+        if(empty($params['content'])){
+            return $this->setReturnMsg('400008');
+        }
+        $this->data['params']['content'] = (string)$params['content'];
+
+        return $this->setReturnMsg('200',$this->data);
+    }
 }
