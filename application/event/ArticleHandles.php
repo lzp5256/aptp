@@ -32,7 +32,7 @@ class ArticleHandles extends Base
         // 获取动态图片
         $sys_images_list = $helper->getSysImagesByUid([$aid],$this->sys_fun_type_ad);
         if(!empty($sys_images_list)){
-            $info['src'] = $sys_images_list['src'];
+            $info['src'] = json_decode($sys_images_list['src'],true);
         }
         return $this->setReturnMsg('200',$info);
     }
