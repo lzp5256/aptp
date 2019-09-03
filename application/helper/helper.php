@@ -5,6 +5,7 @@ use app\base\controller\Base;
 use app\dynamic\model\Dynamic;
 use app\dynamic\model\DynamicComment as DynamicCommentModel;
 use app\dynamic\model\DynamicLike;
+use app\model\SysImages;
 use app\other\model\OtherFlag;
 use app\region\model\Region;
 use app\user\model\User;
@@ -262,5 +263,25 @@ class helper extends Base {
         $reg = '/<img (.*?)+src=[\'"](.*?)[\'"]/i';
         preg_match_all( $reg , $pageContents , $results );
         return $results[2];
+    }
+
+    // 获取动态图片
+    // $param = [
+    //     $uid  => array();  用户ID
+    //     $type => int();    图片类型
+    // ]
+    // Return array
+    function getSysImagesByUid($id,$type)
+    {
+        if(!isset($id) || !is_array($id)){
+            return [];
+        }
+        $sys_model = new SysImages();
+        $img_list  = $sys_model->getOne(['fun_id'=>['IN',$id],'state'=>1,'fun_type'=>$type]);
+
+        if(empty($img_list)){
+            return [];
+        }
+        return findDataToArray($img_list);
     }
 }

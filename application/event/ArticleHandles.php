@@ -12,6 +12,8 @@ use think\Db;
 
 class ArticleHandles extends Base
 {
+    protected $sys_fun_type_ad = '1';
+
     public function handleToInfoRes()
     {
         $helper = new helper();
@@ -20,7 +22,6 @@ class ArticleHandles extends Base
         $ArticleModel = new Article();
         $info = $ArticleModel->getOne(['state'=>1,'id'=>(int)$aid]);
         $info = empty($info) ? array() : findDataToArray($info);
-
         $UserEvent = new User();
         $UserInfo = $UserEvent->setData(['uid'=>[$info['uid']]])->getAllUserList();
 
@@ -28,7 +29,11 @@ class ArticleHandles extends Base
         $info['user_src']  = $UserInfo[$info['uid']]['url'];
         $info['time'] = $helper->time_tran($info['time']);
         $info['label'] = $UserInfo[$info['uid']]['label'];
-
+        // 获取动态图片
+        $sys_images_list = $helper->getSysImagesByUid([$aid],$this->sys_fun_type_ad);
+        if(!empty($sys_images_list)){
+            $info['src'] = $sys_images_list['src'];
+        }
         return $this->setReturnMsg('200',$info);
     }
 
