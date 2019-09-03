@@ -201,9 +201,9 @@ class ArticleHandles extends Base
             }
             if(isset($this->data['params']['imgList'])){
                 $save_image_data = [
-                    'uid' => $this->data['params']['uid'],
+                    'fun_id' => $this->data['params']['uid'],
                     'src' => $this->data['params']['imgList'],
-                    'type' => 1,
+                    'fun_type' => 1,
                     'state' => 1,
                     'created_at' => date('Y-m-d H:i:s'),
                 ];

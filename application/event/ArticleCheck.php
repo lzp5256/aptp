@@ -196,10 +196,10 @@ class ArticleCheck extends Base
 
         $this->data['params']['abstract'] = '-';
 
-        if(empty($params['content'])){
-            return $this->setReturnMsg('400008');
+        if(!empty($params['content'])){
+            // return $this->setReturnMsg('400008');
+            $this->data['params']['content'] = (string)$params['content'];
         }
-        $this->data['params']['content'] = (string)$params['content'];
 
         return $this->setReturnMsg('200',$this->data);
     }
