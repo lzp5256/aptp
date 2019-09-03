@@ -72,7 +72,7 @@ class ArticleHandles extends Base
         $aid   = $this->data['param']['aid'];
 
         $ArticleModel = new Article();
-        $list   = $ArticleModel->getAll(['id'=>['neq',$aid],'state'=>1],1,5,'id,title,content');
+        $list   = $ArticleModel->getAll(['id'=>['neq',$aid],'state'=>1,'type'=>1],1,5,'id,title,content');
         $list   = empty($list) ? array() : selectDataToArray($list);
         foreach ($list as $k => $v){
             $list[$k]['pic_list'] = count($helper->get_pic_src($v['content'])) > 0  ? $helper->get_pic_src($v['content'])[0] : [] ;
