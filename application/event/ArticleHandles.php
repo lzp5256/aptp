@@ -201,7 +201,7 @@ class ArticleHandles extends Base
             }
             if(isset($this->data['params']['imgList'])){
                 $save_image_data = [
-                    'fun_id' => $this->data['params']['uid'],
+                    'fun_id' => $model->getLastInsID(),
                     'src' => $this->data['params']['imgList'],
                     'fun_type' => 1,
                     'state' => 1,
@@ -231,8 +231,8 @@ class ArticleHandles extends Base
             'uid'   => $this->data['params']['uid'],
             'title' => $this->data['params']['title'],
             'type'  => $this->data['params']['type'],
-            'content'  => $this->data['params']['content'],
-            'abstract' => $this->data['params']['abstract'],
+            'content'  => $this->data['params']['content'] ? $this->data['params']['content'] : '',
+            'abstract' => $this->data['params']['abstract'] ? $this->data['params']['abstract'] : '' ,
             'time'  =>date('Y-m-d H:i:s'),
             'state' => 1,
             'created_at'=>date('Y-m-d H:i:s')
