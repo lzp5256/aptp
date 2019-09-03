@@ -51,21 +51,28 @@ class ArticleHandles extends Base
         $UserEvent = new User();
         $all_user_id = array_unique(array_column($list,'uid'));
         $UserInfo = $UserEvent->setData(['uid'=>$all_user_id])->getAllUserList();
-
         foreach ($list as $k => $v){
             $list[$k]['user_name'] = $UserInfo[$v['uid']]['name'];
             $list[$k]['user_src'] = $UserInfo[$v['uid']]['url'];
             $list[$k]['time'] = $helper->time_tran($v['time']);
-            if(count($helper->get_pic_src($v['content'])) >= 3 ){
-                $list[$k]['pic_list'] = [
-                    $helper->get_pic_src($v['content'])[0],
-                    $helper->get_pic_src($v['content'])[1],
-                    $helper->get_pic_src($v['content'])[2]
-                ];
+            if($v['type'] == 2){
+                // 获取动态图片
+                $sys_images_list = $helper->getSysImagesByUid([$v['id']],'1');
+                $list[$k]['pic_list'] = [];
+                if(!empty($sys_images_list)){
+                    $list[$k]['pic_list'] = json_decode($sys_images_list['src'],true);
+                }
             }else{
-                $list[$k]['pic_list'] = $helper->get_pic_src($v['content']);
+                if(count($helper->get_pic_src($v['content'])) >= 3 ){
+                    $list[$k]['pic_list'] = [
+                        $helper->get_pic_src($v['content'])[0],
+                        $helper->get_pic_src($v['content'])[1],
+                        $helper->get_pic_src($v['content'])[2]
+                    ];
+                }else{
+                    $list[$k]['pic_list'] = $helper->get_pic_src($v['content']);
+                }
             }
-
         }
 
         return $this->setReturnMsg('200',$list);
