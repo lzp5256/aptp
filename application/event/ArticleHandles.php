@@ -231,8 +231,8 @@ class ArticleHandles extends Base
             'uid'   => $this->data['params']['uid'],
             'title' => $this->data['params']['title'],
             'type'  => $this->data['params']['type'],
-            'content'  => $this->data['params']['content'] ? $this->data['params']['content'] : '',
-            'abstract' => $this->data['params']['abstract'] ? $this->data['params']['abstract'] : '' ,
+            'content'  => isset($this->data['params']['content']) ? $this->data['params']['content'] : '',
+            'abstract' => isset($this->data['params']['abstract']) ? $this->data['params']['abstract'] : '' ,
             'time'  =>date('Y-m-d H:i:s'),
             'state' => 1,
             'created_at'=>date('Y-m-d H:i:s')
