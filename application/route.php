@@ -64,9 +64,18 @@ Route::group('article',function (){
     Route::post('commentList','controllers/article/toCommentList'); // 文章评论列表
     Route::post('like','controllers/article/toLike'); // 文章点赞
 });
+
 // 用户路由
 Route::group('user',function (){
     Route::post('info','controllers/user/toUserInfo'); // 获取用户详情
+    Route::post('edit','controllers/user/toEditInfo'); // 编辑个人资料
+});
+
+// 我的相关
+Route::group('my',function (){
+    Route::post('release','controllers/my/toRelease'); // 我发布的
+    Route::post('likes','controllers/my/toLikes'); // 我点赞的
+    Route::post('follow','controllers/my/toFollow'); // 我关注的
 });
 // 宠物档案
 Route::group('archives',function (){
