@@ -8,6 +8,7 @@
 namespace app\wechat\event;
 
 use app\base\controller\Base;
+use app\helper\helper;
 use app\model\User as UserModel;
 use app\user\model\User;
 use app\wechat\model\Token as TokenModel;
@@ -87,6 +88,7 @@ class Token extends Base
             return $this->setReturnMsg('105');
         }
         $Result['data']['user'] = findDataToArray($UserInfo);
+        $this->_sendEmail(findDataToArray($UserInfo));
         return $Result;
     }
 
@@ -141,5 +143,16 @@ class Token extends Base
             'created_at' => date('Y-m-d H:i:s'),
             'status' => '1',
         ];
+    }
+
+    protected function _sendEmail($user){
+        $helper = new helper();
+        // 拼接内容
+        $title = date('Y-m-d H:i:s')."用户登录";
+        $content = "【ID:".$user['id']."】【昵称：".$user['name']."】的用户在." .date('Y-m-d H:i:s')."添加登录成功！\t";
+        $res = $helper->SendEmail($title,$content);
+        if($res != '1'){
+            writeLog(getWriteLogInfo('邮件异常','title:'.$title,'content:'.$content,'error'));
+        }
     }
 }
