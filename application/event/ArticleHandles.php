@@ -44,7 +44,7 @@ class ArticleHandles extends Base
         $page   = $this->data['param']['page'];
 
         $ArticleModel = new Article();
-        $list   = $ArticleModel->getAll(['state'=>1],$page,10);
+        $list   = $ArticleModel->getAll(['state'=>1,'examine'=>1],$page,10,'*','browse desc');
         $list   = empty($list) ? array() : selectDataToArray($list);
 
 
@@ -216,7 +216,7 @@ class ArticleHandles extends Base
                     return $this->setReturnMsg('104');
                 }
             }
-            $this->_sendEmail($res);
+            $this->_sendEmail($model->getLastInsID());
             Db::commit();
             return $this->setReturnMsg('200');
         }catch (Exception $e){
