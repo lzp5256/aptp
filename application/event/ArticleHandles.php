@@ -266,7 +266,7 @@ class ArticleHandles extends Base
         $helper = new helper();
         // 拼接内容
         $title = date('Y-m-d H:i:s')."新增动态";
-        $content = "用户ID为\t【".$this->data['params']['uid']."】的用户在." .date('Y-m-d H:i:s')."添加一条新的动态信息【ID:".$id."】,请尽快审核！\t";
+        $content = "用户ID为\t【".$this->data['params']['uid']."】的用户在." .date('Y-m-d H:i:s')."添加一条新的动态信息,请尽快审核！\t";
         $res = $helper->SendEmail($title,$content);
         if($res != '1'){
             writeLog(getWriteLogInfo('邮件异常','title:'.$title,'content:'.$content,'error'));
