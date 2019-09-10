@@ -225,6 +225,49 @@ class ArticleHandles extends Base
         }
     }
 
+    public function handleToNewListRes()
+    {
+        $helper = new helper();
+
+        $page   = $this->data['param']['page'];
+        $ArticleModel = new Article();
+        $list   = $ArticleModel->getAll(['state'=>1,'examine'=>1],$page,10,'*','id desc');
+        $list   = empty($list) ? array() : selectDataToArray($list);
+
+        if(empty($list)){
+            return $this->setReturnMsg('400');
+        }
+        $UserEvent = new User();
+        $all_user_id = array_unique(array_column($list,'uid'));
+        $UserInfo = $UserEvent->setData(['uid'=>$all_user_id])->getAllUserList();
+        foreach ($list as $k => $v){
+            $list[$k]['user']['nickname'] = $UserInfo[$v['uid']]['name'];
+            $list[$k]['user']['avatar'] = $UserInfo[$v['uid']]['url'];
+            $list[$k]['user']['id'] = $UserInfo[$v['uid']]['id'];
+            $list[$k]['time'] = $helper->time_tran($v['time']);
+            if($v['type'] == 2){
+                // 获取动态图片
+                $sys_images_list = $helper->getSysImagesByUid([$v['id']],'1');
+                $list[$k]['pic_list'] = [];
+                if(!empty($sys_images_list)){
+                    $list[$k]['pic_list'] = json_decode($sys_images_list['src'],true);
+                }
+            }else{
+                if(count($helper->get_pic_src($v['content'])) >= 3 ){
+                    $list[$k]['pic_list'] = [
+                        $helper->get_pic_src($v['content'])[0],
+                        $helper->get_pic_src($v['content'])[1],
+                        $helper->get_pic_src($v['content'])[2]
+                    ];
+                }else{
+                    $list[$k]['pic_list'] = $helper->get_pic_src($v['content']);
+                }
+            }
+        }
+
+        return $this->setReturnMsg('200',$list);
+    }
+
     protected function _setAddData()
     {
         return [
