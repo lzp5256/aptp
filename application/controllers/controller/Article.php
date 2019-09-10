@@ -62,6 +62,27 @@ class Article extends Base
         return json($this->setReturnMsg('200',$handles_res['data']));
     }
 
+    // 获取最新的文章或动态列表
+    // Author:lizhipeng
+    // Date:2019-09-10
+    // Return:json
+    public function toNewList()
+    {
+        $param = request()->post();
+        $check_event   = new ArticleCheck();
+        $handles_event = new ArticleHandles();
+
+        if(($check_res = $check_event->checkToListParams($param)) && $check_res['errCode'] != '200'){
+            return json($check_res);
+        }
+
+        if(($handles_res = $handles_event->setData($check_res['data'])->handleToNewListRes()) && $handles_res['errCode'] != '200'){
+            return json($handles_res);
+        }
+
+        return json($this->setReturnMsg('200',$handles_res['data']));
+    }
+
     public function toRecommend()
     {
         $param = request()->post();
