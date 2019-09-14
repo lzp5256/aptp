@@ -203,7 +203,7 @@ class ArticleHandles extends Base
                 $save_image_data = [
                     'fun_id' => $model->getLastInsID(),
                     'src' => $this->data['params']['imgList'],
-                    'fun_type' => 1,
+                    'fun_type' => $this->data['params']['type'] == 2 ? 1 : 2 ,
                     'state' => 1,
                     'created_at' => date('Y-m-d H:i:s'),
                 ];
