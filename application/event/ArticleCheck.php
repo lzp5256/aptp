@@ -184,12 +184,12 @@ class ArticleCheck extends Base
         $this->data['params']['uid'] = (int)$params['uid'];
 
 
-        if(!isset($param['imgList']) || empty($param['imgList']) || $param['imgList'] == '[]' ){
-            return $this->setReturnMsg('400008');
+        if(!isset($params['imgList']) || empty($params['imgList']) || $params['imgList'] == '[]' ){
+            return $this->setReturnMsg('400009');
         }
 
-        if(count(json_decode($param['imgList'],true)) < 1){
-            return $this->setReturnMsg('400009');
+        if(count(json_decode($params['imgList'],true)) < 1){
+            return $this->setReturnMsg('400010');
         }
 
         $this->data['params']['imgList'] = (string)$params['imgList'];
