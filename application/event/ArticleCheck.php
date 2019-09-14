@@ -183,9 +183,16 @@ class ArticleCheck extends Base
         }
         $this->data['params']['uid'] = (int)$params['uid'];
 
-        if(isset($params['imgList']) && !empty($params['imgList']) && $params['imgList'] != '[]' ){
-            $this->data['params']['imgList'] = (string)$params['imgList'];
+
+        if(!isset($param['imgList']) || empty($param['imgList']) || $param['imgList'] == '[]' ){
+            return $this->setReturnMsg('400008');
         }
+
+        if(count(json_decode($param['imgList'],true)) < 1){
+            return $this->setReturnMsg('400009');
+        }
+
+        $this->data['params']['imgList'] = (string)$params['imgList'];
 
         if(empty($params['title'])){
             return $this->setReturnMsg('400007');
@@ -193,6 +200,11 @@ class ArticleCheck extends Base
         $this->data['params']['title'] = (string)$params['title'];
 
         $this->data['params']['type'] = 2;
+
+        if(!empty($params['act_id']) && $params['act_id']>0){
+            $this->data['params']['type'] = 3;
+            $this->data['params']['act_id'] = $params['act_id'];
+        }
 
         $this->data['params']['abstract'] = '-';
 
