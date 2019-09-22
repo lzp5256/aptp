@@ -83,6 +83,10 @@ Route::group('archives',function (){
     Route::post('create','controllers/archives/toCreate'); // 创建宠物档案
     Route::post('list','controllers/archives/toList'); // 获取宠物档案列表
 });
+// 宠圈
+Route::group('circle',function (){
+    Route::post('list','controllers/circle/toList'); // 宠圈列表
+});
 
 
 
