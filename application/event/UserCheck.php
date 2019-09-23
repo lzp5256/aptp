@@ -70,7 +70,7 @@ class UserCheck extends Base
         }
         $this->data['param']['uid'] = (int)$param['uid'];
 
-        if(empty($param['target']) || !isset($param['target'])){
+        if(empty($param['target']) || !isset($param['target']) || $param['target'] == 'undefined'){
             return $this->setReturnMsg('700001');
         }
         $this->data['param']['target'] = (int)$param['target'];

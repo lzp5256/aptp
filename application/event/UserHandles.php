@@ -76,7 +76,10 @@ class UserHandles extends Base
                     return $this->setReturnMsg('700003');
                 }
             }else{
-                $data = ['status' => $this->data['param']['type']];
+                $data = [
+                    'status' => $this->data['param']['type'],
+                    'updated_at' => date('Y-m-d H:i:s'),
+                ];
                 $res = $userFollowModel->toUpdate(['fid'=>$info->fid],$data);
                 if(!$res){
                     return $this->setReturnMsg('700003');
