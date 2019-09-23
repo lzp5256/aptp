@@ -17,7 +17,6 @@ class CircleHandles extends Base
         $circleModel = new Circle();
         $list = $circleModel->getAll(['status'=>1],'1','1000','*','cid asc');
         $circleList2Arr = empty($list) ? array() : selectDataToArray($list);
-//        var_dump($circleList2Arr);die;
         // 处理数据
         $leftData = $rightData = array();
 

@@ -2,6 +2,7 @@
 namespace app\event;
 
 use app\base\controller\Base;
+use app\model\UserFollow;
 use app\user\event\User;
 use app\model\User as UserModel;
 use app\helper\helper;
@@ -27,8 +28,8 @@ class UserHandles extends Base
     // Return: array()
     public function handleToEditRes()
     {
+        $helper = new helper();
         try{
-            $helper = new helper();
             $user_model = new UserModel();
             $update_data = [
                 'name' => (string)trim($this->data['param']['name']),
@@ -52,6 +53,41 @@ class UserHandles extends Base
             $helper->SendEmail(
                 "用户【".$this->data['user_info']['name']."】【".date('Y-m-d H:i:s')."】编辑个人资料异常",
                 "用户ID为:【".$this->data['user_info']['id']."】异常信息:".$e->getMessage()
+            );
+            return $this->setReturnMsg('502');
+        }
+    }
+
+    public function handleToFollowRes()
+    {
+        $helper = new helper();
+        $data = [
+            'uid' => $this->data['param']['uid'],
+            'target' => $this->data['param']['target'],
+            'status' => $this->data['param']['type'],
+        ];
+        try{
+            $userFollowModel = new UserFollow();
+            $info = $userFollowModel->getOne(['uid'=>$this->data['param']['uid'],'target'=>$this->data['param']['target']]);
+            if(empty($info)){
+                $data['created_at'] = date('Y-m-d H:i:s');
+                $res = $userFollowModel->toAdd($data);
+                if(!$res){
+                    return $this->setReturnMsg('700003');
+                }
+            }else{
+                $data = ['status' => $this->data['param']['type']];
+                $res = $userFollowModel->toUpdate(['fid'=>$info->fid],$data);
+                if(!$res){
+                    return $this->setReturnMsg('700003');
+                }
+            }
+
+            return $this->setReturnMsg('200');
+        }catch (Exception $e){
+            $helper->SendEmail(
+                "用户【".$this->data['param']['uid']."】【".date('Y-m-d H:i:s')."】关注操作异常",
+                "用户ID为:【".$this->data['param']['uid']."关注】异常信息:".$e->getMessage()
             );
             return $this->setReturnMsg('502');
         }

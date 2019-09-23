@@ -49,5 +49,26 @@ class User extends Base
         return json($this->setReturnMsg('200',$handles_res['data']));
     }
 
+    // 用户关注
+    // Author:lizhipeng
+    // Date:2019.09.23
+    // Return:json
+    public function toFollow()
+    {
+        $param = request()->post();
+        $check_event   = new UserCheck();
+        $handles_event = new UserHandles();
+
+        if(($check_res = $check_event->checkToFollowParams($param)) && $check_res['errCode'] != '200'){
+            return json($check_res);
+        }
+
+        if(($handles_res = $handles_event->setData($check_res['data'])->handleToFollowRes()) && $handles_res['errCode'] != '200'){
+            return json($handles_res);
+        }
+
+        return json($this->setReturnMsg('200',$handles_res['data']));
+    }
+
 
 }
