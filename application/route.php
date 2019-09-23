@@ -70,6 +70,7 @@ Route::group('article',function (){
 Route::group('user',function (){
     Route::post('info','controllers/user/toUserInfo'); // 获取用户详情
     Route::post('edit','controllers/user/toEditInfo'); // 编辑个人资料
+    Route::post('follow','controllers/user/toFollow'); // 关注
 });
 
 // 我的相关
