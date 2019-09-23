@@ -85,12 +85,15 @@ class UserHandles extends Base
                     return $this->setReturnMsg('700003');
                 }
             }
-
+            $helper->SendEmail(
+                "用户ID【".$this->data['param']['uid']."】在【".date('Y-m-d H:i:s')."】关注了其他用户",
+                "用户ID为:【".$this->data['param']['uid']."关注了用户ID为[".$this->data['param']['target']."]】的用户"
+            );
             return $this->setReturnMsg('200');
         }catch (Exception $e){
             $helper->SendEmail(
-                "用户【".$this->data['param']['uid']."】【".date('Y-m-d H:i:s')."】关注操作异常",
-                "用户ID为:【".$this->data['param']['uid']."关注】异常信息:".$e->getMessage()
+                "用户【".$this->data['param']['uid']."】【".date('Y-m-d H:i:s')."】关注用户操作失败",
+                "用户ID为:【".$this->data['param']['uid']."关注用户[".$this->data['param']['target']."]】异常信息:".$e->getMessage()
             );
             return $this->setReturnMsg('502');
         }
