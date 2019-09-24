@@ -21,6 +21,28 @@ class CircleHandles extends Base
         $circleList2Arr = empty($list) ? array() : selectDataToArray($list);
         // 处理数据
         $leftData = $rightData = array();
+        if(!empty($circleList2Arr)){
+            foreach ($circleList2Arr as $k => $v){
+                $sid[] = $v['sid'];
+            }
+            // 获取图片信息
+            $sysModel = new SysImages();
+            $imgList = $sysModel->getAll(['id'=>['IN',array_unique($sid)],'state'=>1,'fun_type'=>'3'],'0',count($sid));
+            $img2Array = empty($imgList) ? [] : selectDataToArray($imgList);
+            if(!empty($img2Array)){
+                foreach ($img2Array as $k => $v){
+                    // fun_type为3时，只有一张图片
+                    $id2src[$v['id']] = json_decode($v['src'],true)[0];
+                }
+            }
+
+            foreach ($circleList2Arr as $k => $v){
+                $circleList2Arr[$k]['src'] = '';
+                if(!empty($id2src)){
+                    $circleList2Arr[$k]['src'] = isset($id2src[$v['sid']]) && !empty($id2src[$v['sid']]) ? $id2src[$v['sid']] : '';
+                }
+            }
+        }
 
         foreach ($circleList2Arr as $k => $v){
             if($type == '1' ){
@@ -68,7 +90,7 @@ class CircleHandles extends Base
                 }
 
                 foreach ($circleList2Arr as $k => $v){
-                    $circleList2Arr[$k]['src'] = [];
+                    $circleList2Arr[$k]['src'] = '';
                     if(!empty($id2src)){
                         $circleList2Arr[$k]['src'] = $id2src[$v['sid']];
                     }
