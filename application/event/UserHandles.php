@@ -106,22 +106,26 @@ class UserHandles extends Base
             $userFollowModel = new UserFollow();
             if($this->data['param']['type'] == 1){
                 $list = $userFollowModel->getAll(['status'=>1,'uid'=>$this->data['param']['uid']],0,20);
+                // 获取我的关注用户信息
+                $uid_str = 'target';
             }else{
                 $list = $userFollowModel->getAll(['status'=>1,'target'=>$this->data['param']['uid']],0,20);
+                // 获取关注我的用户信息
+                $uid_str = 'uid';
             }
             $list = empty($list) ? [] : selectDataToArray($list);
 
             // 去重复，原则上是不会有重复的
-            $uid_arr = array_unique(array_column($list,'uid'));
+            $uid_arr = array_unique(array_column($list,$uid_str));
 
             // 获取用户信息
             $user = new User();
             $user_info_arr = $user->setData(['uid'=>$uid_arr])->getAllUserList();
             foreach ($list as $k => $v) {
-                $list[$k]['user']['user_id'] = $user_info_arr[$v['uid']]['id'];
-                $list[$k]['user']['user_name'] = $user_info_arr[$v['uid']]['name'];
-                $list[$k]['user']['user_src'] = $user_info_arr[$v['uid']]['url'];
-                $list[$k]['user']['user_label'] = $user_info_arr[$v['uid']]['label'];
+                $list[$k]['user']['user_id'] = $user_info_arr[$v[$uid_str]]['id'];
+                $list[$k]['user']['user_name'] = $user_info_arr[$v[$uid_str]]['name'];
+                $list[$k]['user']['user_src'] = $user_info_arr[$v[$uid_str]]['url'];
+                $list[$k]['user']['user_label'] = $user_info_arr[$v[$uid_str]]['label'];
             }
             return $this->setReturnMsg('200',$list);
 
