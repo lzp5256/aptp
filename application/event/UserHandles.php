@@ -104,7 +104,11 @@ class UserHandles extends Base
         $helper = new helper();
         try{
             $userFollowModel = new UserFollow();
-            $list = $userFollowModel->getAll(['status'=>1,'target'=>$this->data['param']['uid']],0,20);
+            if($this->data['param']['type'] == 1){
+                $list = $userFollowModel->getAll(['status'=>1,'uid'=>$this->data['param']['uid']],0,20);
+            }else{
+                $list = $userFollowModel->getAll(['status'=>1,'target'=>$this->data['param']['uid']],0,20);
+            }
             $list = empty($list) ? [] : selectDataToArray($list);
 
             // 去重复，原则上是不会有重复的

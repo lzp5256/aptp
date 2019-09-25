@@ -97,6 +97,11 @@ class UserCheck extends Base
         }
         $this->data['param']['uid'] = (int)$param['uid'];
 
+        if(empty($param['type']) || !isset($param['type']) || !in_array($param['type'],[1,2])){ // 1为我关注的 2为关注我的
+            return $this->setReturnMsg('100');
+        }
+        $this->data['param']['type'] = (int)$param['type'];
+
         return $this->setReturnMsg('200',$this->data);
     }
 
