@@ -43,7 +43,7 @@ function sendCurlRequest($url,$request='',$method='',$timeout = 5 ){
     // 默认为Get请求Post请求为true
     if($method){
         curl_setopt($con, CURLOPT_POSTFIELDS, $request);
-        curl_setopt($con, CURLOPT_POST,true);
+        curl_setopt($con, CURLOPT_POST,1);
     }
 
     curl_setopt($con, CURLOPT_RETURNTRANSFER,true);
@@ -181,3 +181,22 @@ function getFunctionName(){
 }
 
 
+//HTTP请求（支持HTTP/HTTPS，支持GET/POST）
+function http_request($url, $data = null)
+{
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+
+    if (!empty($data)) {
+        var_dump($data);
+        curl_setopt($curl, CURLOPT_POST, TRUE);
+        curl_setopt($curl, CURLOPT_POSTFIELDS,$data);
+    }
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+    $output = curl_exec($curl);
+    curl_close($curl);
+    //file_put_contents('/tmp/heka_weixin.' . date("Ymd") . '.log', date('Y-m-d H:i:s') . "\t" . $output . "\n", FILE_APPEND);
+    return $output;
+}
