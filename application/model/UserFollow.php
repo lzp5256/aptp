@@ -18,7 +18,7 @@ class UserFollow extends Model
      *
      * @return array
      */
-    public function getAll($where,$offset=0,$num=1,$field='*',$order='id desc')
+    public function getAll($where,$offset=0,$num=1,$field='*',$order='fid desc')
     {
         return $this->where($where)->field($field)->order($order)->page($offset,$num)->select();
     }

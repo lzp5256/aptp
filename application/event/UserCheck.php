@@ -87,4 +87,17 @@ class UserCheck extends Base
         return $this->setReturnMsg('200',$this->data);
     }
 
+    public function checkToFollowListParams($param)
+    {
+        if(empty($param) || !is_array($param)){
+            return $this->setReturnMsg('100');
+        }
+        if(empty($param['uid']) || !isset($param['uid'])){
+            return $this->setReturnMsg('101');
+        }
+        $this->data['param']['uid'] = (int)$param['uid'];
+
+        return $this->setReturnMsg('200',$this->data);
+    }
+
 }

@@ -49,10 +49,12 @@ Route::group('trends',function (){
 Route::group('welfare',function (){
     Route::post('list','controllers/welfare/wl');     // 列表
 });
+
 // 积分路由
 Route::group('integral',function (){
     Route::post('add','controllers/integral/toAdd');     // 新增积分
 });
+
 // 文章路由
 Route::group('article',function (){
     Route::post('create','controllers/article/toCreate'); // 创建动态
@@ -71,19 +73,16 @@ Route::group('user',function (){
     Route::post('info','controllers/user/toUserInfo'); // 获取用户详情
     Route::post('edit','controllers/user/toEditInfo'); // 编辑个人资料
     Route::post('follow','controllers/user/toFollow'); // 关注
+    Route::post('followList','controllers/user/toFollowList'); // 关注列表
 });
 
-// 我的相关
-Route::group('my',function (){
-    Route::post('release','controllers/my/toRelease'); // 我发布的
-    Route::post('likes','controllers/my/toLikes'); // 我点赞的
-    Route::post('follow','controllers/my/toFollow'); // 我关注的
-});
+
 // 宠物档案
 Route::group('archives',function (){
     Route::post('create','controllers/archives/toCreate'); // 创建宠物档案
     Route::post('list','controllers/archives/toList'); // 获取宠物档案列表
 });
+
 // 宠圈
 Route::group('circle',function (){
     Route::post('list','controllers/circle/toList'); // 宠圈列表

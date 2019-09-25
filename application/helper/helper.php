@@ -12,6 +12,7 @@ use app\user\model\User;
 use app\activity\model\Activity;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
+use think\Cache;
 
 class helper extends Base {
     /** 注:公用方法首字母大写 */
@@ -283,5 +284,59 @@ class helper extends Base {
             return [];
         }
         return findDataToArray($img_list);
+    }
+
+    // 获取微信token
+    // Return: string or bool
+    function getWxToken()
+    {
+        if(($access_token = Cache::get('access_token')) && !empty($access_token)){
+            return $access_token;
+        }
+        $wechatData = sendCurlRequest("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="
+            .config('wechat')['appid']."&secret=".config('wechat')['secret']);
+        $result = json_decode($wechatData,true);
+        if(!isset($result['errcode'])){
+            Cache::set('access_token',$result['access_token'],$result['expires_in']);
+            return $result['access_token'];
+        }else{
+            return $result;
+        }
+    }
+
+    // 内容安全检测
+    // Param = [
+    //     'access_token' => (string)'接口调用凭证',
+    //     'media' => (FormData) '要检测的图片文件，格式支持PNG、JPEG、JPG、GIF，图片尺寸不超过 750px x 1334px',
+    // ];
+    // Return:[
+    //     'errcode' => (number)'错误码 0为内容正常 87014为内容含有违法违规内容',
+    //     'errMsg'  => (string)'错误信息 ok为正常内容 risky content为内容含有违法违规内容',
+    // ]
+    function imgSecCheck($img_url)
+    {
+        $img_content=file_get_contents($img_url);
+        if(strlen($img_content)==0){
+            // TODO:发送失败邮件
+        }else{
+            $filepath = './upload/'."PR_".time().'.jpg';
+            file_put_contents($filepath,$img_content);
+        }
+        $obj = new \CURLFile(realpath($filepath));
+        $obj->setMimeType("image/jpg");
+        $file['media'] = $obj;
+        $token = $this->getWxToken();
+        $wechatData = http_request("https://api.weixin.qq.com/wxa/img_sec_check?access_token=".$token,$file);
+        $result = json_decode($wechatData,true);
+        return $result;
+    }
+
+    // 微信文字敏感内容检测
+    function msgSecCheck($msg)
+    {
+        $token = $this->getWxToken();
+        $url = "https://api.weixin.qq.com/wxa/msg_sec_check?access_token=$token";
+        $info = http_request($url,json_encode($msg)); //json_encode(['content1'=>$msg])
+        return json_decode($info,true);
     }
 }
