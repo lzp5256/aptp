@@ -183,6 +183,14 @@ class ArticleCheck extends Base
         }
         $this->data['params']['uid'] = (int)$params['uid'];
 
+        if(empty($params['content']) ){
+            return $this->setReturnMsg('400008');
+
+        }
+        if(mb_strlen($params['content']) > 200){
+            return $this->setReturnMsg('400011');
+        }
+        $this->data['params']['content'] = (string)$params['content'];
 
         if(!isset($params['imgList']) || empty($params['imgList']) || $params['imgList'] == '[]' ){
             return $this->setReturnMsg('400009');
@@ -194,24 +202,21 @@ class ArticleCheck extends Base
 
         $this->data['params']['imgList'] = (string)$params['imgList'];
 
-        if(empty($params['title'])){
-            return $this->setReturnMsg('400007');
-        }
-        $this->data['params']['title'] = (string)$params['title'];
+//        if(empty($params['title'])){
+//            return $this->setReturnMsg('400007');
+//        }
+//        $this->data['params']['title'] = (string)$params['title'];
 
         $this->data['params']['type'] = 2;
 
-        if(!empty($params['act_id']) && $params['act_id']>0){
-            $this->data['params']['type'] = 3;
-            $this->data['params']['act_id'] = $params['act_id'];
-        }
+//        if(!empty($params['act_id']) && $params['act_id']>0){
+//            $this->data['params']['type'] = 3;
+//            $this->data['params']['act_id'] = $params['act_id'];
+//        }
 
         $this->data['params']['abstract'] = '-';
 
-        if(!empty($params['content'])){
-            // return $this->setReturnMsg('400008');
-            $this->data['params']['content'] = (string)$params['content'];
-        }
+
 
         return $this->setReturnMsg('200',$this->data);
     }

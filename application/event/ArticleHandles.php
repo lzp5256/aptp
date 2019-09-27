@@ -271,13 +271,13 @@ class ArticleHandles extends Base
     protected function _setAddData()
     {
         return [
-            'uid'   => $this->data['params']['uid'],
-            'title' => $this->data['params']['title'],
-            'type'  => $this->data['params']['type'],
-            'content'  => isset($this->data['params']['content']) ? $this->data['params']['content'] : '',
-            'abstract' => isset($this->data['params']['abstract']) ? $this->data['params']['abstract'] : '' ,
-            'time'  =>date('Y-m-d H:i:s'),
-            'state' => 1,
+            'uid'       => $this->data['params']['uid'],
+            'uid'       => $this->data['params']['cid'],
+            'type'      => $this->data['params']['type'],
+            'content'   => isset($this->data['params']['content']) ? $this->data['params']['content'] : '',
+            'abstract'  => isset($this->data['params']['abstract']) ? $this->data['params']['abstract'] : '' ,
+            'time'      =>date('Y-m-d H:i:s'),
+            'state'     => 1,
             'created_at'=>date('Y-m-d H:i:s')
         ];
     }
