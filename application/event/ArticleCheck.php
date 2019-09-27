@@ -183,6 +183,11 @@ class ArticleCheck extends Base
         }
         $this->data['params']['uid'] = (int)$params['uid'];
 
+        if(empty($params['cid']) || !isset($params['cid'])){
+            return $this->setReturnMsg('600002');
+        }
+        $this->data['params']['cid'] = (int)$params['cid'];
+
         if(empty($params['content']) ){
             return $this->setReturnMsg('400008');
 

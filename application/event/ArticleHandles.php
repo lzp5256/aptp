@@ -272,7 +272,7 @@ class ArticleHandles extends Base
     {
         return [
             'uid'       => $this->data['params']['uid'],
-            'uid'       => $this->data['params']['cid'],
+            'cid'       => $this->data['params']['cid'],
             'type'      => $this->data['params']['type'],
             'content'   => isset($this->data['params']['content']) ? $this->data['params']['content'] : '',
             'abstract'  => isset($this->data['params']['abstract']) ? $this->data['params']['abstract'] : '' ,
