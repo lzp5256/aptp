@@ -74,6 +74,7 @@ Route::group('user',function (){
     Route::post('edit','controllers/user/toEditInfo'); // 编辑个人资料
     Route::post('follow','controllers/user/toFollow'); // 关注
     Route::post('followList','controllers/user/toFollowList'); // 关注列表
+    Route::post('trends','controllers/user/toTrendsList'); // 我发布的动态列表
 });
 
 

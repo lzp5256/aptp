@@ -174,7 +174,6 @@ class ArticleCheck extends Base
 
     public function checkToCreateParams($params)
     {
-
         if(!is_array($params) || empty($params)){
             return $this->setReturnMsg('100');
         }
@@ -200,28 +199,25 @@ class ArticleCheck extends Base
         if(!isset($params['imgList']) || empty($params['imgList']) || $params['imgList'] == '[]' ){
             return $this->setReturnMsg('400009');
         }
-
         if(count(json_decode($params['imgList'],true)) < 1){
             return $this->setReturnMsg('400010');
         }
-
         $this->data['params']['imgList'] = (string)$params['imgList'];
-
-//        if(empty($params['title'])){
-//            return $this->setReturnMsg('400007');
-//        }
-//        $this->data['params']['title'] = (string)$params['title'];
-
         $this->data['params']['type'] = 2;
-
-//        if(!empty($params['act_id']) && $params['act_id']>0){
-//            $this->data['params']['type'] = 3;
-//            $this->data['params']['act_id'] = $params['act_id'];
-//        }
-
         $this->data['params']['abstract'] = '-';
 
+        return $this->setReturnMsg('200',$this->data);
+    }
 
+    public function checkToTrendsList($params)
+    {
+        if(!is_array($params) || empty($params)){
+            return $this->setReturnMsg('100');
+        }
+        if(empty($params['uid']) || !isset($params['uid'])){
+            return $this->setReturnMsg('101');
+        }
+        $this->data['params']['uid'] = (int)$params['uid'];
 
         return $this->setReturnMsg('200',$this->data);
     }
