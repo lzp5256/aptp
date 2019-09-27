@@ -9,10 +9,38 @@ use app\model\UserLikes;
 use app\user\event\User;
 use app\helper\helper;
 use think\Db;
+use think\Exception;
 
 class ArticleHandles extends Base
 {
     protected $sys_fun_type_ad = '1';
+
+    // 获取我发布的列表
+    public function handleToTrendsListRes()
+    {
+        $helper = new helper();
+        try{
+            $article_model = new Article();
+            $article_list = $article_model->getAll(['uid'=>$this->data['params']['uid'],'state'=>1],0,10);
+            $article_list = empty($article_list)?[]:selectDataToArray($article_list);
+
+            if(empty($article_list)){
+                return $this->setReturnMsg('200',[]);
+            }
+
+            foreach ($article_list as $k => $v){
+                // 获取动态图片
+                $sys_images_list = $helper->getSysImagesByUid([$v['id']],'1');
+                $article_list[$k]['pic_list'] = [];
+                if(!empty($sys_images_list)){
+                    $article_list[$k]['pic_list'] = json_decode($sys_images_list['src'],true)[0];
+                }
+            }
+            return $this->setReturnMsg('200',$article_list);
+        }catch (Exception $e){
+            return $this->setReturnMsg('502');
+        }
+    }
 
     public function handleToInfoRes()
     {
