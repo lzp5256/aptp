@@ -211,7 +211,7 @@ class ArticleHandles extends Base
         $helper = new helper();
         $UserCommentModel = new UserComment();
         $list = $UserCommentModel->getAll(
-            ['state'=>1,'type'=>1,'type_id'=>$this->data['param']['id']],
+            ['state'=>1,'type'=>1,'type_id'=>$this->data['param']['id'],'examine'=>1],
             $this->data['param']['page'],'10','id,uid,content,created_at'
         );
         if(empty($list)){
