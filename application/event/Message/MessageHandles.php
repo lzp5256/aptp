@@ -39,7 +39,12 @@ class MessageHandles extends Base
                 // type = 2 | 评论消息
                 if ($value['type']  == 2 && $value['read'] != 1){
                     $user_comments_model = new UserComment();
-                    $comments_list = $user_comments_model->getOne(['state'=>'1','id'=>$value['type_id'],'uid'=>(int)$this->data['params']['uid']]);
+                    $comments_list = $user_comments_model->getOne([
+                        'state'   => '1',
+                        'id'      => $value['type_id'],
+                        'uid'     => (int)$this->data['params']['uid'],
+                        'examine' => 1
+                    ]);
                     if(!empty($comments_list)){
                         $list['comments']['list'][] = findDataToArray($comments_list);
                         $list['comments']['total'] += 1;
