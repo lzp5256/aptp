@@ -10,7 +10,7 @@ class MessageCheck extends Base
         if(!is_array($params) || empty($params)){
             return $this->setReturnMsg('100');
         }
-        if(empty($params['uid']) || !isset($params['uid'])){
+        if(empty($params['uid']) || !isset($params['uid']) || $params['uid'] == 'undefined'){
             return $this->setReturnMsg('105');
         }
         $this->data['params']['uid'] = (int)$params['uid'];
