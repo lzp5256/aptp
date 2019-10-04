@@ -3,12 +3,12 @@ namespace app\model;
 
 use think\Model;
 
-class UserComment extends Model
+class SysMessage extends Model
 {
-    protected $table = 'user_comments';
+    protected $table = 'sys_message';
 
     /**
-     * 查找多条记录
+     * 分页查找多条记录
      *
      * @param array $where 查询条件
      * @param string $field 查询字段 默认为全部
@@ -18,7 +18,7 @@ class UserComment extends Model
      *
      * @return array
      */
-    public function getAll($where,$offset=0,$num=1,$field='*',$order='id desc')
+    public function getAll($where,$offset=0,$num=1,$field='*',$order='sm_id desc')
     {
         return $this->where($where)->field($field)->order($order)->page($offset,$num)->select();
     }
@@ -32,7 +32,7 @@ class UserComment extends Model
      *
      * @return array
      */
-    public function getAllList($where,$field='*',$order='id desc')
+    public function getAllList($where,$field='*',$order='sm_id desc')
     {
         return $this->where($where)->field($field)->order($order)->select();
     }
