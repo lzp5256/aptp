@@ -13,18 +13,22 @@ class MessageHandles extends Base
     public function handleToMessageList()
     {
         $helper = new  helper();
+        $list = [
+            'total' => 0,
+            'comments' => [],
+            'likes' => [],
+        ];
         try{
             $message_model = new SysMessage();
             $message_list = $message_model->getAllList(['status'=>1]);
             if(empty($message_list)){
-                return $this->setReturnMsg('200');
+                return $this->setReturnMsg('200',$list);
             }
-            $total = 0;
-            $list  = [];
+
             foreach ($message_list as $k => $value) {
                 // type = 1 | 统计未读系统消息数量
                 if ($value['type']  == 1 && $value['read'] != 1){
-                    $total += 1;
+                    $list['total'] += 1;
                 }
                 // type = 2 | 评论消息
                 if ($value['type']  == 2 && $value['read'] != 1){
@@ -42,7 +46,6 @@ class MessageHandles extends Base
                         $list['likes'][] = findDataToArray($likes_list);
                     }
                 }
-                $list['total'] = $total;
             }
             return $this->setReturnMsg('200',$list);
         }catch (Exception $e){
