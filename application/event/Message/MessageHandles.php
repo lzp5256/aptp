@@ -29,7 +29,7 @@ class MessageHandles extends Base
                 // type = 2 | 评论消息
                 if ($value['type']  == 2 && $value['read'] != 1){
                     $user_comments_model = new UserComment();
-                    $comments_list = $user_comments_model->getOne(['state'=>'1','id'=>$value['type_id']]);
+                    $comments_list = $user_comments_model->getOne(['state'=>'1','id'=>$value['type_id'],'uid'=>(int)$this->data['params']['uid']]);
                     if(!empty($comments_list)){
                         $list['comments'][] = findDataToArray($comments_list);
                     }
@@ -37,7 +37,7 @@ class MessageHandles extends Base
                 // type = 3 | 点赞消息
                 if ($value['type']  == 3 && $value['read'] != 1){
                     $user_likes_model = new UserLikes();
-                    $likes_list = $user_likes_model->getOne(['state'=>'1','id'=>$value['type_id']]);
+                    $likes_list = $user_likes_model->getOne(['state'=>'1','id'=>$value['type_id'],'uid'=>(int)$this->data['params']['uid']]);
                     if(!empty($likes_list)){
                         $list['likes'][] = findDataToArray($likes_list);
                     }
