@@ -15,8 +15,14 @@ class MessageHandles extends Base
         $helper = new  helper();
         $list = [
             'total' => 0,
-            'comments' => [],
-            'likes' => [],
+            'comments' => [
+                'total' => 0,
+                'list'  => [],
+            ],
+            'likes' => [
+                'total' => 0,
+                'list'  => [],
+            ],
         ];
         try{
             $message_model = new SysMessage();
@@ -35,7 +41,8 @@ class MessageHandles extends Base
                     $user_comments_model = new UserComment();
                     $comments_list = $user_comments_model->getOne(['state'=>'1','id'=>$value['type_id'],'uid'=>(int)$this->data['params']['uid']]);
                     if(!empty($comments_list)){
-                        $list['comments'][] = findDataToArray($comments_list);
+                        $list['comments']['list'][] = findDataToArray($comments_list);
+                        $list['comments']['total'] += 1;
                     }
                 }
                 // type = 3 | 点赞消息
@@ -43,7 +50,8 @@ class MessageHandles extends Base
                     $user_likes_model = new UserLikes();
                     $likes_list = $user_likes_model->getOne(['state'=>'1','id'=>$value['type_id'],'uid'=>(int)$this->data['params']['uid']]);
                     if(!empty($likes_list)){
-                        $list['likes'][] = findDataToArray($likes_list);
+                        $list['likes']['list'][] = findDataToArray($likes_list);
+                        $list['likes']['total'] += 1;
                     }
                 }
             }
