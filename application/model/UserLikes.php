@@ -24,6 +24,21 @@ class UserLikes extends Model
     }
 
     /**
+     * 查找全部
+     *
+     * @param array $where 查询条件
+     * @param string $field 查询字段 默认为全部
+     * @param string $order 排序方式 默认id倒序
+     *
+     * @return array
+     */
+    public function getAllList($where,$field='*',$order='id desc')
+    {
+        return $this->where($where)->field($field)->order($order)->select();
+    }
+
+
+    /**
      * 查询单条记录
      *
      * @param $where
