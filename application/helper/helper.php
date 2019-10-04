@@ -339,4 +339,18 @@ class helper extends Base {
         $info = http_request($url,json_encode($msg)); //json_encode(['content1'=>$msg])
         return json_decode($info,true);
     }
+
+    // 获取MessageData
+    function getMessageData($param)
+    {
+        return [
+            'type'       => $param['type'], // 类型 | 1-系统消息 | 2-评论 | 3-点赞
+            'type_id'    => $param['type_id'], // 对应ID | 如type=2 则对应的是 user_comments表ID | 如type=3 则对应的是 user_likes表ID
+            'content'    => $param['content'], // 消息内容
+            'title'      => $param['title'], // 标题
+            'read'       => 2, // 是否已读
+            'status'     => 1, //状态
+            'created_at' => date('Y-m-d H:i:s'), //创建时间
+        ];
+    }
 }

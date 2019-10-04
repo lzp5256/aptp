@@ -4,6 +4,7 @@ namespace app\event;
 use app\base\controller\Base;
 use app\model\Article;
 use app\model\SysImages;
+use app\model\SysMessage;
 use app\model\UserComment;
 use app\model\UserLikes;
 use app\user\event\User;
@@ -120,6 +121,7 @@ class ArticleHandles extends Base
         return $this->setReturnMsg('200',$list);
     }
 
+    // 处理浏览操作
     public function handleToBrowseRes()
     {
         $model = new Article();
@@ -133,15 +135,26 @@ class ArticleHandles extends Base
         }
     }
 
+    // 处理评论操作
     public function handleToCommentRes()
     {
+        $helper = new helper();
         $ArticleModel = new Article();
         $UserLikesModel = new UserComment();
+        $SysMessageModel = new SysMessage();
         Db::startTrans(); //开启事务
         try{
             $setUserComment = $this->_getSetCommentData();
             $saveUserComment = $UserLikesModel->toAdd($setUserComment);
             if(!$saveUserComment){
+                Db::rollback();
+                return $this->setReturnMsg('104');
+            }
+            $setSysMessageData = $helper->getMessageData([
+                'type'=>'2','type_id'=>$UserLikesModel->getLastInsID(),'content'=>'评论消息','title'=>'用户评论'
+            ]);
+            $saveSysMessage = $SysMessageModel->toAdd($setSysMessageData);
+            if(!$saveSysMessage){
                 Db::rollback();
                 return $this->setReturnMsg('104');
             }
@@ -310,6 +323,7 @@ class ArticleHandles extends Base
         ];
     }
 
+    // 获取添加评论数据
     protected function _getSetCommentData()
     {
         return [
@@ -318,7 +332,8 @@ class ArticleHandles extends Base
             'type_id' => $this->data['param']['id'],
             'content' => $this->data['param']['content'],
             'created_at' => $this->data['created_at'],
-            'state' => 1
+            'state' => 1,
+            'examine' => 0,
         ];
     }
 
