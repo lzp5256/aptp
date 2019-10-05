@@ -6,6 +6,7 @@ use app\helper\helper;
 use app\model\SysMessage;
 use app\model\UserComment;
 use app\model\UserLikes;
+use app\user\event\User;
 use think\Exception;
 
 class MessageHandles extends Base
@@ -45,8 +46,12 @@ class MessageHandles extends Base
                         'uid'     => (int)$this->data['params']['uid'],
                         'examine' => 1
                     ]);
+
                     if(!empty($comments_list)){
-                        $list['comments']['list'][] = findDataToArray($comments_list);
+                        $UserEvent = new User();
+                        $UserInfo = $UserEvent->setData(['uid'=>[$comments_list->uid]])->getAllUserList();
+                        $list['comments']['list'][$k] = findDataToArray($comments_list);
+                        $list['comments']['list'][$k]['user_info'] = $UserInfo[$comments_list['uid']];
                         $list['comments']['total'] += 1;
                     }
                 }
