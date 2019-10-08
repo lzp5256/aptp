@@ -86,6 +86,8 @@ class ArticleHandles extends Base
                 'target'=>$info['circle_id']
             ]);
             if(!empty($user_circle_info)){
+                $sys_images_info = $helper->getSysImagesByUid([$info['circle_info']['sid']],3);
+                $info['circle_info']['sys_url'] = json_decode($sys_images_info['src'],true)[0];
                 $info['circle_info']['is_join'] = 1;
             }
         }
