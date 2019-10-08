@@ -162,8 +162,8 @@ class helper extends Base {
             $mail->CharSet = 'UTF-8';
 
             // 收件人
-            $mail->setFrom('reminder@yipinchongke.com'); // 来自
-            $mail->addAddress('support@yipinchongke.com'); // 可以只传邮箱地址
+            $mail->setFrom('reminder@muyaocn.com'); // 来自
+            $mail->addAddress('support@muyaocn.com'); // 可以只传邮箱地址
 
             // 内容
             $mail->isHTML(true); // 设置邮件格式为HTML

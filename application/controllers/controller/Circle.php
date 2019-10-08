@@ -43,4 +43,25 @@ class Circle extends Base
 
         return json($this->setReturnMsg('200',$handles_res['data']));
     }
+
+    // 加入宠圈
+    // Author:李志鹏
+    // Date:2019.10.06
+    // Return:json
+    public function toJoinCircle()
+    {
+        $param = request()->post();
+        $check_event   = new CircleCheck();
+        $handles_event = new CircleHandles();
+
+        if(($check_res = $check_event->checkToJoinCircleParams($param)) && $check_res['errCode'] != '200'){
+            return json($check_res);
+        }
+
+        if(($handles_res = $handles_event->setData($check_res['data'])->handleToJoinCircleRes()) && $handles_res['errCode'] != '200'){
+            return json($handles_res);
+        }
+
+        return json($this->setReturnMsg('200',$handles_res['data']));
+    }
 }

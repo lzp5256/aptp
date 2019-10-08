@@ -16,6 +16,11 @@ class ArticleCheck extends Base
             return $this->setReturnMsg('100');
         }
 
+        if(empty($param['user_id']) || !isset($param['user_id'])){
+            return $this->setReturnMsg('101');
+        }
+        $this->data['param']['user_id'] = (int)$param['user_id'];
+
         if(empty($param['aid']) || !isset($param['aid'])){
             return $this->setReturnMsg('400001');
         }

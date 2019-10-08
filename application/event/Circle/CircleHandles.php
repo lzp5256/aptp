@@ -5,6 +5,7 @@ use app\base\controller\Base;
 use app\helper\helper;
 use app\model\Circle;
 use app\model\SysImages;
+use app\model\UserCircle;
 use think\Exception;
 
 class CircleHandles extends Base
@@ -13,8 +14,9 @@ class CircleHandles extends Base
 
     public function handleToCircleListRes()
     {
-        $cid = $this->data['params']['cid'];
-        $type = $this->data['params']['type'];
+        $cid = $this->data['params']['cid'];    // 宠圈ID
+        $type = $this->data['params']['type'];  // 类型 | 1 = 推荐 2=其他
+        $user_id = $this->data['params']['user_id']; // 登录用户ID
 
         $circleModel = new Circle();
         $list = $circleModel->getAll(['status'=>1,'audit_status'=>1],'1','1000','*','cid asc');
@@ -55,6 +57,27 @@ class CircleHandles extends Base
             }else{
                 if($v['pid'] == $cid){
                     $rightData[] = $v;
+                }
+            }
+        }
+
+        // 获取登录用户关注宠圈列表
+        $user_circle_data = [];
+        $user_circle_model = new UserCircle();
+        $user_circle_list  = $user_circle_model->getAllList(['status'=>1,'uid'=>$user_id]);
+
+        if(!empty($user_circle_list)){
+            $user_circle_data = selectDataToArray($user_circle_list);
+        }
+        $user_circle_id_arr = array_unique(array_column($user_circle_data,'target')); // 用户关注的宠圈数组
+
+        if(!empty($rightData)){
+            foreach ($rightData as $k => $v) {
+                $rightData[$k]['is_join'] = 2;
+                foreach ($user_circle_id_arr as $v1) {
+                    if($v['cid'] == $v1){
+                        $rightData[$k]['is_join'] = 1;
+                    }
                 }
             }
         }
@@ -101,6 +124,43 @@ class CircleHandles extends Base
             $helper->SendEmail(
                 "查询首页推荐宠圈异常【异常时间:".date('Y-m-d H:i:s')."】",
                 "查询首页推荐宠圈异常,异常信息:".$e->getMessage()
+            );
+        }
+    }
+
+    // 加入宠圈操作
+    public function handleToJoinCircleRes()
+    {
+        $helper = new helper();
+        try{
+            $user_circle_model = new UserCircle();
+            $getInfo = $user_circle_model->getOne([
+                'uid'=>$this->data['params']['user_id'],
+                'target' => $this->data['params']['circle_id'],
+            ]);
+            if(!empty($getInfo)){
+                $helper->SendEmail(
+                    "用户宠圈列表异常【异常时间:".date('Y-m-d H:i:s')."】",
+                    "用户【".$this->data['params']['user_id']."】宠圈异常,异常信息:用户已加入ID为【target:".$this->data['params']['circle_id']."】的宠圈"
+                );
+                return $this->setReturnMsg('200');
+            }
+
+            $data = [
+                'uid'    => $this->data['params']['user_id'],
+                'target' => $this->data['params']['circle_id'],
+                'status' => 1,
+                'created_at' => date('Y-m-d H:i:s'),
+            ];
+            $res = $user_circle_model->toAdd($data);
+            if(!$res){
+                return $this->setReturnMsg('104');
+            }
+            return $this->setReturnMsg('200',['uc_id'=>$user_circle_model->getLastInsID()]);
+        }catch (Exception $e){
+            $helper->SendEmail(
+                "用户加入宠圈异常【异常时间:".date('Y-m-d H:i:s')."】",
+                "用户【".$this->data['params']['user_id']."】加入宠圈异常,异常信息:".$e->getMessage()
             );
         }
     }

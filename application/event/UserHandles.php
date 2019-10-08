@@ -46,7 +46,7 @@ class UserHandles extends Base
             }
             $helper->SendEmail(
                 "用户【".$this->data['user_info']['name']."】在【".date('Y-m-d H:i:s')."】编辑个人资料",
-                "用户ID为\t【".$this->data['param']['uid']."】的用户在." .date('Y-m-d H:i:s')."编辑个人资料！\t"
+                "用户ID为\t【".$this->data['param']['uid']."】的用户在." .date('Y-m-d H:i:s')."编辑个人资料,请尽快审核！\t"
             );
             return $this->setReturnMsg('200');
         } catch (Exception $e){

@@ -89,13 +89,8 @@ Route::group('archives',function (){
 Route::group('circle',function (){
     Route::post('list','controllers/circle/toList'); // 宠圈列表
     Route::post('recommend','controllers/circle/toRecommend'); // 推荐宠圈
+    Route::post('join','controllers/circle/toJoinCircle'); // 加入宠圈
 });
-
-
-
-
-
-
 
 
 
