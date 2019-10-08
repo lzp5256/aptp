@@ -3,8 +3,10 @@ namespace app\event;
 
 use app\base\controller\Base;
 use app\model\Article;
+use app\model\Circle;
 use app\model\SysImages;
 use app\model\SysMessage;
+use app\model\UserCircle;
 use app\model\UserComment;
 use app\model\UserLikes;
 use app\user\event\User;
@@ -58,11 +60,36 @@ class ArticleHandles extends Base
         $info['user_src']  = $UserInfo[$info['uid']]['url'];
         $info['time'] = $helper->time_tran($info['time']);
         $info['label'] = $UserInfo[$info['uid']]['label'];
+
         // 获取动态图片
         $sys_images_list = $helper->getSysImagesByUid([$aid],$this->sys_fun_type_ad);
         if(!empty($sys_images_list)){
             $info['src'] = json_decode($sys_images_list['src'],true);
         }
+
+        // 所属圈子
+        if(!empty($info)){
+            $circle_model = new Circle();
+            $circle_info = $circle_model->getOne(['cid'=>$info['circle_id'],'status'=>1,'audit_status'=>1]);
+            if(!empty($circle_info)){
+                $info['circle_info'] = findDataToArray($circle_info);
+            }else{
+                $info['circle_info'] = [];
+            }
+
+            // 用户是否关注当前宠圈
+            $info['circle_info']['is_join'] = 2;
+            $user_circle_model = new UserCircle();
+            $user_circle_info = $user_circle_model->getOne([
+                'status'=>1,
+                'uid'=>$this->data['param']['user_id'],
+                'target'=>$info['circle_id']
+            ]);
+            if(!empty($user_circle_info)){
+                $info['circle_info']['is_join'] = 1;
+            }
+        }
+
         return $this->setReturnMsg('200',$info);
     }
 
