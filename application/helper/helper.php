@@ -286,6 +286,26 @@ class helper extends Base {
         return findDataToArray($img_list);
     }
 
+    // 通过ID获取动态图片
+    // $param = [
+    //     $uid  => array();  ID
+    //     $type => int();    图片类型
+    // ]
+    // Return array
+    function getSysImagesByid($id,$type)
+    {
+        if(!isset($id) || !is_array($id)){
+            return [];
+        }
+        $sys_model = new SysImages();
+        $img_list  = $sys_model->getOne(['id'=>['IN',$id],'state'=>1,'fun_type'=>$type]);
+
+        if(empty($img_list)){
+            return [];
+        }
+        return findDataToArray($img_list);
+    }
+
     // 获取微信token
     // Return: string or bool
     function getWxToken()

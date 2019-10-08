@@ -27,7 +27,7 @@ class Qiniu
         // 初始化签权对象
         $auth = new Auth($AccessKey,$SecretKey);
         // 空间名  https://developer.qiniu.io/kodo/manual/concepts
-        $bucket = 'pet-lizhipeng';
+        $bucket = 'muyao-pet';
         // 生成上传Token
         $token = $auth->uploadToken($bucket);
         return json(['uptoken'=>$token]);
