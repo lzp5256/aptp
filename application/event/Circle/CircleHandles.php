@@ -137,6 +137,7 @@ class CircleHandles extends Base
             $getInfo = $user_circle_model->getOne([
                 'uid'=>$this->data['params']['user_id'],
                 'target' => $this->data['params']['circle_id'],
+                'status' => 1,
             ]);
             if(!empty($getInfo)){
                 $helper->SendEmail(
