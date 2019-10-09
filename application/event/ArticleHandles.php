@@ -316,7 +316,7 @@ class ArticleHandles extends Base
             // 获取列表相关宠圈信息
             $circle_model  = new Circle();
             $circle_id_arr = array_unique(array_column($list,'circle_id'));
-            $circle_list   = $circle_model->getAll(['status'=>1,'audit_status'=>1],0,count($circle_id_arr));
+            $circle_list   = $circle_model->getAll(['status'=>1,'audit_status'=>1,'cid'=>['IN',$circle_id_arr]],0,count($circle_id_arr));
             $circleId2name = [];
             if(!empty($circle_list)){
                 $circle_list = selectDataToArray($circle_list);
