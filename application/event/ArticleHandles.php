@@ -48,51 +48,57 @@ class ArticleHandles extends Base
     public function handleToInfoRes()
     {
         $helper = new helper();
-        $aid = $this->data['param']['aid'];
+        try{
+            $aid = $this->data['param']['aid'];
 
-        $ArticleModel = new Article();
-        $info = $ArticleModel->getOne(['state'=>1,'id'=>(int)$aid]);
-        $info = empty($info) ? array() : findDataToArray($info);
-        $UserEvent = new User();
-        $UserInfo = $UserEvent->setData(['uid'=>[$info['uid']]])->getAllUserList();
+            $ArticleModel = new Article();
+            $info = $ArticleModel->getOne(['state'=>1,'id'=>(int)$aid]);
+            $info = empty($info) ? array() : findDataToArray($info);
+            $UserEvent = new User();
+            $UserInfo = $UserEvent->setData(['uid'=>[$info['uid']]])->getAllUserList();
 
-        $info['user_name'] = $UserInfo[$info['uid']]['name'];
-        $info['user_src']  = $UserInfo[$info['uid']]['url'];
-        $info['time'] = $helper->time_tran($info['time']);
-        $info['label'] = $UserInfo[$info['uid']]['label'];
+            $info['user_name'] = $UserInfo[$info['uid']]['name'];
+            $info['user_src']  = $UserInfo[$info['uid']]['url'];
+            $info['time'] = $helper->time_tran($info['time']);
+            $info['label'] = $UserInfo[$info['uid']]['label'];
 
-        // 获取动态图片
-        $sys_images_list = $helper->getSysImagesByUid([$aid],$this->sys_fun_type_ad);
-        if(!empty($sys_images_list)){
-            $info['src'] = json_decode($sys_images_list['src'],true);
-        }
-
-        // 所属圈子
-        if(!empty($info)){
-            $circle_model = new Circle();
-            $circle_info = $circle_model->getOne(['cid'=>$info['circle_id'],'status'=>1,'audit_status'=>1]);
-            if(!empty($circle_info)){
-                $info['circle_info'] = findDataToArray($circle_info);
-            }else{
-                $info['circle_info'] = [];
+            // 获取动态图片
+            $sys_images_list = $helper->getSysImagesByUid([$aid],$this->sys_fun_type_ad);
+            if(!empty($sys_images_list)){
+                $info['src'] = json_decode($sys_images_list['src'],true);
             }
 
-            // 用户是否关注当前宠圈
-            $info['circle_info']['is_join'] = 2;
-            $user_circle_model = new UserCircle();
-            $user_circle_info = $user_circle_model->getOne([
-                'status'=>1,
-                'uid'=>$this->data['param']['user_id'],
-                'target'=>$info['circle_id']
-            ]);
-            if(!empty($user_circle_info)){
-                $sys_images_info = $helper->getSysImagesByUid([$info['circle_info']['sid']],3);
-                $info['circle_info']['sys_url'] = json_decode($sys_images_info['src'],true)[0];
-                $info['circle_info']['is_join'] = 1;
-            }
-        }
+            // 所属圈子
+            if(!empty($info)){
+                $circle_model = new Circle();
+                $circle_info = $circle_model->getOne(['cid'=>$info['circle_id'],'status'=>1,'audit_status'=>1]);
+                if(!empty($circle_info)){
+                    $info['circle_info'] = findDataToArray($circle_info);
+                    $sys_images_info = $helper->getSysImagesByid([$info['circle_info']['sid']],3);
+                    $info['circle_info']['sys_url'] = json_decode($sys_images_info['src'],true)[0];
+                }else{
+                    $info['circle_info'] = [];
+                }
 
-        return $this->setReturnMsg('200',$info);
+                // 用户是否关注当前宠圈
+                $info['circle_info']['is_join'] = 2;
+                $user_circle_model = new UserCircle();
+                $user_circle_info = $user_circle_model->getOne([
+                    'status'=>1,
+                    'uid'=>$this->data['param']['user_id'],
+                    'target'=>$info['circle_id']
+                ]);
+                if(!empty($user_circle_info)){
+                    $info['circle_info']['is_join'] = 1;
+                }
+            }
+
+            return $this->setReturnMsg('200',$info);
+
+        }catch (Exception $e){
+            var_dump($e->getMessage());
+            return $this->setReturnMsg('502');
+        }
     }
 
     public function handleToListRes()
