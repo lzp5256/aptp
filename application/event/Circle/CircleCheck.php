@@ -47,4 +47,40 @@ class CircleCheck extends Base
 
         return $this->setReturnMsg('200',$this->data);
     }
+
+    public function checkToCircleInfoParams($params)
+    {
+        if(!is_array($params) || empty($params)){
+            return $this->setReturnMsg('100');
+        }
+        if(empty($params['circle_id']) || !isset($params['circle_id'])){
+            return $this->setReturnMsg('600002');
+        }
+        $this->data['params']['circle_id'] = (int)$params['circle_id'];
+
+        if(empty($params['user_id']) || !isset($params['user_id'])){
+            return $this->setReturnMsg('101');
+        }
+        $this->data['params']['user_id'] = (int)$params['user_id'];
+
+        return $this->setReturnMsg('200',$this->data);
+    }
+
+    public function checkToCircleDetailParams($params)
+    {
+        if(!is_array($params) || empty($params)){
+            return $this->setReturnMsg('100');
+        }
+        if(empty($params['circle_id']) || !isset($params['circle_id'])){
+            return $this->setReturnMsg('600002');
+        }
+        $this->data['params']['circle_id'] = (int)$params['circle_id'];
+
+        if(empty($params['page']) || !isset($params['page'])){
+            return $this->setReturnMsg('200004');
+        }
+        $this->data['params']['page'] = (int)$params['page'];
+
+        return $this->setReturnMsg('200',$this->data);
+    }
 }
