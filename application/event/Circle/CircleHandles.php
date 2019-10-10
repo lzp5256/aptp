@@ -224,7 +224,7 @@ class CircleHandles extends Base
                 'id desc'
             );
             if (empty($article_list)) {
-                return $this->setReturnMsg('101');
+                return $this->setReturnMsg('200');
             }
             $article_list = selectDataToArray($article_list);
             $article_uid_list = array_unique(array_column($article_list, 'uid'));
@@ -234,6 +234,12 @@ class CircleHandles extends Base
             $UserInfo = $UserEvent->setData(['uid' => $article_uid_list])->getAllUserList();
 
             foreach ($article_list as $k => $v) {
+                // 获取动态图片
+                $sys_images_list = $helper->getSysImagesByUid([$v['id']],'1');
+                $article_list[$k]['pic_list'] = [];
+                if(!empty($sys_images_list)){
+                    $article_list[$k]['pic_list'] = json_decode($sys_images_list['src'],true)[0];
+                }
                 $article_list[$k]['user']['name'] = $UserInfo[$v['uid']]['name'];
                 $article_list[$k]['user']['src']  = $UserInfo[$v['uid']]['url'];
             }
