@@ -90,6 +90,8 @@ Route::group('circle',function (){
     Route::post('list','controllers/circle/toList'); // 宠圈列表
     Route::post('recommend','controllers/circle/toRecommend'); // 推荐宠圈
     Route::post('join','controllers/circle/toJoinCircle'); // 加入宠圈
+    Route::post('info','controllers/circle/toInfo'); // 宠圈详情
+    Route::post('detail','controllers/circle/toDetail'); // 宠圈详情内容
 });
 
 
