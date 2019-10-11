@@ -36,7 +36,7 @@ class ArticleHandles extends Base
                 $sys_images_list = $helper->getSysImagesByUid([$v['id']],'1');
                 $article_list[$k]['pic_list'] = [];
                 if(!empty($sys_images_list)){
-                    $article_list[$k]['pic_list'] = json_decode($sys_images_list['src'],true)[0];
+                    $article_list[$k]['pic_list'] = json_decode($sys_images_list['src'],true);
                 }
             }
             return $this->setReturnMsg('200',$article_list);
