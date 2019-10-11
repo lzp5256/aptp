@@ -36,6 +36,7 @@ class UserHandles extends Base
                 'sex'  => (int)$this->data['param']['sex'],
                 'avatarUrl' => (string)trim($this->data['param']['avatar_url']),
                 'wx_user_info' => $this->data['param']['raw_data'],
+                'updated_at' => date('Y-m-d H:i:s'),
             ];
             $edit_res = $user_model->toUpdate(['status'=>1,'id'=>(int)$this->data['user_info']['id']],$update_data);
             if(!$edit_res){
