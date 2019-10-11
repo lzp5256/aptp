@@ -238,7 +238,7 @@ class CircleHandles extends Base
                 $sys_images_list = $helper->getSysImagesByUid([$v['id']],'1');
                 $article_list[$k]['pic_list'] = [];
                 if(!empty($sys_images_list)){
-                    $article_list[$k]['pic_list'] = json_decode($sys_images_list['src'],true)[0];
+                    $article_list[$k]['pic_list'] = json_decode($sys_images_list['src'],true);
                 }
                 $article_list[$k]['user']['name'] = $UserInfo[$v['uid']]['name'];
                 $article_list[$k]['user']['src']  = $UserInfo[$v['uid']]['url'];
