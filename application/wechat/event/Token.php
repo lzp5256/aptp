@@ -127,7 +127,7 @@ class Token extends Base
     {
         return [
             'name'=> '用户'.time().rand(0,100),
-            'head_portrait_url' => 'http://images.yipinchongke.com/logo.png',
+            'avatarUrl' => 'http://images.yipinchongke.com/logo.png',
             'openid' => $this->data['wechat']['openid'],
             'session_key' => $this->data['wechat']['session_key'],
             'status' => '1',

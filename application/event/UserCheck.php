@@ -24,6 +24,15 @@ class UserCheck extends Base
 
     }
 
+    /**
+     *  uid: 16
+        avatar_url: https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKvEFUUhmicMJVARZicC9ApzqvlFbSibsX1Nc4nibhWPJ2xGia4wThpS8AViaRxWa4nicYcZSB3HXkPick4gg/132
+        name: Zhi.L
+        sex: 1
+        raw_data: {"nickName":"Zhi.L","gender":1,"language":"zh_CN","city":"","province":"Shanghai","country":"China","avatarUrl":"https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKvEFUUhmicMJVARZicC9ApzqvlFbSibsX1Nc4nibhWPJ2xGia4wThpS8AViaRxWa4nicYcZSB3HXkPick4gg/132"}
+     * @param $param
+     * @return array
+     */
     public function checkToEditParams($param)
     {
         if(empty($param) || !is_array($param)){
@@ -41,20 +50,25 @@ class UserCheck extends Base
         }
         $this->data['user_info'] = findDataToArray($getUserInfo);
 
-        if(empty($param['imgList'])){
+        if(empty($param['avatar_url'])){
             return $this->setReturnMsg('00043');
         }
-        $this->data['param']['img'] = (string)trim($param['imgList']);
+        $this->data['param']['avatar_url'] = (string)trim($param['avatar_url']);
 
         if (empty($param['name'])){
             return $this->setReturnMsg('00044');
         }
         $this->data['param']['name'] = (string)trim($param['name']);
 
-        if (empty($param['sex']) || !in_array($param['sex'],[1,2])){
+        if (!isset($param['sex']) || !in_array($param['sex'],[0,1,2])){
             return $this->setReturnMsg('00045');
         }
         $this->data['param']['sex'] = (int)$param['sex'];
+
+        if (empty($param['raw_data'])){
+            return $this->setReturnMsg('101');
+        }
+        $this->data['param']['raw_data'] = (string)$param['raw_data'];
 
         return $this->setReturnMsg('200',$this->data);
     }
