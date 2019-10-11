@@ -26,7 +26,7 @@ class User extends Base {
             $arr[$v['id']] = [
                 'id' => $v['id'],
                 'name'  => $v['name'],
-                'url'   => $v['head_portrait_url'],
+                'url'   => $v['avatarUrl'],
                 'label' => $v['label'],
             ];
         }

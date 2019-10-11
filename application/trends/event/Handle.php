@@ -48,7 +48,7 @@ class Handle extends Base
         $trends_data = findDataToArray($trends_info_res);
         $trends_data['user'] = [
             'user_name' => $user['name'],
-            'user_src'  => $user['head_portrait_url'],
+            'user_src'  => $user['avatarUrl'],
         ];
         $trends_data['src'] = json_decode($trends_data['src'],true);
         $Res['data'] = $trends_data;
