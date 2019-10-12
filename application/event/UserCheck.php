@@ -119,4 +119,17 @@ class UserCheck extends Base
         return $this->setReturnMsg('200',$this->data);
     }
 
+    public function checkToTotalParams($param)
+    {
+        if(empty($param) || !is_array($param)){
+            return $this->setReturnMsg('100');
+        }
+        if(empty($param['user_id']) || !isset($param['user_id'])){
+            return $this->setReturnMsg('101');
+        }
+        $this->data['param']['user_id'] = (int)$param['user_id'];
+
+        return $this->setReturnMsg('200',$this->data);
+    }
+
 }
