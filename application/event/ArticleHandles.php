@@ -8,6 +8,7 @@ use app\model\SysImages;
 use app\model\SysMessage;
 use app\model\UserCircle;
 use app\model\UserComment;
+use app\model\UserFollow;
 use app\model\UserLikes;
 use app\user\event\User;
 use app\helper\helper;
@@ -91,6 +92,18 @@ class ArticleHandles extends Base
                 if(!empty($user_circle_info)){
                     $info['circle_info']['is_join'] = 1;
                 }
+            }
+
+            // 是否关注作者
+            $user_follow_model = new UserFollow();
+            $user_follow_info = $user_follow_model->getOne([
+                'status'=>1,
+                'uid' => $this->data['param']['user_id'],
+                'target' => $info['uid']
+            ]);
+
+            if($user_follow_info){
+                $info['is_follow'] = 1;
             }
 
             return $this->setReturnMsg('200',$info);
