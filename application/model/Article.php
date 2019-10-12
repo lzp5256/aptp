@@ -76,4 +76,15 @@ class Article extends Model
                 return false;
         }
     }
+
+    /**
+     * 统计总数
+     *
+     * @param $where
+     * @return int|string
+     */
+    public function getCount($where)
+    {
+        return $this->where($where)->count('id');
+    }
 }

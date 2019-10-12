@@ -2,6 +2,7 @@
 namespace app\event;
 
 use app\base\controller\Base;
+use app\model\Article;
 use app\model\UserFollow;
 use app\user\event\User;
 use app\model\User as UserModel;
@@ -140,5 +141,43 @@ class UserHandles extends Base
         }
     }
 
+    // 用户统计相关
+    public function handleToTotal()
+    {
+        $helper = new helper();
+        try{
+            $data = array();
+            $article_model = new Article();
+            $follow_model = new UserFollow();
+            $article_count = $article_model->getCount([
+                'state'=>1,
+                'uid'=>$this->data['param']['user_id'],
+                'examine'=>1,
+            ]);
+
+            $follow_count = $follow_model->getCount([
+                'uid' => $this->data['param']['user_id'],
+                'status' => 1,
+            ]);
+
+            $fans_count = $follow_model->getCount([
+                'target' => $this->data['param']['user_id'],
+                'status' => 1,
+            ]);
+
+            $data = [
+                'article_total' => isset($article_count) ? $article_count : 0,
+                'follow_total'  => isset($follow_count) ? $follow_count : 0,
+                'fans_count'    => isset($fans_count) ? $fans_count : 0,
+            ];
+            return $this->setReturnMsg('200',$data);
+        }catch (Exception $e){
+            $helper->SendEmail(
+                "用户【".$this->data['param']['user_id']."】【".date('Y-m-d H:i:s')."】获取用户统计操作失败",
+                "用户ID为:【".$this->data['param']['user_id']."】获取用户统计操作失败,异常信息:".$e->getMessage()
+            );
+            return $this->setReturnMsg('502');
+        }
+    }
 
 }

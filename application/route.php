@@ -76,6 +76,7 @@ Route::group('user',function (){
     Route::post('followList','controllers/user/toFollowList'); // 关注列表
     Route::post('trends','controllers/user/toTrendsList'); // 我发布的动态列表
     Route::post('message','controllers/user/toMessageList'); // 我的消息列表
+    Route::post('total','controllers/user/toTotal'); // 统计我的相关总数
 });
 
 

@@ -137,4 +137,25 @@ class User extends Base
         return json($this->setReturnMsg('200',$handles_res['data']));
     }
 
+    // 用户统计
+    // Author:李志鹏
+    // Date:2019.10.12
+    // Return:json
+    public function toTotal()
+    {
+        $param = request()->post();
+        $check_event   = new UserCheck();
+        $handles_event = new UserHandles();
+
+        if(($check_res = $check_event->checkToTotalParams($param)) && $check_res['errCode'] != '200'){
+            return json($check_res);
+        }
+
+        if(($handles_res = $handles_event->setData($check_res['data'])->handleToTotal()) && $handles_res['errCode'] != '200'){
+            return json($handles_res);
+        }
+
+        return json($this->setReturnMsg('200',$handles_res['data']));
+    }
+
 }
