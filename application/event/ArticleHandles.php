@@ -25,7 +25,7 @@ class ArticleHandles extends Base
         $helper = new helper();
         try{
             $article_model = new Article();
-            $article_list = $article_model->getAll(['uid'=>$this->data['params']['uid'],'state'=>1],0,10);
+            $article_list = $article_model->getAll(['uid'=>$this->data['params']['uid'],'state'=>1,'examine'=>1],0,10);
             $article_list = empty($article_list)?[]:selectDataToArray($article_list);
 
             if(empty($article_list)){
