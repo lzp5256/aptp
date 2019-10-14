@@ -324,7 +324,7 @@ class ArticleHandles extends Base
             $list   = empty($list) ? array() : selectDataToArray($list);
 
             if(empty($list)){
-                return $this->setReturnMsg('400');
+                return $this->setReturnMsg('200');
             }
 
             // 获取列表相关用户信息
