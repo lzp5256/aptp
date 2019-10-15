@@ -32,13 +32,26 @@ class ArticleHandles extends Base
                 return $this->setReturnMsg('200',[]);
             }
 
+            $article_list   = empty($article_list) ? array() : selectDataToArray($article_list);
+
+            $UserEvent = new User();
+            $all_user_id = array_unique(array_column($article_list,'uid'));
+            $UserInfo = $UserEvent->setData(['uid'=>$all_user_id])->getAllUserList();
+
             foreach ($article_list as $k => $v){
+
+                $article_list[$k]['user_name'] = $UserInfo[$v['uid']]['name'];
+                $article_list[$k]['user_src'] = $UserInfo[$v['uid']]['url'];
+                $article_list[$k]['time'] = $helper->time_tran($v['time']);
+
                 // 获取动态图片
                 $sys_images_list = $helper->getSysImagesByUid([$v['id']],'1');
                 $article_list[$k]['pic_list'] = [];
+
                 if(!empty($sys_images_list)){
                     $article_list[$k]['pic_list'] = json_decode($sys_images_list['src'],true);
                 }
+
             }
             return $this->setReturnMsg('200',$article_list);
         }catch (Exception $e){
