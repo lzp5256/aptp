@@ -224,10 +224,10 @@ class ArticleCheck extends Base
         }
         $this->data['params']['uid'] = (int)$params['uid'];
 
-        if(empty($param['page']) || !isset($param['page'])){
+        if(empty($params['page']) || !isset($params['page'])){
             return $this->setReturnMsg('400002');
         }
-        $this->data['params']['page'] = (int)$param['page'];
+        $this->data['params']['page'] = (int)$params['page'];
 
         return $this->setReturnMsg('200',$this->data);
     }
