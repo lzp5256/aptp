@@ -43,8 +43,9 @@ class MessageHandles extends Base
                     $comments_list = $user_comments_model->getOne([
                         'state'   => '1',
                         'id'      => $value['type_id'],
-                        'target'     => (int)$this->data['params']['uid'],
-                        'examine' => 1
+                        'target'  => (int)$this->data['params']['uid'],
+                        'examine' => 1,
+                        'target'  => ['neq',(int)$this->data['params']['uid']]
                     ]);
 
                     if(!empty($comments_list)){
