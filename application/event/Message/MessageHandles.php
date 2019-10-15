@@ -45,7 +45,6 @@ class MessageHandles extends Base
                         'id'      => $value['type_id'],
                         'target'  => (int)$this->data['params']['uid'],
                         'examine' => 1,
-                        'target'  => ['neq',(int)$this->data['params']['uid']]
                     ]);
 
                     if(!empty($comments_list)){
