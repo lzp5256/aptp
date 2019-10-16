@@ -418,6 +418,7 @@ class ArticleHandles extends Base
     {
         return [
             'uid'  => $this->data['param']['uid'],
+            'target' => $this->data['article_info']['uid'],
             'type' => 1, //文章默认为1
             'type_id' => $this->data['param']['id'],
             'content' => $this->data['param']['content'],
